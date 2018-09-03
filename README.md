@@ -7,7 +7,7 @@ The signs and signals can be securely communicated using a decentralised protoco
 
 More background information can be found in the [Whiteflag wiki](https://github.com/WhiteflagProtocol/whiteflag-standard/wiki).
 
-# The Protocol Specification
+## Protocol Specification
 The [whiteflag-standard repository](https://github.com/WhiteflagProtocol/whiteflag-standard) contains the officially released versions of the Whiteflag Protocol specification, a.k.a. the Whiteflag Standard, including a number of supporting artefacts.
 
 The purpose of this project repository is to describe, define and publish the communications protocol and associated message format for policy makers, developers and other specialists to be able to adopt and implement the Whiteflag Protocol.
