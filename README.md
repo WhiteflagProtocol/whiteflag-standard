@@ -1,11 +1,11 @@
-# The Why, How, and What of Whiteflag
+# The Why, How, and What of the Whiteflag Protocol
 We believe we can prevent loss of lives in disaster and conflict areas around the globe, that may occur by lack of information.
 
 The Whiteflag Protocol provides a reliable means for both combatant and neutral parties in conflict zones to digitally communicate pre-defined signs and signals using blockchain technology. The protocol can also be used to communicate information about natural and man-made disasters, thus creating shared situational awareness beyond conflicts.
 
 The signs and signals can be securely communicated using a decentralised protocol, the Whiteflag Protocol, that describes a trusted messaging network for disaster & conflict areas.
 
-More backgroun information can be found in the [Whiteflag wiki](https://github.com/WhiteflagProtocol/whiteflag-standard/wiki).
+More background information can be found in the [Whiteflag wiki](https://github.com/WhiteflagProtocol/whiteflag-standard/wiki).
 
 # The Whiteflag Protocol specification
 This repository contains the officially released versions of the Whiteflag Protocol specification, including a number of supporting artefacts.
@@ -17,7 +17,7 @@ The main source document of the Whiteflag Protocol specification, a.k.a. "the st
 
 Markdown is a plain text formatting syntax; see [RFC 7763](https://tools.ietf.org/html/rfc7763) or [Wikipedia](https://en.wikipedia.org/wiki/Markdown) for more information on this media type. Using Markdown allows the standard to be easily maintained and to be published in other formats, such as html or pdf.
 
-Along with the standard, a number of artefacts with parts of the specification described in a structured language ([JSON](https://tools.ietf.org/html/rfc7159)) will be published. This allows for fast and interoperable implementation. The following artefacts are planned to be made available:
+Along with the standard, a number of artefacts with parts of the specification described in a structured language ([JSON](https://tools.ietf.org/html/rfc7159)) will be published. This allows for fast and interoperable implementation. The following artefacts are currenlty planned to be made available:
 
 * `WhiteflagMessageSchema.json`: JSON schema of the Whiteflag message structure and field syntax
 
