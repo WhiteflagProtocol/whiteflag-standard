@@ -8,12 +8,12 @@ The signs and signals can be securely communicated using a decentralised protoco
 More background information can be found in the [Whiteflag wiki](https://github.com/WhiteflagProtocol/whiteflag-standard/wiki).
 
 # The Protocol Specification
-This repository contains the officially released versions of the Whiteflag Protocol specification, including a number of supporting artefacts.
+The [`whiteflag-standard` repository](https://github.com/WhiteflagProtocol/whiteflag-standard) contains the officially released versions of the Whiteflag Protocol specification, a.k.a. the Whiteflag Standard, including a number of supporting artefacts.
 
 The purpose of this project repository is to describe, define and publish the communications protocol and associated message format for policy makers, developers and other specialists to be able to adopt and implement the Whiteflag Protocol.
 
 ## Repository Structure
-The main source document of the Whiteflag Protocol specification, a.k.a. "the standard", is `WhiteflagSpecification.md`. This document is currently under review before it will be uploaded as a markdown text file to this repository.
+The main source document of the Whiteflag Protocol specification is `WhiteflagSpecification.md`. This document is currently under review before it will be uploaded as a markdown text file to this repository.
 
 Markdown is a plain text formatting syntax; see [RFC 7763](https://tools.ietf.org/html/rfc7763) or [Wikipedia](https://en.wikipedia.org/wiki/Markdown) for more information on this media type. Using Markdown allows the standard to be easily maintained and to be published in other formats, such as html or pdf.
 
