@@ -1,12 +1,12 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "http://whiteflagprotocol.net/v1/wf.message.schema.json",
-    "$comment": "Schema corresponding with Version 1 of the Whiteflag Protocol Specification DRAFT 4 (CC0) dated 06 SEP 2018",
+    "$id": "http://whiteflagprotocol.net/v1/wf-message.schema.json",
+    "$comment": "Schema corresponding with Version 1 of the Whiteflag Protocol Specification DRAFT 6 as updated on 28 FEB 2019",
     "title": "Whiteflag Message",
     "description": "Whiteflag message to communicate pre-defined signs and signals in conflicts and disasters using blockchain technology.",
     "type": "object",
     "required": [ "MessageHeader", "MessageBody" ],
-    "additionalProperties": false,
+    "additionalProperties": true,
     "properties": {
         "MetaHeader": {
             "$comment": "The contents of the meta header is not part of the Whiteflag message itself and is not standardised.",
@@ -71,7 +71,15 @@
         "MessageBody": {
             "$comment": "The MessageBody schema depends on the message type and is therefore specified for each MessageCode below",
             "description": "Container for the message body, which depends on the message type",
-            "type": "object"
+            "type": "object",
+            "oneOf": [
+                { "$ref": "#/definitions/authenticationMessageBody" },
+                { "$ref": "#/definitions/cryptoMessageBody" },
+                { "$ref": "#/definitions/testMessageBody" },
+                { "$ref": "#/definitions/genericSignSignalMessageBody" },
+                { "$ref": "#/definitions/referenceMessageBody" },
+                { "$ref": "#/definitions/freeTextMessageBody" }
+            ]
         }
     },
     "oneOf": [
@@ -90,6 +98,7 @@
     ],
     "definitions": {
         "authenticationMessageType": {
+            "title": "Authentication Message",
             "required": [ "MessageHeader" ],
             "properties": {
                 "MessageHeader": {
@@ -101,6 +110,7 @@
             }
         },
         "authenticationMessageBody": {
+            "title": "Authentication Message Body",
             "required": [ "VerificationMethod", "VerificationData" ],
             "additionalProperties": false,
             "properties": {
@@ -117,6 +127,7 @@
             }
         },
         "cryptoMessageType": {
+            "title": "Cryptographic Support Message",
             "required": [ "MessageHeader" ],
             "properties": {
                 "MessageHeader": {
@@ -128,14 +139,14 @@
             }
         },
         "cryptoMessageBody": {
+            "title": "Cryptographic Support Message Body",
             "required": [ "CryptoDataType", "CryptoData" ],
             "additionalProperties": false,
             "properties": {
                 "CryptoDataType": {
                     "description": "Indicates the type of cryptographic data in this message",
                     "type": "string",
-                    "pattern": "^[a-fA-F0-9]{2}$",
-                    "enum": [ "01", "0A", "11", "21" ]
+                    "pattern": "^[a-fA-F0-9]{2}$"
                 },
                 "CryptoData": {
                     "description": "Contains the cryptographic data",
@@ -144,6 +155,7 @@
             }
         },
         "testMessageType": {
+            "title": "Test Message",
             "required": [ "MessageHeader" ],
             "properties": {
                 "MessageHeader": {
@@ -155,6 +167,7 @@
             }
         },
         "testMessageBody": {
+            "title": "Test Message Body",
             "required": [ "PseudoMessageCode", "PseudoMessageBody" ],
             "additionalProperties": false,
             "properties": {
@@ -170,6 +183,7 @@
             }
         },
         "allSignSignalMessageTypes": {
+            "title": "Sign / Signal Message",
             "required": [ "MessageHeader" ],
             "properties": {
                 "MessageHeader": {
@@ -181,6 +195,7 @@
             }
         },
         "requestMessageType": {
+            "title": "Request Message",
             "required": [ "MessageHeader" ],
             "properties": {
                 "MessageHeader": {
@@ -192,6 +207,7 @@
             }
         },
         "genericSignSignalMessageBody": {
+            "title": "Sign / Signal Message Body",
             "required": [ "SubjectCode", "DateTime", "Duration", "ObjectType", "ObjectLatitude", "ObjectLongitude", "ObjectSizeDim1", "ObjectSizeDim2", "ObjectOrientation" ],
             "additionalProperties": false,
             "properties": {
@@ -204,6 +220,7 @@
                 "DateTime": {
                     "description": "Indicates from when the sign/signal is valid, using an UTC timestamp in the ISO 8601 / RFC 3339 date-time format",
                     "type": "string",
+                    "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
                     "format": "date-time"
                 },
                 "Duration": {
@@ -248,24 +265,33 @@
                     "type": "string",
                     "pattern": "^[0-9]{3}$",
                     "default": "000"
-                }
-            },
-            "patternProperties": {
-                "^ObjectType[1-8]$": {
-                    "description": "Specifies the type of object for which the request is made",
-                    "type": "string",
-                    "pattern": "^[a-fA-F0-9]{2}$",
-                    "default": "00"
                 },
-                "^ObjectType[1-8]Quant$": {
-                    "description": "Specifies the number of objects for which the request is made",
-                    "type": "string",
-                    "pattern": "^[0-9]{2}$",
-                    "default": "00"
+                "requestObjects": {
+                    "description": "Array holding the fields specifying the objects for which the request is made",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [ "ObjectType", "ObjectTypeQuant" ],
+                        "properties": {
+                            "ObjectType": {
+                                "description": "Specifies the type of object for which the request is made",
+                                "type": "string",
+                                "pattern": "^[a-fA-F0-9]{2}$",
+                                "default": "00"
+                            },
+                            "ObjectTypeQuant": {
+                                "description": "Specifies the number of objects for which the request is made",
+                                "type": "string",
+                                "pattern": "^[0-9]{2}$",
+                                "default": "00"
+                            }
+                        }
+                    }
                 }
             }
         },
         "referenceMessageType": {
+            "title": "Reference Message",
             "required": [ "MessageHeader" ],
             "properties": {
                 "MessageHeader": {
@@ -277,6 +303,7 @@
             }
         },
         "referenceMessageBody": {
+            "title": "Reference Body",
             "required": [ "ReferenceMethod", "ReferenceData" ],
             "additionalProperties": false,
             "properties": {
@@ -293,6 +320,7 @@
             }
         },
         "freeTextMessageType": {
+            "title": "Free Text Message",
             "required": [ "MessageHeader" ],
             "properties": {
                 "MessageHeader": {
@@ -304,6 +332,7 @@
             }
         },
         "freeTextMessageBody": {
+            "title": "Free Text Message Body",
             "required": [ "Text" ],
             "additionalProperties": false,
             "properties": {
@@ -1372,35 +1401,35 @@
                 "allowedToReference": [
                     {
                         "referencedMessageCode": "P",
-                        "allowedReferenceIndicator": [ "3", "5" ]
+                        "allowedReferenceIndicator": [ "3" ]
                     },
                     {
                         "referencedMessageCode": "E",
-                        "allowedReferenceIndicator": [ "3", "5" ]
+                        "allowedReferenceIndicator": [ "3" ]
                     },
                     {
                         "referencedMessageCode": "D",
-                        "allowedReferenceIndicator": [ "3", "5" ]
+                        "allowedReferenceIndicator": [ "3" ]
                     },
                     {
                         "referencedMessageCode": "S",
-                        "allowedReferenceIndicator": [ "3", "5" ]
+                        "allowedReferenceIndicator": [ "3" ]
                     },
                     {
                         "referencedMessageCode": "I",
-                        "allowedReferenceIndicator": [ "3", "5" ]
+                        "allowedReferenceIndicator": [ "3" ]
                     },
                     {
                         "referencedMessageCode": "Q",
-                        "allowedReferenceIndicator": [ "3", "5" ]
+                        "allowedReferenceIndicator": [ "3" ]
                     },
                     {
                         "referencedMessageCode": "M",
-                        "allowedReferenceIndicator": [ "3", "5" ]
+                        "allowedReferenceIndicator": [ "3" ]
                     },
                     {
                         "referencedMessageCode": "F",
-                        "allowedReferenceIndicator": [ "3", "5" ]
+                        "allowedReferenceIndicator": [ "3" ]
                     },
                     {
                         "referencedMessageCode": "R",
@@ -1415,31 +1444,31 @@
                 "allowedToReference": [
                     {
                         "referencedMessageCode": "P",
-                        "allowedReferenceIndicator": [ "3", "5" ]
+                        "allowedReferenceIndicator": [ "3" ]
                     },
                     {
                         "referencedMessageCode": "E",
-                        "allowedReferenceIndicator": [ "3", "5" ]
+                        "allowedReferenceIndicator": [ "3" ]
                     },
                     {
                         "referencedMessageCode": "D",
-                        "allowedReferenceIndicator": [ "3", "5" ]
+                        "allowedReferenceIndicator": [ "3" ]
                     },
                     {
                         "referencedMessageCode": "S",
-                        "allowedReferenceIndicator": [ "3", "5" ]
+                        "allowedReferenceIndicator": [ "3" ]
                     },
                     {
                         "referencedMessageCode": "I",
-                        "allowedReferenceIndicator": [ "3", "5" ]
+                        "allowedReferenceIndicator": [ "3" ]
                     },
                     {
                         "referencedMessageCode": "Q",
-                        "allowedReferenceIndicator": [ "3", "5" ]
+                        "allowedReferenceIndicator": [ "3" ]
                     },
                     {
                         "referencedMessageCode": "M",
-                        "allowedReferenceIndicator": [ "3", "5" ]
+                        "allowedReferenceIndicator": [ "3" ]
                     },
                     {
                         "referencedMessageCode": "F",
@@ -1447,7 +1476,7 @@
                     },
                     {
                         "referencedMessageCode": "R",
-                        "allowedReferenceIndicator": [ "3", "5" ]
+                        "allowedReferenceIndicator": [ "3" ]
                     }
                 ]
             }
