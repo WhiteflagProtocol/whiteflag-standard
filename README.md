@@ -13,11 +13,11 @@ The [whiteflag-standard repository](https://github.com/WhiteflagProtocol/whitefl
 The purpose of this project repository is to describe, define and publish the communications protocol and associated message format for policy makers, developers and other specialists to be able to adopt and implement the Whiteflag Protocol.
 
 ## Repository Structure
-The main source document of the Whiteflag Protocol specification is `WhiteflagSpecification.md`. This document is currently under review before it will be uploaded as a markdown text file to this repository.
+The main source document of the Whiteflag Protocol specification is `WhiteflagSpecification.md`.
 
 Markdown is a plain text formatting syntax; see [RFC 7763](https://tools.ietf.org/html/rfc7763) or [Wikipedia](https://en.wikipedia.org/wiki/Markdown) for more information on this media type. Using Markdown allows the standard to be easily maintained and to be published in other formats, such as html or pdf.
 
-Along with the standard, a number of artefacts with parts of the specification described in a structured language ([JSON](https://tools.ietf.org/html/rfc7159)) will be published. This allows for fast and interoperable implementation. The following artefacts are currenlty planned to be made available:
+Along with the standard, a number of artefacts with parts of the specification described in a structured language ([JSON](https://tools.ietf.org/html/rfc7159)) will be published. This allows for fast and interoperable implementation. The following artefacts are currenlty available:
 
 * `WhiteflagMessageSchema.json`: JSON schema of the Whiteflag message structure and field syntax
 
