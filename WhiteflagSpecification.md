@@ -1,8 +1,8 @@
 |Status   ||
 |-------- |------------------------
 | version |1
-| status  |DRAFT 4 (CC0)
-| date    |06 SEP 2018
+| status  |DRAFT 6
+| date    |28 FEB 2019
 
 # 1 Introduction
 
@@ -30,8 +30,8 @@ using blockchain technology. These sign and signals can also be used to
 communicate information about natural and man-made disasters, thus
 creating shared situational awareness beyond conflicts.
 
-All in all, the protocol forms the basis for an neutral and open
-network, the Whiteflag Messaging Network, for trusted real-time
+All in all, the protocol forms the basis for a neutral and open
+network, the Whiteflag Network, for trusted real-time
 messaging between parties in conflicts and disaster response.
 
 ## 1.2 Purpose
@@ -122,7 +122,7 @@ when implementing or using this standard:
     signals, including misuse of the duress functionality, may be a
     punishable violation under local and international laws.
 
-## 1.6 Configuration Control
+## 1.6 Configuration Management
 
 It is foreseen that this standard requires updates in the near future as
 a result of validation testing and to ensure compatibility with emerging
@@ -133,8 +133,8 @@ of the authors. Requests and comments may be e-mailed to the authors:
 -   T. Schless: `tschless (at) acm . org`
 -   M. Kolenbrander: `mkolenbrander (at) acm . org`
 
-In the meantime, a more sustainable process for configuration control of
-this standard in line with its open character is under consideration.
+In the meantime, a more sustainable process for configuration management
+of this standard in line with its open character is under consideration.
 
 # 2 Overview
 
@@ -182,7 +182,7 @@ The protocol stack comprises the following 6 layers, from bottom to top:
 
 -   The *Blockchain Overlay Network Layer* is an abstraction for
     applications using existing blockchains to validate their transactions.
-    In this case, the Whiteflag Messaging Network is created as a blockchain
+    In this case, the Whiteflag Network is created as a blockchain
     overlay network by Whiteflag applications encapsulating Whiteflag
     messages in blockchain transactions.
 
@@ -196,7 +196,7 @@ The protocol stack comprises the following 6 layers, from bottom to top:
     handling, tracking and searching of Whiteflag messages.
 
 -   The *Application Layer* is the part of the stack that comprises the
-    applications that are actually used by the end-uses. These might be
+    applications that are actually used by the end-users. These might be
     existing classical applications such as databases in use by various
     organisations, or newly developed web applications or smartphone apps
     that can send, receive, filter, analyse messages.
@@ -248,7 +248,7 @@ Operational Purposes, Centre for Research on the Epidemiology of
 Disasters (CRED) and Munich Reinsurance Company (Munich RE), October
 2009.
 
-L. Economic Infrastucture Common Reporting Standard Codes, Organisation
+L. Economic Infrastructure Common Reporting Standard Codes, Organisation
 for Economic Cooperation and Development (OECD).
 
 ### 2.3.2 Technical Standards
@@ -259,7 +259,7 @@ M. RFC 3339, Date and Time on the Internet: Timestamps, July 2002, internet: <ht
 
 N. RFC 3986, Uniform Resource Identifier (URI): Generic Syntax, January 2005, internet: <https://www.ietf.org/rfc/rfc3986.txt>
 
-O. RFC 4627, The application/json Media Type for JavaScript Object Notation (JSON), July 2006, internet:  <https://www.ietf.org/rfc/rfc4627.txt>
+O. RFC 4627, The application/json Media Type for JavaScript Object Notation (JSON), July 2006, internet: <https://www.ietf.org/rfc/rfc4627.txt>
 
 P. RFC 7515, JSON Web Signature (JWS), May 2015, internet: <https://www.ietf.org/rfc/rfc7515.txt>
 
@@ -283,43 +283,37 @@ V. RFC 5869, HMAC-based Extract-and-Expand Key Derivation Function (HKDF), inter
 
 #### 2.4.1.1 General
 
-A blockchain is a distributed database that maintains a
-continuously-growing list of ordered records called blocks, each
-containing a timestamp and a hash-based link to a previous block going
-all the way back to the genesis block. Blockchains are distributed
-computing systems with high byzantine fault tolerance: secure by design
-and inherently resistant to modification of the data; once recorded, the
-data in a block cannot be altered retroactively.
+A blockchain is a shared database that maintains a continuously-growing list
+of ordered records called blocks, each containing a timestamp and a hash-based
+link to a previous block going all the way back to the first block.
+
+Blockchain networks are open source distributed computing systems
+with high byzantine fault tolerance: secure by design and inherently resistant
+to modification of the data; once recorded, the data in a block cannot be
+altered retroactively.
 
 Therefore, a blockchain can be seen as an open, distributed ledger that
 can record transactions between parties efficiently and in a verifiable
 and permanent way. This makes blockchains very suitable for the
 recording of events and messages.
 
-The Whiteflag Protocol is not a blockchain in itself. It defines the
-messages for signs and signals used in armed conflicts and for
-disasters, and it defines how those messages can be send as transactions
-on, in principle, any blockchain. Possibly, even other related distributed
-computing and networking technologies may be usable, depending on the
-characteristics.
+The Whiteflag Protocol defines the messages for signs and signals used in
+armed conflicts and for disasters, and it defines how those messages
+can be sent on, in principle, any blockchain network by encapsulating them in
+transactions. A messages is recorded in the database when such a transaction
+(including the encapsulated data) gets included in a new block.
 
-The usage of the Whiteflag Protocol on
-one or more specific blockchains, establishes what in this specification
-is called the Whiteflag Messaging Network, or just "the network", and
-can be seen as what is sometimes called a *Blockchain Overlay Network*.
-
-Please note that the Whiteflag Protocol is specifically designed to use
-public blockchain systems. Private blockchain systems, or permissioned
-distributed ledger systems, do not conform to the design principles of the
-Whiteflag Messaging Network, as these systems require a trusted party
-(master nodes) for consensus in the network.
+The usage of the Whiteflag Protocol on one or more specific blockchain
+network(s), establishes what in this specification is called the Whiteflag
+Messaging Network, or just "the network", and can be seen as what is sometimes
+called a *Blockchain Overlay Network*.
 
 #### 2.4.1.2 Originator and Account
 
-The originator is a specific person or organisation that sends Whiteflag
-Messages on the Whiteflag Messaging Network. The originator's identity
+The originator is a specific organisation or person that sends Whiteflag
+Messages on the Whiteflag Network. The originator's identity
 is established upon initial entry to the network. An originator may use
-multiple accounts on the blockchain. Although an account may use
+multiple accounts on the blockchain network. Although an account may use
 multiple (deterministic) addresses, the usage of more than one address
 by a single account is not recommended for Whiteflag.
 
@@ -328,17 +322,9 @@ before sending messages; it is not required to provide identity
 information to receive messages, as anyone can observe what is happening
 on the blockchain.
 
-Blockchain networks using digital signature schemes that provide fully
-anonymous transactions could theoretically be used to anonymously send
-messages on the Whiteflag Messaging Network. Examples of such
-blockchains are ZCash and Monero, which use zero-knowledge-proofs and
-ring signatures respectively to create conditions of untraceability and
-unlinkability. These type of blockchains do not conform to the
-principles of this standard, and should therefore not be used.
-
 #### 2.4.1.3 Authentication mechanisms
 
-An originator must introduce itself on the Whiteflag Messaging Network
+An originator must introduce itself on the Whiteflag Network
 and provide identity information with one or more initial authentication
 messages. An initial authentication message contains the self-chosen
 name of the originator, and a method to verify that the originator's
@@ -363,18 +349,20 @@ protocol.
     internet resource. As a result, the initial trustworthiness of the
     identity is as strong as the internet resource being used: obviously
     this differs between an SSL-secured web site of an acclaimed organisation
-    and for instance a pseudonymous social media post. Although an internet site is vulnerable
-    to being compromised and an attacker could alter the authentication
-    data on the internet resource, this will never result in a valid
-    digital signature as long as the private key remains secret.
+    and for instance a pseudonymous social media post. Although an internet
+    site is vulnerable to being compromised and an attacker could alter the
+    authentication data on the internet resource, this will never result in
+    a valid digital signature as long as the private key remains secret.
 
 2.   The second method uses a pre-shared token. The originator and a
-    receiver exchange a token, which is not known to anybody else until
-    the originator identifies himself by putting the token in the initial
-    authentication message. The receiver can verify now that the claimed
-    blockchain address actually belongs to the originator who was
-    in prior possession of the token. The originator may do this multiple
-    times with different tokens and/or different receivers.
+    receiver exchange a token, which is not known to anybody. The
+    the originator identifies himself by putting a combined hash of the token
+    and the blockchain account in the initial authentication message. The
+    receiver can verify now that the claimed blockchain address actually
+    belongs to the originator who was in prior possession of the token. Note
+    that the secret token itself is not revealed. The originator may do this
+    multiple times with different tokens, different accounts and/or different
+    receivers, and any combination of those.
 
 The initial authentication can be enhanced by using multiple initial
 authentication messages, i.e. by combining both verification methods,
@@ -388,8 +376,8 @@ each transaction, deterministic key chains are used to link the
 authentication message both to the blockchain account as well as to
 other messages sent by the same originator but with different addresses.
 
-The authentication mechanism is described in detail in Management
-Messages: (initial authentication message) and Joining and Leaving the
+The authentication mechanism is described in detail in 2.4.2.2 Management
+Messages (initial authentication message) and Joining and Leaving the
 Whiteflag Network (protocol for initial authentication). After initial
 authentication, the Whiteflag Protocol utilizes the authentication
 mechanism of the underlying blockchain.
@@ -401,56 +389,41 @@ versions.
 #### 2.4.1.4 Communications Security
 
 The Whiteflag Protocol leverages blockchain technology to ensure
-authentication, data integrity and non-repudiation. The blockchains
-ensures that any message ever sent will be verifiable, unalterable and
-available to anybody, even to participants that start to use the
-protocol later in time.
+data integrity, non-repudiation and historical continuity. The underlying
+blockchain(s) ensure(s) that any message ever sent will be verifiable,
+unalterable and available to anybody, even to participants that start to
+use the protocol later in time.
 
-In blockchain systems, an electronic token (often called a coin) is
-defined as a chain of digital signatures. These tokens are constructed
-of input and output channels, which can be used to include data in a
-transaction. An owner transfers a token to the next by digitally signing
-a hash of the previous transaction and the public key of the next owner
-and adding these to the end of the token. A sender can verify the
-signatures to verify the chain of ownership.
+Blockchain networks using the proof-of-work consensus model (Nakamoto
+consensus) timestamp transactions by hashing them into an ongoing chain of
+hash-based proof-of-work, forming a record that cannot be changed without
+redoing the proof-of-work.
 
-Public blockchain networks using the proof-of-work consensus model
-(Nakamoto consensus) timestamp transactions by hashing them into an
-ongoing chain of hash-based proof-of-work, forming a record that cannot
-be changed without redoing the proof-of-work. The timestamp proves that
-the data must have existed at the time in order to get into the hash.
-Each timestamp includes the previous timestamp in its hash, forming a
-chain, with each additional timestamp reinforcing the ones before it.
+The timestamp proves that the data must have existed at the time in order to
+get into the hash. Each timestamp includes the previous timestamp in its hash,
+forming a chain, with each additional timestamp reinforcing the ones before it.
+The hash chain of blocks provides an unchangeable historical record, which is
+verifiable by anyone.
 
-Blockchain networks using a different consensus model (such as
-proof-of-stake) are currently in an experimental phase and have not yet
-been proven to work securely at large scale. At this point, it is not
-advised to use any other type of public blockchain system than those
-using a proof-of-work based consensus model.
-
-Nodes can leave and rejoin the blockchain and thus the Whiteflag Network
-at will, accepting the proof-of-work chain as validation of what
-happened while they were gone. Upon rejoining, missing blocks are
-downloaded, verified and added to the nodes' local copy of the database
-until it has caught up with the network and is in sync (again).
-
-The hash chain of blocks provides an unchangeable historical record,
-which is verifiable to anyone and goes all the way back to the first
-block ever created by the network.
+Nodes can leave and rejoin a blockchain network and thus the Whiteflag Network
+at will, accepting the proof-of-work chain as validation of what happened while
+they were gone. Upon rejoining, missing blocks are downloaded, verified and
+added to the nodes' local copy of the database until it has caught up with the
+network and is in sync (again).
 
 #### 2.4.1.5 Data Security
 
-Even though the Whiteflag Protocol is not designed with message
-confidentiality specifically in mind, the protocol does allow
-encryption for message confidentiality by defining the means to
-optionally encrypt the message contents. This is described in detail in
-4.1.4.
+The Whiteflag Protocol the protocol provides optional message confidentiality
+using an AES based encryption scheme to encrypt the message contents. This is
+described in detail in 4.1.4 Encryption.
 
-The Whiteflag Protocol does not specify how the encryption keys should
-be managed or distributed. It is between the originator and recipient to
-agree on the encryption method and key exchange.
+The encryption scheme allow for both Diffie-Hellman negotiated keys and
+pre-shared keys. The Whiteflag Protocol specifies the Diffie-Hellman key
+exchange, but does not specify how pre-shared encryption keys should be managed
+or distributed. It is between the originator and recipient to agree on a secure
+key exchange procedure.
 
-### 2.4.2 Message functionality
+### 2.4.2 Message Functionality
 
 #### 2.4.2.1 Functional Messages
 
@@ -467,7 +440,7 @@ standards, and to provide additional information.
 |`I`  |`InfrastructureSign` |Sign to mark critical infrastructure, e.g. roads, utilities, water treatment, hospitals, power plants etc.
 |`M`  |`MissionSignal`      |Signal to provide information on activities undertaken during a mission
 |`Q`  |`RequestSignal`      |Signal to perform requests to other parties
-|`R`  |`Reference`          |Message to point to an internet resource
+|`R`  |`Resource`           |Message to point to an internet resource
 |`F`  |`FreeText`           |Message to send a free text string
 
 A specific Functional Message has a single meaning. For example, a
@@ -480,12 +453,12 @@ Message by referencing it. In this way, sequences of message can be
 created, e.g. for moving objects (by updating the coordinates of a
 Protective Sign), or requesting assistance for an object under attack
 (by sending an Emergency Signal referring to a Status Signal referring
-to a Danger Sign). Message sequencing is described in detail in Message
-Sequences.
+to a Danger Sign). Message sequencing is described in detail
+in 5.4.2. Message Sequences.
 
 #### 2.4.2.2 Management Messages
 
-A number of Management Messages are defined to provide additional means to
+A number of management messages are defined to provide additional means to
 verify the validity of the blockchain address and related account, to
 support cryptographic functions and to test connectivity and
 functionality.
@@ -520,7 +493,7 @@ Signs and signals about structures and areas may contain spatial
 information. The Whiteflag protocol uses the EPSG:4326/WGS84 geodetic
 coordinate system. The protocol does (currently) not allow to provide
 height and altitude information, and therefore can only be used to
-locate objects on the earth's surface.
+provide an object location on the earth's surface.
 
 Structures and areas can be represented using a limited number of
 geometric shapes: circles, rectangles and isosceles triangles, and any
@@ -564,7 +537,7 @@ altered or disappear once recorded, all without the requirement of a trusted thi
 party.
 
 However, it is important to understand that a trusted communication
-channel does not in any way guarantee that the information in a message
+channel does not by itself guarantee that the information in a message
 is true. Upon reception of a Whiteflag message, it is up to the receiver
 to assess the credibility of the information sent.
 
@@ -598,66 +571,62 @@ and credibility of information:
 |E. Unreliable                      |5. Improbable
 |F. Reliability cannot be judged    |6. Truth cannot be judged
 
-Also note that the protocol does not require all messages to be
-processed by a recipient. A recipient may choose to ignore unknown
-addresses and accounts, to blacklist unreliable addresses and accounts,
-to filter messages about an object outside a certain area of interest,
-create custom perspectives, merge information with other sources, etc. etc.
+Also note that the protocol does not require all messages to be processed
+by a recipient. A recipient may choose to ignore unknown addresses and
+accounts, to blacklist unreliable addresses and accounts, to filter messages
+about an object outside a certain area of interest, create custom perspectives,
+merge information with other sources, etc. etc.
 
 ### 2.6.2 Account and Private Key Protection
 
-The protocol does not state a mandatory blockchain account and private
-key protection setup. There are however several important guidelines to
-consider:
+The protocol does not define any specific setup of the blockchain account
+and private key protection. There are however several important guidelines to
+consider.
 
--   Third party hosts should not be used to create accounts on a
+1.   Third party hosts should not be used to create accounts on a
     blockchain, because the identity of the sender should be directly
     linked to the account. Using a third party to create an account
     creates attack vectors by which an account could be compromised.
--   Public blockchains provide free, open source clients that facilitate
-    the creation of accounts without any third party involved. It is
-    good practice to protect your account by implementing security
+2.   Public blockchains provide free, open source clients that facilitate
+    the creation of accounts without any third party involved. Also, it is
+    very possible to create specific Whiteflag software that also manages the
+    associated blockchain accounts and cryptographic keys itself. In general,
+    it is good practice to protect your account by implementing security
     measures on machines and devices under your own control or supervision.
--   Third party hosts should not be used host to store
-    private keys. Storing the secret key outside your
-    control or under supervision creates attack vectors by which an account
-    could be compromised.
--   To protect private keys from theft, hardware wallets, secure processing units
-    and cold wallets should be used when possible.
--   To protect an account from being compromised, multi-factor
-    authentication as well as multi-signature accounts should be used
-    when possible.
--   If account and/or related addresses need to be permanently
+3.   Third party hosts should not be used to store private keys. Storing
+    the secret key outside your control or under supervision creates attack
+    vectors by which an account could be compromised.
+4.   To protect private keys from theft, hardware wallets, secure processing
+    units and cold wallets should be used when possible.
+5.   To protect an account from being compromised, multi-factor authentication
+    as well as multi-signature accounts may be used.
+6.   If account and/or related addresses need to be permanently
     de-activated, simply delete the private key(s), and, if possible,
-    send an `A(4)` message.
+    send an `A(4)` message for every `A(0)` sent before.
 
 ### 2.6.3 Encryption and Key Exchange
 
 The protocol provides the option to encrypt a message for
-confidentiality. However, this standard provides the minimum functionality
-required for one interoperable encryption and key management mechanism.
-Please note that the security of encryption relies largely on the actual
-implementations.
+confidentiality. When using encryption, a number of considerations should
+be taken into account:
 
-If there is a reason to use encryption, do note that all messages are
-persistent on the blockchain and it should be assumed that at some point
-in the future messages can and will be decrypted. Therefore, only use
-dedicated keys, and only encrypt information that is time-sensitive,
-i.e. information that will not be valid or relevant anymore over time,
-such as the status or the location of a moving object.
+1.   Even if messages are encrypted, information may leak through usage
+    patterns. Therefore, it is advised not to use the same blockchain addressed
+    and the same proof-of-identity for both encrypted and unencrypted messages.
 
-When using encryption, a number of considerations should be taken into
-account. Obviously, a secure encryption algorithm suitable for relatively
-short strings should be used. Also, do take into account that even if
-messages are encrypted, information may leak through usage patterns.
-Therefore, do not use the same blockchain addressed and the same
-proof-of-identity for both encrypted and unencrypted messages.
+2.   The security of encryption relies largely on the actual implementations.
+
+3.   All messages are persistent on the blockchain and it should be assumed that
+    at some point in the future messages can and will be decrypted. Therefore,
+    only use dedicated keys, and only encrypt information that is time-sensitive,
+    i.e. information that will not be valid or relevant anymore over time,
+    such as the status or the location of a moving object.
 
 ### 2.6.4 Processing and Storage of Messages
 
-On the Whiteflag Network, messages must be formatted and processed as 
-indicated in this standard. Additionally, this standard defines how 
-messages and message sequences should semantically interpreted.
+On the Whiteflag Network, messages must be formatted and processed as
+indicated in this standard. Additionally, this standard defines how
+messages and message sequences should be semantically interpreted.
 
 To help implementing and validating Whiteflag Messages, Annex B provides
 a JSON schema that describes the messages, which might be of beneficial
@@ -676,18 +645,16 @@ open APIs.
 For documentation and software development purposes, messages codes and
 message sequences might be written as follows:
 
--   a message may be referred to by its message code, e.g. `T` for a
-    test message;
+-   a message may be referred to by its message code,
+    e.g. `T` for a test message;
 -   a specific sign or signal may be indicated by the combination of
     message and subject code, e.g. `E01` for a distress signal;
 -   a reference indicator may be written in between brackets after the
-    message code, e.g. `A(2)` for an update to an earlier `A`
-    message;
+    message code, e.g. `A(2)` for an update to an earlier `A` message;
 -   an encrypted message is written between square brackets,
     e.g. `[Q(0)14]`;
--   the originator may be indicated behind the message
-    code and reference indicator, e.g. `A(0)X` is an original
-    authentication message from X;
+-   the originator may be indicated behind the message code and reference
+    indicator, e.g. `A(0)X` is an original authentication message from X;
 -   the symbol `<` is used as a pointer in the message sequence;
     the symbol is repeated to indicate to which message is
     referred, e.g. `<<` means two messages before.
@@ -712,7 +679,7 @@ A Whiteflag message can have different representations at different
 levels of the protocol stack:
 
 -   at the Blockchain Overlay Network Layer (i.e. the level at which the
-    Whiteflag Messaging Network is established) the message is
+    Whiteflag Network is established) the message is
     represented as a compressed binary string, and optionally encrypted;
 -   at the Decentralised Protocol Layer, a message is represented as an
     uncompressed and unencrypted concatenated character string comprised
@@ -729,28 +696,28 @@ messages are compressed into a binary string, and optionally encrypted.
 
 An uncompressed and unencrypted Whiteflag Message consists of:
 
--   the Message Header (described in Message Header), which is the same
+-   the Message Header (described in 4.2 Message Header), which is the same
     for all messages and consists of 7 fields with a total length of 71
     bytes;
--   the Message Body (described in Message Body), of which the fields
+-   the Message Body (described in 4.3 Message Body), of which the fields
     and number of bytes per field differ between message types, and is
     therefore variable in length.
 
 The individual bytes of an uncompressed and unencrypted messages are
 encoded using a single 7-bit/1-byte UTF-8 code unit, allowing the usage
-of UTF-8/Unicode code points U+0000 through U+007F, which are identical
+of UTF-8/Unicode code points `U+0000` through `U+007F`, which are identical
 to the first 128 characters of the ASCII-set.
 
 Depending on the usage of the field, not all characters/code points are
 allowed for each field. The field descriptions of the message header and
-body in in Message Header and Message Body, use the following characters
-to indicate which subset of characters is valid:
+body in 4.2 Message Header and in 4.3. Message Body, use the following
+characters to indicate which subset of characters is valid:
 
 -   `c` indicates any valid 1 byte UTF-8/Unicode character, i.e. UTF-8
     code points `U+0000` through `U+007F`;
 
--   `a` indicates that any alpha-numeric character (0-1, A-Z, a-z),
-    i.e. UTF-8 code points `U+0030` trough `U+0039`, `U+0041` through
+-   `a` indicates that any alpha-numeric character (0-9, A-Z, a-z),
+    i.e. UTF-8 code points `U+0030` through `U+0039`, `U+0041` through
     `U+005A`, and `U+0061` through `U+007A`;
 
 -   `b` indicates that only a binary character (0-1) is the be used,
@@ -771,8 +738,8 @@ character indicated with a `d`, and therefore encoded and compressed
 in the same way, but semantically they are different.
 
 Capitals used in the field format descriptions of the message header and
-body in Message Header and Message Body, including capitals of the
-above, indicate that such a character is to be used literally.
+body in 4.2 Message Header and in 4.3 Message Body, including capitals of
+the above, indicate that such a character is to be used literally.
 
 Before the message is embedded in a blockchain transaction, the message
 is compressed and optionally encrypted as described below.
@@ -791,8 +758,8 @@ encryption. Compression of the message is done as follows:
 -   decimal and hexadecimal characters (`d` and `h`) are compressed
     to a half-byte (4 bits) unsigned binary coded decimal/hexadecimal.
 
-The descriptions of the message header and body in in Message Header and
-Message Body, show how the compression must be applied to each field.
+The descriptions of the message header and body in 4.2 Message Header and
+in 4.3 Message Body, show how the compression must be applied to each field.
 
 ### 4.1.4 Encryption
 
@@ -856,8 +823,8 @@ encrypted for confidentiality. The contents of the field must be a
 |Code     |Encryption             |Usage
 |-------- |---------------------- |---------------------------------------------------------------------------------------------
 |`0`      |No encryption          |No encryption is used
-|`1`      |`aes-128-ctr`          |Message is encrypted using 128-bit key AES counter mode
-|`2`      |`aes-256-ctr`          |Message is encrypted using 256-bit key AES counter mode
+|`1`      |`aes-256-ctr-ecdh`     |Message is encrypted using 256-bit key AES counter mode with an ECDH negotiated key
+|`2`      |`aes-256-ctr-psk`      |Message is encrypted using 256-bit key AES counter mode with a pre-shared key
 |`3`-`9`  |(reserved)             |Must not be used
 |(other)  |(private use)          |Encrypted with a method indicated by the value, but specific to the application or originator
 
@@ -893,7 +860,7 @@ encoded value from the following table.
 |`4`       |`Discontinue`                        |The originator discontinues the referenced message, i.e. the information or action is no longer valid.                       |May only be used by the same account of the referenced message. The information in this message must repeat the referenced message.
 |`5`       |`Relate`                             |The information in this message directly relates to the information or action in the referenced message.                     |May be used by any account, and may reference messages from any other account.
 |`6`       |`Confirm`                            |The originator confirms the information or action in the referenced message.                                                 |May be used by any account of a different originator than of the referenced message. The information in this message must repeat the referenced message.
-|`7`       |`Acknowledge`                        |The originator acknowledges the receipt of the referenced message, but the information itself is not confirmed.              |May be used by any account of a different originator than of the referenced message. The information in this message must repeat the referenced message,
+|`7`       |`Acknowledge`                        |The originator acknowledges the receipt of the referenced message, but the information itself is not confirmed.              |May be used by any account of a different originator than of the referenced message. The information in this message must repeat the referenced message.
 |`8`       |`Comply`                             |The originator will comply with and/or act according to the referenced message, but the information itself is not confirmed. |May be used by any account of a different originator than of the referenced message. The information in this message must repeat the referenced message.
 |`9`       |`Reject`                             |The originator does not agree (any more) with the information or action in the referenced message.                           |May be used by any account of a different originator than of the referenced message. The information in this message must repeat the referenced message.
 
@@ -905,7 +872,7 @@ By referencing other messages, message sequences can be created.
 However, not every message type and reference type may reference every
 other message type and reference type. The rules for referencing and
 functionality of message sequences are specified in detail in
-Referencing Messages and Message Sequences.
+5.4 Referencing.
 
 #### 4.2.1.8 Referenced Message Field
 
@@ -998,15 +965,15 @@ equivalents for the defined signs and signals are shown in Annex E.
 |             |                 |`70`-`FF`    |(reserved)
 
 References:
- P01-03: i.a.w. Convention (IV) respecting the Laws and Customs of War on Land and its annex: Regulations concerning the Laws and Customs of War on Land. The Hague, 18 October 1907
- P11-12: Convention (I) for the Amelioration of the Condition of the Wounded and Sick in Armed Forces in the Field. Geneva, 12 August 1949.
- P13: Protocol additional to the Geneva Conventions of 12 August 1949, and relating to the Adoption of an Additional Distinctive Emblem (Protocol III), 8 December 2005.
- P20: Convention on the Safety of United Nations and Associated Personnel. New York, 9 December 1994.
- P31: Convention (IV) relative to the Protection of Civilian Persons in Time of War. Geneva, 12 August 1949
- P32-33: Convention (III) relative to the Treatment of Prisoners of War. Geneva, 12 August 1949.
- P51: Treaty on the Protection of Artistic and Scientific Institutions and Historic Monuments (Roerich Pact). Washington, 15 April 1935
- P52-53: The 1954 Hague Convention for the Protection of Cultural Property in the Event of Armed Conflict and its two (1954 and 1999) Protocols, United Nations Educational, Scientific and Cultural Organization (UNESCO)
- P60: Protocol Additional to the Geneva Conventions of 12 August 1949, and relating to the Protection of Victims of International Armed Conflicts (Protocol I), 8 June 1977.
+ _P01-03_: i.a.w. Convention (IV) respecting the Laws and Customs of War on Land and its annex: Regulations concerning the Laws and Customs of War on Land. The Hague, 18 October 1907
+ _P11-12_: Convention (I) for the Amelioration of the Condition of the Wounded and Sick in Armed Forces in the Field. Geneva, 12 August 1949.
+ _P13_: Protocol additional to the Geneva Conventions of 12 August 1949, and relating to the Adoption of an Additional Distinctive Emblem (Protocol III), 8 December 2005.
+ _P20_: Convention on the Safety of United Nations and Associated Personnel. New York, 9 December 1994.
+ _P31_: Convention (IV) relative to the Protection of Civilian Persons in Time of War. Geneva, 12 August 1949
+ _P32-33_: Convention (III) relative to the Treatment of Prisoners of War. Geneva, 12 August 1949.
+ _P51_: Treaty on the Protection of Artistic and Scientific Institutions and Historic Monuments (Roerich Pact). Washington, 15 April 1935
+ _P52-53_: The 1954 Hague Convention for the Protection of Cultural Property in the Event of Armed Conflict and its two (1954 and 1999) Protocols, United Nations Educational, Scientific and Cultural Organization (UNESCO)
+ _P60_: Protocol Additional to the Geneva Conventions of 12 August 1949, and relating to the Protection of Victims of International Armed Conflicts (Protocol I), 8 June 1977.
 
 ##### 4.3.1.2.2 Emergency Signals
 
@@ -1491,7 +1458,7 @@ eight (8) objects with their respective quantity.
 
 The `ObjectType*` field contains a hexadecimal code to indicate what
 sort of object the request applies to. The values correspond with those
-of the `ObjectType` field as specified in 4.3.1.5,  with the following
+of the `ObjectType` field as specified in 4.3.1.5, with the following
 restrictions:
 
 -   when referring to persons, the exact number of person must be specified
@@ -1507,39 +1474,39 @@ Valid values for an `ObjectType*Quant` field are `00` to `99`. If the
 quantity of an object is unknown, then the respective `ObjectType*Quant`
 field must be `00`.
 
-### 4.3.2 Functional Messages: Reference
+### 4.3.2 Functional Messages: Resource
 
-#### 4.3.2.1 Reference Message Fields
+#### 4.3.2.1 Resource Message Fields
 
 |Byte Index       |Byte Length      |Field                         |Usage                                             |Uncompressed Encoding            |Compressed Encoding
 |---------------- |---------------- |----------------------------- |------------------------------------------------- |-------------------------------- |-------------------------------------------
 | 0-70            |71               | Message Header               |See Generic Message Header Fields                 |                                 |
-|71               | 1               |`ReferenceMethod`             |Indicates the mechanism for reference             |`x`                              | 1x 4-bit unsigned binary coded hexadecimal
-|72-111*          |40*              |`ReferenceData`               |Provides the data required to find the reference  |`cccccccccc ... cccccccccc`      |40x 8-bit UTF-8
+|71               | 1               |`ResourceMethod`              |Indicates the mechanism for pointing to a resource|`x`                              | 1x 4-bit unsigned binary coded hexadecimal
+|72-111*          |40*              |`ResourceData`                |Provides the data required to find the resource   |`cccccccccc ... cccccccccc`      |40x 8-bit UTF-8
 
-#### 4.3.2.2 Reference Method Field
+#### 4.3.2.2 Resource Method Field
 
-The `ReferenceMethod` field defines the mechanism for reference. The
+The `ResourceMethod` field defines the mechanism for pointing to a resource. The
 field must be 1-byte UTF-8 encoded hexadecimal character. Currently only
-one reference method has been defined:
+one resource method has been defined:
 
-|Code        |Reference Method       |Usage
+|Code        |Resource Method        |Usage
 |----------- |---------------------- |----------------------------------------
 |`0`         | (reserved)            |Must not be used
 |`1`         |`InternetResource`     |Reference to an internet resource
-|`2`-`9`     | (reserved)            |Reserved for future reference mechanisms
+|`2`-`9`     | (reserved)            |Reserved for future resource referencing mechanisms
 |`A`-`F`     | (private use)         |Private use, i.e. not standardized
 
-#### 4.3.2.3 Reference Data Field
+#### 4.3.2.3 Resource Data Field
 
-The content of the ReferenceData field depends on the reference method:
+The content of the ResourceData field depends on the resource method:
 
--   If the `ReferenceMethod` method indicates a reference to an
-    internet resource (reference method1), then the `VerificationData`
+-   If the `ResourceMethod` method indicates a reference to an
+    internet resource (resource method 1), then the `ResourceData`
     field must contain a valid URL.
 
-The `ReferenceData` field may be longer than 40 bytes, if allowed by
-underlying blockchain. If the length of the `ReferenceData` field is
+The `ResourceData` field may be longer than 40 bytes, if allowed by
+underlying blockchain. If the length of the `ResourceData` field is
 insufficient to provide the complete URL, an additional Reference
 Message may be sent with the rest of the URL using reference code `3`.
 
@@ -1667,7 +1634,7 @@ Support Messages may be sent with the rest of the key data using
 reference code `3`.
 
 Usage of the Cryptographic Support Message and the data types
-is detailed in Cryptographic Support Functions.
+is detailed in 5.2 Cryptographic Support Functions.
 
 ### 4.3.6 Management Messages: Test
 
@@ -1688,12 +1655,12 @@ message must contain the following fields:
 The `PseudoMessageCode` field indicates which sign/signal message is
 tested. The contents of the field must be a 1-byte UTF-8 encoded
 alpha-numeric character value corresponding with one of the message
-types defined in Message functionality.
+types defined in 2.4.2 Message Functionality.
 
 #### 4.3.5.3 Other Test Message Fields
 
 All other test message fields are identical in use as the equivalent
-fields sign/signal message, as described in Message Body, with the
+fields sign/signal message, as described in 4.3 Message Body, with the
 difference that the fields are shifted 1 byte / 8 bits.
 
 The field names must be preceded by `Test` when used in a test
@@ -1705,17 +1672,17 @@ message.
 
 ### 5.1.1 Initial Authentication
 
-It is not required to perform initial authentication and provide
-identity information to receive messages.
+It is not required to perform initial authentication and provide identity
+information to receive messages.
 
 To send Whiteflag Messages on the network, the originator must have at
 least one blockchain account and address. An originator may use multiple
 accounts, and an account may use multiple addresses.
 
-Each account must be identified by sending an `A(0)` initial
-authentication message, before sending any other message. Messages sent
-by an account before that account has sent a valid `A(0)` message, must
-be ignored.
+Each account should be identified by sending an `A(0)` initial
+authentication message, before sending any other message. Any message sent
+by an account before that account has sent an `A(0)` messages, may be
+considered unauthenticated by recipients.
 
 If an account uses multiple addresses, the `A(0)` message must be sent using
 the address corresponding with public key from which all other addresses
@@ -1739,38 +1706,19 @@ of the resource.
 At the URL, a flattened JSON Web Signature JSON serialization (JWS-JS)
 formatted object i.a.w. RFC 7515 - JSON Web Signature (JWS) must be found.
 This object contains a JSON object with authentication information
-together with only one digital signature.
+together with a single digital signature.
 
 The digital signature is used for authentication, non-reputation and
-data integrity; in other words: it ensures that only the owner of the
+data integrity. In other words: it ensures that only the owner of the
 web resource controls the blockchain account used to send the `A`
 message. The digital signature must be created using the key pair of the
 associated blockchain account, i.e. the account from which the `A1`
 message has been sent.
 
-Multiple JWS-JS objects may be returned from the same URL. The object(s)
-must either be returned directly or be embedded within HTML as follows:
-
-```html
-    <script type="application/json" data-wf-auth-message="...">
-        {
-            "payload": "...",
-            "protected": "...",
-            "signature": "..."
-        }
-    </script>
-```
-
-The `data-wf-auth-message` html tag must be added if embedded in html.
-The tag should contain the transaction hash of the corresponding `A1`
-message. This allows for easier lookup and parsing. The tag may be empty
-if the transaction hash is unknown at the time of publication, because
-the signature may have been created before the `A1` transaction is send
-or processed on the blockchain.
-
-The non-serialised payload must be a JSON object itself and must at least
-have the following properties: the originator's blockchain address,
-the originator's name, and the same URL as in the A message, as follows:
+The non-serialised payload with authentication information must be a JSON
+object itself and must at least have the following properties: the
+originator's blockchain address, the originator's name, and the same URL
+as in the A message, as follows:
 
 ```json
     "protected": {
@@ -1810,39 +1758,20 @@ An example for usage of JWS for authentication is included in Annex C.
 The option to use a secret token for authentication allows the issuer
 of the token to authenticate the originator's blockchain account when
 the token is revealed in an `A2` message. The secret token may be
-pre-shared or generated from a shared secret as follows.
+pre-shared or generated from a shared secret:
 
 1.   The token may be a secret piece of either arbitrary data or some
     (encrypted) meaningful data provided to the originator.
 
 2.   The token may also be derived from an ECDH shared secret as described
-    in Key and Token Derivation.
+    in 5.2.3 Key and Token Derivation.
 
 The secret token must not be used directly in a single `A2(0)` message.
-Instead, the token must be hashed using the SHA-512 hashing algorithm
-in order to loose any information that may reside in the token and to
-create a sufficiently long token that can be sent in two parts. This is
-to prevent misuse of the token in the time between the propagation
-of the `A2(0)` transaction and a secure number of confirmations. The
-second part of the token must be sent with an `A2(3)` message after any
-reasonable number of confirmations of the `A2(0)` transaction, and only
-if the first part of the token is not used in an `A2(0)` message from
-another originator with a higher number of confirmations.
+Instead, the authentication data sent in the `A2(0)` message must be derived
+from the secret token using the HKDF function defined in RFC 5869. The
+procedure is described in detail in the Key and Token Derivation paragraph.
 
-The following pseudocode reflects the procedure:
-
-```pseudocode
-    publicToken := SHA512(secretToken)
-    A2(0).VerificationData := publicToken[0..255]
-    A2(3).VerificationData := publicToken[255..511]
-
-    send(A2(0))
-    A2(3).ReferencedMessage := A2(0).transactionHash
-    if (A2(0).confirmations == n AND NOT(A2(0) == A2(0)X)) then:
-        send(A2(3))
-```
-
-An originator may use multiple `A2(0) < A2(3)` sequences with tokens
+An originator may use multiple `A2(0)` messages with tokens
 from different issuers or ECDH counterparts.
 
 The issuer or ECDH counterparts may send `A2(6)` or `A2(7)` messages to
@@ -1859,14 +1788,14 @@ updated with an `A(2)` message.
 
 An `A(3)` message must be used when providing longer URLs or tokens
 than a single message `A(0)` or `A(2)` message can contain in its
-VerificationData field.
+`VerificationData` field.
 
 ### 5.1.4 Leaving the Network
 
-An account may leave the network with an `A(4)` message referencing
-the `A(0)` or latest `A(2)` message, whichever was sent last. Any
-message sent by an account after that account has sent an `A(4)`
-message must be ignored.
+An account may leave the network with an `A(4)` message referencing, and
+thus discontinuing, each `A(0)` message that has been sent earlier. Any
+message sent by an account after that account has discontinued all its `A(0)`
+messages, should be considered unauthenticated.
 
 ## 5.2 Cryptographic Support Functions
 
@@ -1874,8 +1803,7 @@ message must be ignored.
 
 It may not be assumed that every recipient is able to link
 deterministically derived addresses to the master public key of the
-account in order to authenticate the originator. Therefore,
-deterministic keys and addresses should normally not be used.
+account in order to authenticate the originator.
 
 ### 5.2.2 Key Agreement
 
@@ -1895,95 +1823,124 @@ in RFC 5639.
 
 Any participant may generate a 264-bit compressed public ECDH key and
 publish the key on the Whiteflag network using a `K(0)0A` message. This
-allows any two participants who have both published their public key
+allows any two participants, who have both published their public key,
 to generate the shared secret using their own private key and the other's
 public key.
 
-The shared secret may be used as a basis for encryption and
-authentication, whether or not defined within the scope of this standard,
-but it should never be used directly as an encryption key.
-
-If one of the participants publishes an updated `K(2)0A` message, the
-existing shared secrets with other participants expire and new shared
+If one of the participants publishes an `K(2)0A` message with updated key,
+the existing shared secrets with other participants expire and new shared
 secrets must be generated for and by each other participant.
 
-#### 5.2.3 Key and Token Derivation
+Only one single participant's public ECDH key is considered valid at any
+point in time. Nevertheless, multiple `K(0)0A` messages may be sent to
+republish the public key. If a subsequent `K(0)0A` message contains a
+different public key, this must be interpreted as an `K(2)0A` message with
+an updated key (which should have been sent instead).
 
-Encryption and decryption keys, as well as authentication tokens, may be
-derived from the generated ECDH shared secret as described above in
-Key Agreement. The HKDF function defined in RFC 5869 is used for key and
-token derivation. To derive the key of the required length, perform
-the following steps:
+The shared secret may be used as a basis for encryption and authentication,
+whether for Whiteflag or not, but it should never be used directly as an
+encryption key.
 
--   take the SHA-256 hash from the ECDH shared secret;
+### 5.2.3 Key and Token Derivation
 
--   perform an HKDF function to generate the required AES key length,
-    using the first 96 bits of the hashed shared secret as the "salt",
-    the second 160 bits as the "input key material" (IKM), and SHA-256
-    as the digest algorithm.
+Shared secrets (such as pre-shared, deterministically derived or
+ECDH generated secrets), must use the HKDF function defined in RFC 5869 to
+derive the actual tokens and encryption keys used for Whiteflag.
 
-In addition to the parameters described above, the HKDF function takes two
-parameters depending on the encryption method or token type: the key/token
-length and a usage specific "info" string:
+Note that it is crucial for security that shared secrets used as the input
+keying material for HKDF, have enough entropy, i.e. are sufficiently long
+(at least 16 bytes) and are practically indistinguishable from random data.
 
--   for authentication method 2, the key length (token length) must be
-    64 bytes (512 bits) and the info string must be `wf-auth-02`;
+The HKDF function must use SHA-256 as the digest algorithm. Furthermore, the
+HKDF function takes three (3) parameters depending on the encryption
+method or token type: the key/token length, a usage specific salt and the
+the blockchain address as the info value.
 
--   for encryption method 1 (`aes-128-ctr`) the key length must be
-    16 bytes (128 bits) and the info string must be `wf-enc-01`;
+-   for authentication method 2 (token-based):
+    1.   the key length (token length) must be 32 bytes (256 bits)
+    2.   the salt value must be (hexadecimal): `420abc48f5d69328c457d61725d3fd7af2883cad8460976167e375b9f2c14081`
+    3.   the info value must be the binary blockchain address
 
--   for encryption method 2 (`aes-256-ctr`), the key length must be
-    32 bytes (256 bits) and the info string must be `wf-enc-02`.
+-   for encryption method 1 (`aes-256-ctr` with negotiated secret):
+    1.   the key length must be 32 bytes (256 bits)
+    2.   the salt value must be (hexadecimal): `8ddb03085a2c15e69c35c224bce2952dca7878770724741cbce5a135328be0c0`
+    3.   the info value must be the binary blockchain address
 
-This results in the following pseudocode for deriving authentication tokens:
+-   for encryption method 2 (`aes-256-ctr` with pre-shared secret):
+    1.   the key length must be 32 bytes (256 bits)
+    2.   the salt value must be (hexadecimal): `c4d028bd45c876135e80ef7889835822a6f19a31835557d5854d1334e8497b56`
+    3.   the info value must be the binary blockchain address
+
+Note that the salts are shown above in hexadecimal representation.
+Implementations must ensure that the data is correctly provided to the HKDF
+function, i.e. as binary information, not as a string. This is especially
+important for blockchains addresses, which appear in different encodings.
+
+Using the 2.4.2.2 blockchain address `1C8KSK68SJjfDSBx9BpSx3qB3bePf23r77` as an
+example, this results in the following pseudocode for deriving authentication
+tokens:
 
 ```pseudocode
-    hashedSecret := SHA256(sharedSecret)
-    salt := hashedSecret[0...96]
-    ikm := hasedSecret[96...255]
-    tokenlength := 64
-    info := "wf-auth-02"
-    secretToken := HKDF(ikm, salt, info, tokenlength, digest="sha256")
+    tokenlength := 32
+    salt := 0x420abc48f5d69328c457d61725d3fd7af2883cad8460976167e375b9f2c14081
+    info := 0x007a0baf6f84f0fa7402ea972686e56d50b707c9b67b108866
+    secretToken := HKDF(sharedSecret, salt, info, tokenlength, digest="sha256")
 ```
 
-The pseudocode for deriving encryption/decryption keys is:
+The pseudocode for deriving encryption/decryption keys for the same blockchain
+address is as follows:
 
 ```pseudocode
-    hashedSecret := SHA256(sharedSecret)
-    salt := hashedSecret[0...96]
-    ikm := hasedSecret[96..255]
     if (EncryptionIndicator == 1) then:
-        keylength := 16
-        info := "wf-enc-01"
+        keylength := 32
+        salt := 0x8ddb03085a2c15e69c35c224bce2952dca7878770724741cbce5a135328be0c0
+        info := 0x007a0baf6f84f0fa7402ea972686e56d50b707c9b67b108866
     if (EncryptionIndicator == 2) then:
         keylength := 32
-        info := "wf-enc-02"
-    key := HKDF(ikm, salt, info, keylength, digest="sha256")
+        salt := 0xc4d028bd45c876135e80ef7889835822a6f19a31835557d5854d1334e8497b56
+        info := 0x007a0baf6f84f0fa7402ea972686e56d50b707c9b67b108866
+    key := HKDF(sharedSecret, salt, info, keylength, digest="sha256")
 ```
 
 ### 5.2.4 Message Encryption
 
-Two encryption methods are currently defined by Whiteflag: the
-Advanced Encryption Standard (AES) in counter mode (CTR) with either
-a 128-bit or a 256-bit key as described below.
+Two encryption methods are currently defined by Whiteflag: the Advanced
+Encryption Standard (AES) using a 256-bit key in counter mode (CTR) with
+either an ECDH negotiated secret (method 1) or a pre-shared secret (method 2).
 
 AES is a symmetric cipher that requires the same key for encryption and
-decryption. This key may be pre-shared, deterministically derived with
-some pre-shared secret, or may be generated an ECDH shared secret
-as described in Key and Token Derivation.
+decryption. This key must be derived as described in the Key and Token
+Derivation paragraph.
 
 #### 5.2.4.1. Encryption Methods 1 and 2
 
+Encryption methods 1 and 2 only differ in the key used for the encryption:
+
+-   Encryption method 1 uses the ECDH negotiated secret as described in the
+    Key Agreement paragraph to derive the encryption key. This method can
+    therefore only been used to send encrypted messages between the two
+    blockchain accounts that have negotiated the shared secret.
+
+-   Encryption method 2 uses a pre-shared secret to derive the encryption key.
+    It is outside the scope of this standard to define the key management and
+    distribution of pre-shared keys. However, it is important for security that
+    the pre-shared secret is sufficiently long and random.
+
 Encryption of a Whiteflag message is performed with the following steps:
 
--   generate a new random 128-bit initialisation vector;
+-   derive the encryption key respectively from an ECDH negotiated secret
+    or a pre-shared secret using the HKDF function as described in the
+    the Key and Token Derivation paragraph;
+
+-   generate a unique 128-bit initialisation vector, e.g. with
+    cryptographically secure random number generator;
 
 -   encrypt the compressed binary encoded message starting at bit 32
-    (the 33th bit) up to and including the last bit, using `aes-128-ctr`
-    or `aes-256-ctr` with the appropriate key and the just generated
-    initialisation vector.
+    (the 33th bit) up to and including the last bit, using `aes-256-ctr`
+    with the appropriate key and the just generated initialisation vector.
 
-Encryption steps in pseudocode:
+Below are the encryption steps in pseudocode, in which the key has already
+been derived as described in 5.2.3 Key and Token Derivation:
 
 ```pseudocode
     iv := generateRandomBits(128)
@@ -2024,7 +1981,7 @@ about message embedding for a limited number of blockchains.
 
 ## 5.4 Referencing
 
-### 5.4.1 Reference options
+### 5.4.1 Reference Options
 
 #### 5.4.1.1 Allowed Referencing between Message Types
 
@@ -2032,7 +1989,7 @@ The table below shows which references types (as defined in Reference
 Indicator Field) may be used between the different message types, and
 which reference types are not allowed.
 
-Referencing Message |`P`             |`E`             |`D`             |`S`             |`I`             |`Q`             |`M`             |`F`             |`R`             |`A`             |`K`             |`T`
+Referencing Message  |`P`             |`E`             |`D`             |`S`             |`I`             |`Q`             |`M`             |`F`             |`R`             |`A`             |`K`             |`T`
 -------------------- |--------------- |--------------- |----------------|--------------- |--------------- |--------------- |--------------- |--------------- |--------------- |--------------- |--------------- |---------------
 `P`                  |1/2/3/4/6/7/8/9 | X              | X              | X              |3/5             | X              |3/5             | X              | X              | X              | X              | X
 `E`                  | X              |1/2/3/4/6/7     |3/5             | 5              | X              | X              | 5              | X              | X              | X              | X              | X
@@ -2041,14 +1998,14 @@ Referencing Message |`P`             |`E`             |`D`             |`S`     
 `I`                  | X              | X              | X              | X              |1/2/3/4/6/7     | X              | X              | X              | X              | X              | X              | X
 `Q`                  | X              | 5              | 5              | X              | X              |1/2/3/4/7/8/9   | X              | X              | X              | X              | X              | X
 `M`                  | X              | 5              | 5              | X              | X              | 3              |1/2/3/4/7       | X              | X              | X              | X              | X
-`F`                  |3/5             |3/5             |3/5             |3/5             |3/5             |3/5             |3/5             |1/2/3/4         |3/5             | X              | X              | X
-`R`                  |3/5             |3/5             |3/5             |3/5             |3/5             |3/5             |3/5             |3/5             |1/2/3/4         | X              | X              | X
+`F`                  | 3              | 3              | 3              | 3              | 3              | 3              | 3              |1/2/3/4         | 3              | X              | X              | X
+`R`                  | 3              | 3              | 3              | 3              | 3              | 3              | 3              | 3              |1/2/3/4         | X              | X              | X
 `A`                  | X              | X              | X              | X              | X              | X              | X              | X              | X              |1/2/3/4/6/7     | X              | X
-`K`                  |3               |3               |3               |3               |3               |3               |3               |3               |3               |3               |1/2/3/4         | X
+`K`                  | 3              | 3              | 3              | 3              | 3              | 3              | 3              | 3              | 3              | 3              |1/2/3/4         | X
 `T`                  | T              | T              | T              | T              | T              | T              | T              | T              | T              | T              | T              | T
 
- X: prohibited
- T: a test message may make any reference for testing purposes
+ _X_: prohibited
+ _T_: a test message may make any reference for testing purposes
 
 #### 5.4.1.2 Allowed Referencing between Reference Types
 
@@ -2056,7 +2013,7 @@ The table below shows which reference types (as defined in Reference
 Indicator Field) may be used to refer to an earlier message with a
 certain reference code to create a meaningful message sequence.
 
-Referencing Message Code |`0`    |`1`    |`2`    |`3`    |`4`    |`5`    |`6`    |`7`    |`8`    |`9`
+Referencing Message Code  |`0`    |`1`    |`2`    |`3`    |`4`    |`5`    |`6`    |`7`    |`8`    |`9`
 ------------------------- |------ |------ |------ |------ |------ |------ |------ |------ |------ |------
 `0`                       | X     | X     | X     | X     | X     | X     | X     | X     | X     | X
 `1`                       |Same   |Same   |Same   |Same   |Same   |Same   |Same   |Same   |Same   |Same
@@ -2069,10 +2026,10 @@ Referencing Message Code |`0`    |`1`    |`2`    |`3`    |`4`    |`5`    |`6`   
 `8`                       |Other  | X     |Other  | X     | X     |Other  | X     | X     | X     | X
 `9`                       |Other  | X     |Other  | X     | X     |Other  | X     | X     | X     | X
 
- Same: reference code allowed by the *same* originator of the referenced message
- Other: reference code allowed by an *other* originator than of the referenced message
- Both: reference code is allowed by *both* the same or an other originator than of the referenced message
- X: prohibited
+ _Same_: reference code allowed by the *same* originator of the referenced message
+ _Other_: reference code allowed by an *other* originator than of the referenced message
+ _Both_: reference code is allowed by *both* the same or an other originator than of the referenced message
+ _X_: prohibited
 
 A message with Reference Code `0` (an original message) may not
 reference any message.
@@ -2092,12 +2049,12 @@ for the same originator to provide additional information to original,
 updating and referring messages.
 
 Reference Code `3` may be only used once to refer to the original message
-of the same message type. For example: `R(0) < R(3)` and
-`[R(0)] < K11(3) << [R(3)] < K11(3)` are allowed, but
-`R(0) < R(3) << R(3)` is not. There is one exception: Reference Code `3`
-may be used to reference the same message type of types `P`, `D`, `Q`,
-and `M` more than once, when creating composite areas (see Composite Areas
-and Structures). In that case, the additional information must reference
+of the same message type. For example: `S(0) < R(3) < R(3)` and
+`... < [F(3)] < K11(3) << [F(3)] < K11(3)` are allowed, but
+`... < R(3) < R(3) << R(3)` is not. There is one exception: Reference
+Code `3` may be used to reference the same message type of types `P`, `D`,
+`Q`, and `M` more than once, when creating composite areas (see Composite
+Areas and Structures). In that case, the additional information must reference
 the initially referenced message and may not reference another message with
 additional information, e.g. `D(0) < D(3) << D(3) <<< D(3)`
 
@@ -2112,8 +2069,8 @@ a message with Reference Code `0` or `5`, i.e. to refer to an
 original or another referencing message.
 
 A message with Reference Code `6` (a confirmation message) may only
-reference a message with Reference Code `0`, `2`, `3`, `4`, or
-`5`, i.e. confirming an original, updated, additional information,
+reference a message with Reference Code `0`, `2`, `3`, `4`, or `5`,
+i.e. confirming an original, updated, additional information,
 expiration, or related message.
 
 A message with Reference Code `7` (an acknowledgement message) may
@@ -2174,7 +2131,7 @@ The following example are illustrative for updating signs and signals
 and should be interpreted similarly when updating other signs and
 signals:
 
-|Message Sequence                       |
+|Message Sequence                       |Explanation
 |-------------------------------------- |---------------------------------------------------------
 |`P10(0) < P10(2) << R01(3) <<< P10(4)` |An original `P10(0)` message reports the presence of an ICRC-entity, which is subsequently updated with an `P10(2)` message, e.g. because the location changed. A reference is made to an ICRC-website about the entity to provide additional information using a `R01(3)` message. At a later point in time, the protective sign is withdrawn by using a `P10(4)` message to discontinue the original sign.
 
@@ -2194,7 +2151,7 @@ The following examples are illustrative for relating signs and signals
 and should be interpreted similarly when relating other signs and
 signals:
 
-|Message Sequence                                      |
+|Message Sequence                                      |Explanation
 |----------------------------------------------------- |---------------------------------------------------------
 |`D32(0)X < D43(5)X << E12(5)X << S26(5)Y <<< S25(5)Z` |An original `D32(0)` message reporting a rail accident is initially referenced two times: to indicate the accident coincides with a chemical explosion with a `D43(5)` message and to make an emergency call for fire & rescue assistance with a `E12(5)` message. Additional status messages relating to the accident or explosion may be sent, to report the status and locations of objects that are affected as a result of the accident or explosion.
 |`D15(0)X < E01(5)Y < E01(4)Y <<< S11(5)Y`             |An original message `D15(0)` reporting a complex attack is referenced by somebody sending an `E01(5)` distress signal as a result of the attack. Later, when the person is in safety, the distress signal is discontinued with an `E01(4)` message and an `S11(5)` proof of life is sent.
@@ -2212,7 +2169,7 @@ The following examples are illustrative for confirming signs and signals
 and should be interpreted similarly when confirming other signs and
 signals:
 
-|Message Sequence               |
+|Message Sequence               |Explanation
 |------------------------------ |---------------------------------------------------------
 |`D21(0)X < D21(6)Y << D21(6)Z` |An original message reporting a minefield is confirmed two times by different originators with two `D21(6)` messages referring to the original `D21(0)`.
 |`D21(0)X < D21(6)Y < D21(4)Y`  |An expiration message `D21(4)` referring to a `D21(6)` confirmation message means that the original `D21(0)` message reporting a minefield cannot be confirmed anymore.
@@ -2241,7 +2198,7 @@ Composite areas may only be created using messages with Object Code
 `20`-`29`. Composite structures may only be created using messages
 with Object Code `30`-`39`.
 
-To reference a composite area or structure as a whole (e.g. to dsicontinue
+To reference a composite area or structure as a whole (e.g. to discontinue
 it using Reference Code `4` or to confirm it using Reference Code `6`),
 the referencing message must reference the original message.
 
@@ -2251,6 +2208,43 @@ area/structure separately. A recall message (Reference Code `1`) may
 either reference the original message, or individual messages of the
 sequence.
 
+#### 5.4.2.6 Acknowledging messages
+
+Acknowledgements may be sent to inform others of having 'received' a certain
+message, i.e. to acknowledge that a certain message has been witnessed, e.g.
+to notify the receipt of updated information or a rejection. Acknowledgements
+may refer to an original, updated, related, comply or reject message and can
+be used in message sequences.
+
+|Message Sequence               |Explanation
+|------------------------------ |---------------------------------------------------------
+|`D21(0)X < D21(2)X < D21(7)Y`  |An acknowledging message `D21(7)` referring to a `D21(2)` update message, means that the update to `D21(0)` message has been acknowledged.
+|`Q20(0)X < Q20(9)Y < Q20(7)X`  |An Area Access request signal 'Q20(0)' is rejected by a Q20(9) message, which is then acknowledged by an Q20(7) message
+
+#### 5.4.2.7 Complying to messages
+
+The 'comply' message reference code provides the option to an originator to
+indicate they will act upon or in accordance with an original, updated, or a
+related message from another originator. This referencing option may be useful
+to respond to other originators' message to inform or notify them about an
+action to be undertaken.
+
+|Message Sequence               |Explanation
+|------------------------------ |---------------------------------------------------------
+|`E11(0)X < E11(8)Y`            |An Emergency Signal `E11(0)` indicating that urgent medical assistance is required, is responded to by somebody complying with the ask for assistance.
+|`P02(0)X < P02(8)Y << P02(8)Z` |A request for negotiation `P02(0)` will be complied to by two different originators respectively sending a `P02(8)` message.
+
+#### 5.4.2.8 Rejecting messages
+
+The 'reject' message reference code may be used to indicate that the
+originator rejects, denies or does not agree with the referred original,
+updated, or a related message from another originator.
+
+|Message Sequence               |Explanation
+|------------------------------ |---------------------------------------------------------
+|`Q20(0)X < Q20(9)Y`            |An Area Access request signal 'Q20(0)' is rejected by a Q20(9) message
+|`D21(0)X < D21(9)Y`            |An original message reporting a minefield is rejected by a different originators with a `D21(9)` messages referring to the original `D21(0)`.
+
 ## 5.5 Testing
 
 Test messages must be disregarded for any other purposes than testing.
@@ -2258,15 +2252,197 @@ Test messages should only be used on testing networks of blockchains.
 
 A test message may reference any other message for testing purposes.
 
-# Annex A. Blockchain specific details
+# Annex A. Blockchain layer specific details
 
-|Blockchain   |Message embedding |Maximum message length |Signature algorithm |Transaction hash           |HD parent public key format
-|------------ |----------------- |---------------------- |------------------- |-------------------------- |----------------------------
-|Bitcoin*     |`OP_RETURN`       |80 bytes               |ECDSA secp256k1     |256 bits (64 hexadecimals) |BIP-0032
-|Ethereum     |`data` field      |(dynamic)              |ECDSA secp256k1     |256 bits (64 hexadecimals) |...
-|...          |...               |...                    |...                 |...                        |...
+This Annex is meant to provide additional information and considerations about
+the use of blockchain networks for Whiteflag Protocol end-users and for
+creating implementations.
 
- \* including forked blockchains such as Bitcoin Cash and Litecoin
+## A.1 Implementation Guidelines
+
+### A.1.1 Completeness of the blockchain database
+
+When using the Whiteflag Network as a source for improving situational
+awareness, it is important for end-users to have a complete view on all
+messages that have been sent in a given context. It is advised for end-users
+to assess if all (relevant) blocks have been processed and no message has been
+omitted or skipped, as this might result in inaccurate interpretation of
+information.
+
+### A.1.2 Data encapsulation in transactions
+
+The Whiteflag Network is created as a blockchain overlay network
+by Whiteflag applications embedding Whiteflag messages in blockchain
+transactions. The underlying blockchain network(s) therefore need(s) to allow
+for the encapsulating of data in a transaction.
+
+For security reasons, it is currently advised to implement the Whiteflag
+Protocol only on blockchain networks that use a proof-of-work consensus model.
+
+There exist multiple blockchain networks that provide this functionality.
+See the table below for several examples:
+
+|Blockchain  |Message embedding |Maximum message length |Signature algorithm |Transaction hash           |
+|----------- |----------------- |---------------------- |------------------- |-------------------------- |
+|Bitcoin     |`OP_RETURN`       |80 bytes               |ECDSA secp256k1     |256 bits (64 hexadecimals) |
+|Ethereum    |`data` field      |(dynamic)              |ECDSA secp256k1     |256 bits (64 hexadecimals) |
+
+In the case of Bitcoin, the `OP_RETURN` field of a raw transaction allows
+for the encapsulation of data constrained to a maximum 80 bytes.
+
+In the case of Ethereum, the `data` field of a raw transaction allows for
+the encapsulation of a dynamic amount of data that is relative to the
+`gasLimit` of individual blocks. In practice, this field can generally
+store multiple kilobytes of data.
+
+Message formatting within the Whiteflag Protocol has been structured
+to not require more than 80 bytes for sending signs and signals.
+Reference messages and/or concatenation may be used in cases where providing
+additional data is required.
+
+Please note that the above parameters may change over time as the codebases of
+blockchain networks evolve, in which case implementations of the Whiteflag
+Protocol may need to be updated accordingly.
+
+### A.1.3. Monitoring of Dynamic Blockchain Parameters
+
+Blockchain networks are highly dynamic distributed computing networks that,
+because of their decentralized architecture, rely both on actively
+and continuously maintained consensus by its participating validating nodes,
+as well as on the peer-to-peer infrastructure for transceiving data over the
+network.
+
+It is advisable to monitor several parameters when implementing the Whiteflag
+Protocol to ensure the underlying blockchain network(s) is/are operating
+correctly.
+
+#### A.1.3.1 Relaying and Processing of Messages
+
+The following parameters concern the relaying and processing of Whiteflag
+messages by the underlying blockchain network(s).
+
+##### Peer-to-Peer Connectivity
+
+Monitoring of the amount of peers a message sending Whiteflag account connects
+to, to ensure messages are relayed correctly. Many blockchain networks provide
+a list of nodes that have proven long-term reliability. It is up to the
+Whiteflag participant to decide how many and which peers to connect to.
+
+##### Transaction Costs
+
+Each message will inflict a minimal Transaction Cost to be paid for the
+network to process the transaction. These costs usually consist of a minimum
+transaction amount and a transaction fee. End-users need to ensure the proper
+amount of funds are included for each message that is sent.
+
+##### Block Time
+
+Each blockchain networks' consensus protocol defines an average Block Time
+the network targets for creating new blocks. Monitoring of block creation
+time can assist in determining the expected validation time of a message.
+
+##### Transaction Relay Time
+
+Monitoring of the number of transactions on the blockchain network pending
+verification. In cases of very high transactional load, transactions may
+require longer processing times or increased fees.
+
+##### Number of Block Confirmations
+
+Monitoring the number of blocks that have been added to the shared database
+*after* the block containing a Whiteflag message. It is up to the Whiteflag
+participant to determine how many blocks *deep* a message needs to be for it
+to be considered secured in the blockchain.
+
+##### Blockchain Protocol Changes
+
+Blockchain networks rely on their respective protocols for verifying
+transactions on the network. In case of a change in protocol, features may
+change causing Whiteflag Protocol implementations to require updating.
+
+#### A.1.3.2 Blockchain Security
+
+The following parameters concern the security of the underlying
+blockchain network(s):
+
+##### Network hash-rate
+
+Monitoring of the aggregated computational power of the number of transaction
+validating nodes.
+
+##### Changes in Network Hash-Rate
+
+Monitoring whether there are significant changes in the network's hash-rate
+and if so, take appropriate measures.
+
+##### Hash-Rate Distribution
+
+Monitoring the distribution of the total hash-rate amongst the participating
+validating nodes. In case of a validating node (or a collection of nodes)
+representing 51% of the total network hash-rate, take appropriate measures.
+
+##### Consensus Protocol Changes
+
+Blockchain networks rely on their respective consensus protocols for the proper
+validation of transactions. Major changes to a consensus protocol may have
+significant impact to a blockchain network as a whole.
+
+##### Chain Reorganisation Dynamics
+
+Malicious actors may perform attacks on a blockchain network by causing rapid
+and/or large-scale chain reorganisations. Many blockchain network prescribe a
+chain "re-org limit" and have implemented other measures to mitigate such
+events. It is advised to assess resiliency to such attacks per individual
+blockchain network.
+
+## A.2. General considerations related to blockchain network functionality
+
+### A.2.1 Consensus protocols
+
+Blockchain networks using the proof-of-work consensus model (Nakamoto
+consensus) timestamp transactions by hashing them into an ongoing chain
+of hash-based proof-of-work, forming a record that cannot be changed
+without redoing the proof-of-work. The timestamp proves that the data must
+have existed at the time in order to get into the hash. Each timestamp
+includes the previous timestamp in its hash, forming a chain, with each
+additional timestamp reinforcing the ones before it. The hash chain of blocks
+provides an unchangeable historical record, which is verifiable by anyone.
+
+Blockchain networks using different consensus protocols are currently in
+an experimental phase and have not yet been proven to work securely
+at large scale. At this point, it is therefore not advised to use an other
+type of blockchain network than those using a proof-of-work consensus protocol.
+
+### A.2.2 Market dynamics
+
+Blockchain networks require a native currency (often called crypto-currency)
+to incentivize validating nodes to expend resources on doing the proof-of-work.
+Transactions containing Whiteflag messages are sent by spending only the
+minimum amount of native currency required by the blockchain network's protocol
+to effect a valid transaction, plus an additional fee.
+
+While these amounts may be relatively small, the market dynamics related to
+these native currencies can cause price volatility, bear/bull dynamics or even
+trade-halts, which may cause effect usability.
+
+### A.2.3 Private Blockchain Networks and Permissioned Distributed Ledgers
+
+Please note that the Whiteflag Protocol is specifically designed to be
+implemented on open blockchain networks. Private blockchain networks, or
+permissioned distributed ledgers, do not adhere to the design principles of
+the Whiteflag Network, as these systems require a trusted party
+(i.e. trusted nodes) to establish consensus within the network and do not
+provide open access, and should therefore not be used.
+
+### A.2.4 Anonymous Transactions
+
+Blockchain networks using digital signature schemes that enable fully anonymous
+transactions could theoretically be used to anonymously send messages on the
+Whiteflag Network. Examples of such blockchains employ techniques
+like zero-knowledge-proofs and ring signatures to create conditions of
+untraceability and unlinkability. These type of transactions do not adhere to
+the principles of this standard, as they limit message authentication, and
+should therefore not be used.
 
 # Annex B. JSON Schema of Whiteflag Messages
 
@@ -2274,8 +2450,8 @@ A test message may reference any other message for testing purposes.
 
 # Annex C. Example JSON Authentication Objects
 
-The JSON representation of an `A1` message sent using the example
-static Bitcoin address `1C8KSK68SJjfDSBx9BpSx3qB3bePf23r77` may be as
+The JSON representation of an `A1` message sent using an example static
+Base58 blockchain address `1C8KSK68SJjfDSBx9BpSx3qB3bePf23r77` may be as
 follows:
 
 ```json
@@ -2323,9 +2499,8 @@ LmludC93aGl0ZWZsYWcifQo.XWBRA1TrCxs8tpep1lLPcmpp9JlO_A0TJB5ULOROvadje3SgAsfkFEj
 E2DoHGpWJ_zNGlEPBtdUQo9MEypIp2Q
 ```
 
-However, for practical purposes (such as easy embedding in HTML) the
-object published at the provided URL must be a flattened JWS JSON
-Serialization object:
+However, for practical purposes the object published at the provided URL must
+be a flattened JWS JSON Serialization object:
 
 ```json
 {
@@ -2338,7 +2513,7 @@ Serialization object:
 }
 ```
 
-The equivalent a fully unserialized JSON object representation is
+The equivalent of a fully unserialized JSON object representation is
 provided here as human readable example:
 
 ```json
@@ -2357,8 +2532,7 @@ provided here as human readable example:
 ```
 
 Note that the used algorithm (ES256, i.e. ECDSA using P-256 and SHA-256,
-in line with the underlying blockchain for the example, i.e. Bitcoin) is
-included in the protected header.
+in line with the underlying blockchain) is included in the protected header.
 
 # Annex D. Definitions
 
@@ -2377,10 +2551,10 @@ Disaster           |A sudden, calamitous event that seriously disrupts the funct
 Message            |An atomic piece of Whiteflag data as defined in this standard and incorporated in a single _transaction_ on a _blockchain_.
 Network            |The usage of the Whiteflag protocol on a specific _blockchain_, or all Whiteflag _participants_ on a specific _blockchain_.
 Non-repudiation    |The undeniable proof that a _message_ has been sent by an _address_.
-Open standard      |A standard that is public and without any restriction in their access or implementation.
+Open Standard      |A standard that is public and without any restriction in their access or implementation.
 Originator         |A _participant_ that is the sender of a _message_.
 Participant        |A person or an organisation using the Whiteflag protocol; a participant may have multiple _blockchain_ _accounts_.
-Protective sign    |A symbol used to mark persons and objects under the protection of treaties international law and regulations.
+Protective Sign    |A symbol used to mark persons and objects under the protection of treaties international law and regulations.
 Security           |The measures to protect and preserve the _integrity_ and _availability_ of the messages, and, if required by the _originator_, the _confidentiality_.
 Transaction        |A record on a _blockchain_ (containing a single Whiteflag _message_).
 
@@ -2497,12 +2671,12 @@ validated UN blockchain account.
 
 A link to an UNMAS website with additional information (mine types,
 quantity, level of danger, stay clear area, current de-mining status)
-is provided using an `R` message, which can be resent when the is
-updated.
+is provided using an `R` message, which can be resent when the web
+page is updated.
 
 This scenario resulted in the following message sequence:
 
-`D21(0)A < D21(6)U <<< R(5)U ... < R(2)U`
+`D21(0)A < D21(6)U < R(3)U ... < R(2)U`
 
 It would be very easy for anyone to develop a web application to
 actively monitor all these sorts of messages and project this
@@ -2532,7 +2706,7 @@ fire using a `Q` message with additional information included in an
 `F` message; parties B and C agree with the request by responding
 with reference code `8`:
 
-`Q(0)A < F(5)A << Q(8)B <<< Q(8)C`
+`Q(0)A < F(3)A << Q(8)B <<< Q(8)C`
 
 Note that Whiteflag is limited to fixed messages and in itself not
 suitable to conduct detailed negotiations. However, even though other
