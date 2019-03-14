@@ -3,6 +3,8 @@
 ## Protocol Specification
 The [whiteflag-standard repository](https://github.com/WhiteflagProtocol/whiteflag-standard) contains the officially released versions of the Whiteflag Protocol specification as an open standard, including a number of supporting artefacts.
 
+The purpose of the Whiteflag Protocol is to provide an open, real-time, trusted communication channel between any or all parties in an armed conflict, without the requirement for a trusted third party or any specific software or system. It is the intention to provide a means of communication to be used in armed conflicts that is fast, reliable and accessible by everyone, in addition to internal communications within organisations and in addition to any currently existing but limited communication methods such as flags, signs, registers etc.
+
 The purpose of this project repository is to describe, define and publish the communications protocol and associated message format for policy makers, developers and other specialists to be able to adopt and implement the Whiteflag Protocol.
 
 More technical background information can be found in the [Whiteflag specification wiki](https://github.com/WhiteflagProtocol/whiteflag-standard/wiki).
