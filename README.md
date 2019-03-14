@@ -9,6 +9,9 @@ The purpose of this project repository is to describe, define and publish the co
 
 More technical background information can be found in the [Whiteflag specification wiki](https://github.com/WhiteflagProtocol/whiteflag-standard/wiki).
 
+## Protocol Version
+The current baselined version of the protocol is: **Version 1 Draft 6** or in short: `v1-draft.6`.
+
 ## Repository Structure
 The main source document of the Whiteflag Protocol specification is `WhiteflagSpecification.md`.
 
@@ -18,5 +21,5 @@ For convenience, the standard is also available in an `html` and in a `pdf` form
 
 Along with the standard, a JSON schema of the Whiteflag message structure, message syntax and message codes is available as `WhiteflagMessageSchema.json`. This artefact describes parts of the specification in a structured language ([JSON](https://tools.ietf.org/html/rfc7159)). This allows for fast and interoperable implementation of the standard.
 
-## Configuration Control
+## Configuration Management
 A foundation will be established for the maintenance, promotion and support of the Whiteflag Protocol. While the foundation is founded and a configuration process for this specification as an open standard is put in place, issues may be raised and discussed in this project repository, and will be openly considered by the original authors.
