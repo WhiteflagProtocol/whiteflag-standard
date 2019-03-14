@@ -14,9 +14,9 @@ The main source document of the Whiteflag Protocol specification is `WhiteflagSp
 
 Markdown is a plain text formatting syntax; see [RFC 7763](https://tools.ietf.org/html/rfc7763) or [Wikipedia](https://en.wikipedia.org/wiki/Markdown) for more information on this media type. Using Markdown allows the standard to be easily maintained and to be published in other formats, such as html or pdf.
 
-Along with the standard, a number of artefacts with parts of the specification described in a structured language ([JSON](https://tools.ietf.org/html/rfc7159)) will be published. This allows for fast and interoperable implementation. The following artefacts are currenlty available:
+For convenience, the standard is also available in an `html` and in a `pdf` format. These documents were generated from the markdown source document with [pandoc](https://pandoc.org/).
 
-* `WhiteflagMessageSchema.json`: JSON schema of the Whiteflag message structure, message syntax and message codes
+Along with the standard, a JSON schema of the Whiteflag message structure, message syntax and message codes is available as `WhiteflagMessageSchema.json`. This artefact describes parts of the specification in a structured language ([JSON](https://tools.ietf.org/html/rfc7159)). This allows for fast and interoperable implementation of the standard.
 
 ## Configuration Control
 It is foreseen that this standard requires updates in the near future as a result of validation and to ensure compatibility with emerging blockchain practices, paradigms and standards. However, an appropriate configuration process for this this specification as an open standard is still under consideration. For the time being, issues may be raised and discussed in this project repository, and will be openly considered by the original authors.
