@@ -77,7 +77,7 @@
                 { "$ref": "#/definitions/cryptoMessageBody" },
                 { "$ref": "#/definitions/testMessageBody" },
                 { "$ref": "#/definitions/genericSignSignalMessageBody" },
-                { "$ref": "#/definitions/referenceMessageBody" },
+                { "$ref": "#/definitions/resourceMessageBody" },
                 { "$ref": "#/definitions/freeTextMessageBody" }
             ]
         }
@@ -91,8 +91,8 @@
                      { "required": [ "MessageBody" ], "properties": { "MessageBody": { "$ref": "#/definitions/testMessageBody" } } } ] },
         { "allOf": [ { "$ref": "#/definitions/allSignSignalMessageTypes" },
                      { "required": [ "MessageBody" ], "properties": { "MessageBody": { "$ref": "#/definitions/genericSignSignalMessageBody" } } } ] },
-        { "allOf": [ { "$ref": "#/definitions/referenceMessageType" },
-                     { "required": [ "MessageBody" ], "properties": { "MessageBody": { "$ref": "#/definitions/referenceMessageBody" } } } ] },
+        { "allOf": [ { "$ref": "#/definitions/resourceMessageType" },
+                     { "required": [ "MessageBody" ], "properties": { "MessageBody": { "$ref": "#/definitions/resourceMessageBody" } } } ] },
         { "allOf": [ { "$ref": "#/definitions/freeTextMessageType" },
                      { "required": [ "MessageBody" ], "properties": { "MessageBody": { "$ref": "#/definitions/freeTextMessageBody" } } } ] }
     ],
@@ -290,8 +290,8 @@
                 }
             }
         },
-        "referenceMessageType": {
-            "title": "Reference Message",
+        "resourceMessageType": {
+            "title": "Resource Message",
             "required": [ "MessageHeader" ],
             "properties": {
                 "MessageHeader": {
@@ -302,18 +302,18 @@
                 }
             }
         },
-        "referenceMessageBody": {
-            "title": "Reference Body",
-            "required": [ "ReferenceMethod", "ReferenceData" ],
+        "resourceMessageBody": {
+            "title": "Resource Body",
+            "required": [ "ResourceMethod", "ResourceData" ],
             "additionalProperties": false,
             "properties": {
-                "ReferenceMethod": {
+                "ResourceMethod": {
                     "description": "Indicates the mechanism for reference",
                     "type": "string",
                     "pattern": "^[a-fA-F0-9]{1}$",
                     "enum": [ "1" ]
                 },
-                "ReferenceData": {
+                "ResourceData": {
                     "description": "Provides the data required to find the reference",
                     "type": "string"
                 }
