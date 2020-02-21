@@ -84,17 +84,17 @@
     },
     "oneOf": [
         { "allOf": [ { "$ref": "#/definitions/authenticationMessageType" },
-                     { "required": [ "MessageBody" ], "properties": { "MessageBody": { "$ref": "#/definitions/authenticationMessageBody" } } } ] },
+                     { "properties": { "MessageBody": { "$ref": "#/definitions/authenticationMessageBody" } } } ] },
         { "allOf": [ { "$ref": "#/definitions/cryptoMessageType" },
-                     { "required": [ "MessageBody" ], "properties": { "MessageBody": { "$ref": "#/definitions/cryptoMessageBody" } } } ] },
+                     { "properties": { "MessageBody": { "$ref": "#/definitions/cryptoMessageBody" } } } ] },
         { "allOf": [ { "$ref": "#/definitions/testMessageType" },
-                     { "required": [ "MessageBody" ], "properties": { "MessageBody": { "$ref": "#/definitions/testMessageBody" } } } ] },
+                     { "properties": { "MessageBody": { "$ref": "#/definitions/testMessageBody" } } } ] },
         { "allOf": [ { "$ref": "#/definitions/allSignSignalMessageTypes" },
-                     { "required": [ "MessageBody" ], "properties": { "MessageBody": { "$ref": "#/definitions/genericSignSignalMessageBody" } } } ] },
+                     { "properties": { "MessageBody": { "$ref": "#/definitions/genericSignSignalMessageBody" } } } ] },
         { "allOf": [ { "$ref": "#/definitions/resourceMessageType" },
-                     { "required": [ "MessageBody" ], "properties": { "MessageBody": { "$ref": "#/definitions/resourceMessageBody" } } } ] },
+                     { "properties": { "MessageBody": { "$ref": "#/definitions/resourceMessageBody" } } } ] },
         { "allOf": [ { "$ref": "#/definitions/freeTextMessageType" },
-                     { "required": [ "MessageBody" ], "properties": { "MessageBody": { "$ref": "#/definitions/freeTextMessageBody" } } } ] }
+                     { "properties": { "MessageBody": { "$ref": "#/definitions/freeTextMessageBody" } } } ] }
     ],
     "definitions": {
         "authenticationMessageType": {
@@ -174,13 +174,26 @@
                 "PseudoMessageCode": {
                     "description": "Indicates which message type is tested",
                     "type": "string",
-                    "pattern": "^[a-fA-F0-9]{2}$",
-                    "default": "00"
+                    "pattern": "^[A-Z]{1}$",
+                    "enum": [ "A", "K", "T", "P", "E", "S", "D", "I", "M", "Q", "R", "F" ]
                 },
                 "PseudoMessageBody": {
-                    "description": "The body of the tested message"
+                    "description": "The body of the tested message",
+                    "type": "object"
                 }
-            }
+            },
+            "oneOf": [
+                { "allOf": [ { "properties": { "PseudoMessageCode": { "enum": [ "A" ] } } },
+                             { "properties": { "PseudoMessageBody": { "$ref": "#/definitions/authenticationMessageBody" } } } ] },
+                { "allOf": [ { "properties": { "PseudoMessageCode": { "enum": [ "K" ] } } },
+                             { "properties": { "PseudoMessageBody": { "$ref": "#/definitions/cryptoMessageBody" } } } ] },
+                { "allOf": [ { "properties": { "PseudoMessageCode": { "enum": [ "P", "E", "D", "S", "I", "Q", "M" ] } } },
+                             { "properties": { "PseudoMessageBody": { "$ref": "#/definitions/genericSignSignalMessageBody" } } } ] },
+                { "allOf": [ { "properties": { "PseudoMessageCode": { "enum": [ "R" ] } } },
+                             { "properties": { "PseudoMessageBody": { "$ref": "#/definitions/resourceMessageBody" } } } ] },
+                { "allOf": [ { "properties": { "PseudoMessageCode": { "enum": [ "F" ] } } },
+                             { "properties": { "PseudoMessageBody": { "$ref": "#/definitions/freeTextMessageBody" } } } ] }
+            ]
         },
         "allSignSignalMessageTypes": {
             "title": "Sign / Signal Message",
