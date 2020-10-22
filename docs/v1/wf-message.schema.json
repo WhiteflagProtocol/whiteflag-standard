@@ -1,0 +1,1881 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://whiteflagprotocol.net/v1/wf-message.schema.json",
+    "$comment": "Schema corresponding with Version 1 of the Whiteflag Protocol Specification DRAFT 6 as updated on 28 FEB 2019",
+    "title": "Whiteflag Message",
+    "description": "Whiteflag message to communicate pre-defined signs and signals in conflicts and disasters using blockchain technology.",
+    "type": "object",
+    "required": [ "MessageHeader", "MessageBody" ],
+    "additionalProperties": true,
+    "properties": {
+        "MetaHeader": {
+            "$comment": "The contents of the meta header is not part of the Whiteflag message itself and is not standardised.",
+            "description": "Optional container for implementation specific metadata about the message or the underlying blockchain.",
+            "type": "object",
+            "additionalProperties": true
+        },
+        "MessageHeader": {
+            "description": "Container for the message header fields, which are identical for all message types",
+            "type": "object",
+            "required": [ "Prefix", "Version", "EncryptionIndicator", "DuressIndicator", "MessageCode", "ReferenceIndicator", "ReferencedMessage" ],
+            "additionalProperties": false,
+            "properties": {
+                "Prefix": {
+                    "description": "Identifies the message as a Whiteflag message",
+                    "type": "string",
+                    "pattern": "^WF$",
+                    "const": "WF",
+                    "default": "WF"
+                },
+                "Version": {
+                    "description": "Indicates which version of the standard is used to generate the message",
+                    "type": "string",
+                    "pattern": "^[A-Z0-9]{1}$",
+                    "const": "1",
+                    "default": "1"
+                },
+                "EncryptionIndicator": {
+                    "description": "Indicates if and which encryption is used",
+                    "type": "string",
+                    "pattern": "^[A-Z0-9]{1}$",
+                    "default": "0"
+                },
+                "DuressIndicator": {
+                    "description": "Indicates whether the message was sent under force or threat",
+                    "type": "string",
+                    "pattern": "^[0-1]{1}$",
+                    "enum": [ "0", "1" ],
+                    "default": "0"
+                },
+                "MessageCode": {
+                    "description": "Indicates the type of message",
+                    "type": "string",
+                    "pattern": "^[A-Z]{1}$",
+                    "enum": [ "A", "K", "T", "P", "E", "S", "D", "I", "M", "Q", "R", "F" ],
+                    "specification": { "$ref": "#/specifications/MessageCode" }
+                },
+                "ReferenceIndicator": {
+                    "description": "Indicates how this message relates to an earlier message",
+                    "type": "string",
+                    "pattern": "^[a-fA-F0-9]{1}$",
+                    "enum": [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ],
+                    "specification": { "$ref": "#/specifications/ReferenceIndicator" }
+                },
+                "ReferencedMessage": {
+                    "description": "Blockchain dependend reference to a related earlier message",
+                    "type": "string",
+                    "pattern": "^[a-fA-F0-9]{64}$"
+                }
+            }
+        },
+        "MessageBody": {
+            "$comment": "The MessageBody schema depends on the message type and is therefore specified for each MessageCode below",
+            "description": "Container for the message body, which depends on the message type",
+            "type": "object",
+            "oneOf": [
+                { "$ref": "#/definitions/authenticationMessageBody" },
+                { "$ref": "#/definitions/cryptoMessageBody" },
+                { "$ref": "#/definitions/testMessageBody" },
+                { "$ref": "#/definitions/genericSignSignalMessageBody" },
+                { "$ref": "#/definitions/resourceMessageBody" },
+                { "$ref": "#/definitions/freeTextMessageBody" }
+            ]
+        }
+    },
+    "oneOf": [
+        { "allOf": [ { "$ref": "#/definitions/authenticationMessageType" },
+                     { "properties": { "MessageBody": { "$ref": "#/definitions/authenticationMessageBody" } } } ] },
+        { "allOf": [ { "$ref": "#/definitions/cryptoMessageType" },
+                     { "properties": { "MessageBody": { "$ref": "#/definitions/cryptoMessageBody" } } } ] },
+        { "allOf": [ { "$ref": "#/definitions/testMessageType" },
+                     { "properties": { "MessageBody": { "$ref": "#/definitions/testMessageBody" } } } ] },
+        { "allOf": [ { "$ref": "#/definitions/allSignSignalMessageTypes" },
+                     { "properties": { "MessageBody": { "$ref": "#/definitions/genericSignSignalMessageBody" } } } ] },
+        { "allOf": [ { "$ref": "#/definitions/resourceMessageType" },
+                     { "properties": { "MessageBody": { "$ref": "#/definitions/resourceMessageBody" } } } ] },
+        { "allOf": [ { "$ref": "#/definitions/freeTextMessageType" },
+                     { "properties": { "MessageBody": { "$ref": "#/definitions/freeTextMessageBody" } } } ] }
+    ],
+    "definitions": {
+        "authenticationMessageType": {
+            "title": "Authentication Message",
+            "required": [ "MessageHeader" ],
+            "properties": {
+                "MessageHeader": {
+                    "required": [ "MessageCode" ],
+                    "properties": {
+                        "MessageCode": { "enum": [ "A" ] }
+                    }
+                }
+            }
+        },
+        "authenticationMessageBody": {
+            "title": "Authentication Message Body",
+            "required": [ "VerificationMethod", "VerificationData" ],
+            "additionalProperties": false,
+            "properties": {
+                "VerificationMethod": {
+                    "description": "Indicates the mechanism for authentication of the blockchain account",
+                    "type": "string",
+                    "pattern": "^[a-fA-F0-9]{1}$",
+                    "enum": [ "1", "2" ]
+                },
+                "VerificationData": {
+                    "description": "Provides the data required to perform the authentication",
+                    "type": "string"
+                }
+            }
+        },
+        "cryptoMessageType": {
+            "title": "Cryptographic Support Message",
+            "required": [ "MessageHeader" ],
+            "properties": {
+                "MessageHeader": {
+                    "required": [ "MessageCode" ],
+                    "properties": {
+                        "MessageCode": { "enum": [ "K" ] }
+                    }
+                }
+            }
+        },
+        "cryptoMessageBody": {
+            "title": "Cryptographic Support Message Body",
+            "required": [ "CryptoDataType", "CryptoData" ],
+            "additionalProperties": false,
+            "properties": {
+                "CryptoDataType": {
+                    "description": "Indicates the type of cryptographic data in this message",
+                    "type": "string",
+                    "pattern": "^[a-fA-F0-9]{2}$"
+                },
+                "CryptoData": {
+                    "description": "Contains the cryptographic data",
+                    "type": "string"
+                }
+            }
+        },
+        "testMessageType": {
+            "title": "Test Message",
+            "required": [ "MessageHeader" ],
+            "properties": {
+                "MessageHeader": {
+                    "required": [ "MessageCode" ],
+                    "properties": {
+                        "MessageCode": { "enum": [ "T" ] }
+                    }
+                }
+            }
+        },
+        "testMessageBody": {
+            "title": "Test Message Body",
+            "required": [ "PseudoMessageCode", "PseudoMessageBody" ],
+            "additionalProperties": false,
+            "properties": {
+                "PseudoMessageCode": {
+                    "description": "Indicates which message type is tested",
+                    "type": "string",
+                    "pattern": "^[A-Z]{1}$",
+                    "enum": [ "A", "K", "T", "P", "E", "S", "D", "I", "M", "Q", "R", "F" ]
+                },
+                "PseudoMessageBody": {
+                    "description": "The body of the tested message",
+                    "type": "object"
+                }
+            },
+            "oneOf": [
+                { "allOf": [ { "properties": { "PseudoMessageCode": { "enum": [ "A" ] } } },
+                             { "properties": { "PseudoMessageBody": { "$ref": "#/definitions/authenticationMessageBody" } } } ] },
+                { "allOf": [ { "properties": { "PseudoMessageCode": { "enum": [ "K" ] } } },
+                             { "properties": { "PseudoMessageBody": { "$ref": "#/definitions/cryptoMessageBody" } } } ] },
+                { "allOf": [ { "properties": { "PseudoMessageCode": { "enum": [ "P", "E", "D", "S", "I", "Q", "M" ] } } },
+                             { "properties": { "PseudoMessageBody": { "$ref": "#/definitions/genericSignSignalMessageBody" } } } ] },
+                { "allOf": [ { "properties": { "PseudoMessageCode": { "enum": [ "R" ] } } },
+                             { "properties": { "PseudoMessageBody": { "$ref": "#/definitions/resourceMessageBody" } } } ] },
+                { "allOf": [ { "properties": { "PseudoMessageCode": { "enum": [ "F" ] } } },
+                             { "properties": { "PseudoMessageBody": { "$ref": "#/definitions/freeTextMessageBody" } } } ] }
+            ]
+        },
+        "allSignSignalMessageTypes": {
+            "title": "Sign / Signal Message",
+            "required": [ "MessageHeader" ],
+            "properties": {
+                "MessageHeader": {
+                    "required": [ "MessageCode" ],
+                    "properties": {
+                        "MessageCode": { "enum": [ "P", "E", "D", "S", "I", "Q", "M" ] }
+                    }
+                }
+            }
+        },
+        "requestMessageType": {
+            "title": "Request Message",
+            "required": [ "MessageHeader" ],
+            "properties": {
+                "MessageHeader": {
+                    "required": [ "MessageCode" ],
+                    "properties": {
+                        "MessageCode": { "enum": [ "Q" ] }
+                    }
+                }
+            }
+        },
+        "genericSignSignalMessageBody": {
+            "title": "Sign / Signal Message Body",
+            "required": [ "SubjectCode", "DateTime", "Duration", "ObjectType", "ObjectLatitude", "ObjectLongitude", "ObjectSizeDim1", "ObjectSizeDim2", "ObjectOrientation" ],
+            "additionalProperties": false,
+            "properties": {
+                "SubjectCode": {
+                    "description": "Indicates the sign/signal type",
+                    "type": "string",
+                    "pattern": "^[a-fA-F0-9]{2}$",
+                    "default": "00"
+                },
+                "DateTime": {
+                    "description": "Indicates from when the sign/signal is valid, using an UTC timestamp in the ISO 8601 / RFC 3339 date-time format",
+                    "type": "string",
+                    "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z$",
+                    "format": "date-time"
+                },
+                "Duration": {
+                    "description": "Indicates how long the sign/signal will be valid, using the ISO 8601 period format, with only days, hours and minutes",
+                    "type": "string",
+                    "pattern": "^P[0-9]{2}D[0-9]{2}H[0-9]{2}M$",
+                    "default": "P00D00H00M"
+                },
+                "ObjectType": {
+                    "description": "Specifies the type of object the sign/signal refers to",
+                    "type": "string",
+                    "pattern": "^[a-fA-F0-9]{2}$",
+                    "default": "00",
+                    "specification": { "$ref": "#/specifications/ObjectType" }
+                },
+                "ObjectLatitude": {
+                    "description": "Specifies the location of the object in decimal degrees latitude i.a.w. ISO 6709",
+                    "type": "string",
+                    "pattern": "^[+-][0-9]{2}\\.[0-9]{5}$",
+                    "default": "+99.99999"
+                },
+                "ObjectLongitude": {
+                    "description": "Specifies the location of the object in decimal degrees longitude i.a.w. ISO 6709",
+                    "type": "string",
+                    "pattern": "^[+-][0-9]{3}\\.[0-9]{5}$",
+                    "default": "+999.99999"
+                },
+                "ObjectSizeDim1": {
+                    "description": "Specifies the size of the first dimension of the object in meters",
+                    "type": "string",
+                    "pattern": "^[0-9]{4}$",
+                    "default": "0000"
+                },
+                "ObjectSizeDim2": {
+                    "description": "Specifies the size of the second dimension of the object in meters",
+                    "type": "string",
+                    "pattern": "^[0-9]{4}$",
+                    "default": "0000"
+                },
+                "ObjectOrientation": {
+                    "description": "Specifies the orientation of the object in degrees",
+                    "type": "string",
+                    "pattern": "^[0-9]{3}$",
+                    "default": "000"
+                },
+                "requestObjects": {
+                    "description": "Array holding the fields specifying the objects for which the request is made",
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [ "ObjectType", "ObjectTypeQuant" ],
+                        "properties": {
+                            "ObjectType": {
+                                "description": "Specifies the type of object for which the request is made",
+                                "type": "string",
+                                "pattern": "^[a-fA-F0-9]{2}$",
+                                "default": "00"
+                            },
+                            "ObjectTypeQuant": {
+                                "description": "Specifies the number of objects for which the request is made",
+                                "type": "string",
+                                "pattern": "^[0-9]{2}$",
+                                "default": "00"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "resourceMessageType": {
+            "title": "Resource Message",
+            "required": [ "MessageHeader" ],
+            "properties": {
+                "MessageHeader": {
+                    "required": [ "MessageCode" ],
+                    "properties": {
+                        "MessageCode": { "enum": [ "R" ] }
+                    }
+                }
+            }
+        },
+        "resourceMessageBody": {
+            "title": "Resource Body",
+            "required": [ "ResourceMethod", "ResourceData" ],
+            "additionalProperties": false,
+            "properties": {
+                "ResourceMethod": {
+                    "description": "Indicates the mechanism for reference",
+                    "type": "string",
+                    "pattern": "^[a-fA-F0-9]{1}$",
+                    "enum": [ "1" ]
+                },
+                "ResourceData": {
+                    "description": "Provides the data required to find the reference",
+                    "type": "string"
+                }
+            }
+        },
+        "freeTextMessageType": {
+            "title": "Free Text Message",
+            "required": [ "MessageHeader" ],
+            "properties": {
+                "MessageHeader": {
+                    "required": [ "MessageCode" ],
+                    "properties": {
+                        "MessageCode": { "enum": [ "F" ] }
+                    }
+                }
+            }
+        },
+        "freeTextMessageBody": {
+            "title": "Free Text Message Body",
+            "required": [ "Text" ],
+            "additionalProperties": false,
+            "properties": {
+                "Text": {
+                    "description": "Free text field",
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "specifications": {
+        "$comment": "The specifications object contains Whiteflag protocol specifications that are not part of the JSON message schema, and are therefore not automatically validated",
+        "MessageCode": [
+            {
+                "const": "A",
+                "title": "Authentication",
+                "description": "Message introducing the sender on the network with the sender's authentication data.",
+                "VerificationMethod": [
+                    {
+                        "const": "1",
+                        "title": "InternetResource",
+                        "description": "Authentication through an internet resource"
+                    },
+                    {
+                        "const": "2",
+                        "title": "SharedToken",
+                        "description": "Authentication by a secret pre-shared token"
+                    }
+                ],
+                "allowedToReference": [
+                    {
+                        "referencedMessageCode": "A",
+                        "allowedReferenceIndicator": [ "1", "2", "3", "4", "6", "7" ]
+                    }
+                ]
+            },
+            {
+                "const": "K",
+                "title": "Crypto",
+                "description": "Message for management of keys and parameters of cryptographic functions.",
+                "CryptoDataType": [
+                    {
+                        "const": "01",
+                        "title": "HDExtPubKey",
+                        "description": "Serialised hierarchical deterministic extended public key"
+                    },
+                    {
+                        "const": "0A",
+                        "title": "ECDHPubKey",
+                        "description": "Elliptic Curve Diffie–Hellman public key exchange"
+                    },
+                    {
+                        "const": "11",
+                        "title": "InitVector",
+                        "description": "Initialisation Vector for encryption method 1"
+                    },
+                    {
+                        "const": "21",
+                        "title": "InitVector",
+                        "description": "Initialisation Vector for encryption method 2"
+                    }
+                ],
+                "allowedToReference": [
+                    {
+                        "referencedMessageCode": "P",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "E",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "D",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "S",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "I",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "Q",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "M",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "F",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "R",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "A",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "K",
+                        "allowedReferenceIndicator": [ "1", "2", "3", "4" ]
+                    }
+                ]
+            },
+            {
+                "const": "T",
+                "title": "Test",
+                "description": "Message that can be used for testing Whiteflag functionality by applications."
+            },
+            {
+                "const": "P",
+                "title": "ProtectiveSign",
+                "description": "Sign to mark objects under the protection of international law.",
+                "SubjectCode": [
+                    {
+                        "const": "00",
+                        "description": "Unspecified Protective Sign",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "01",
+                        "description": "White flag - Unspecified intent",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "02",
+                        "description": "White flag - Request for negotiation",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "03",
+                        "description": "White flag - Surrender",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "10",
+                        "description": "Unspecified Red Cross/Crescent/Crystal",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "11",
+                        "description": "Red Cross",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "12",
+                        "description": "Red Crescent",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "13",
+                        "description": "Red Crystal",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "20",
+                        "description": "United Nations",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "30",
+                        "description": "Unspecified Protected Zone",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "31",
+                        "description": "Hospital and Safety Zone",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "32",
+                        "description": "Prisoner of War Camp",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "33",
+                        "description": "Internment Camp",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "40",
+                        "description": "Civil Defence",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "50",
+                        "description": "Unspecified Cultural Property",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "51",
+                        "description": "Monuments and Cultural Institutions - Roerich Pact",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "52",
+                        "description": "Cultural Property",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "53",
+                        "description": "Cultural Property under Special Protection",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "60",
+                        "description": "Works and Installations containing Dangerous Forces",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "8*" ]
+                    }
+                ],
+                "allowedToReference": [
+                    {
+                        "referencedMessageCode": "P",
+                        "allowedReferenceIndicator": [ "1", "2", "3", "4", "6", "7", "8", "9" ]
+                    },
+                    {
+                        "referencedMessageCode": "I",
+                        "allowedReferenceIndicator": [ "3", "5" ]
+                    },
+                    {
+                        "referencedMessageCode": "M",
+                        "allowedReferenceIndicator": [ "3", "5" ]
+                    }
+                ]
+            },
+            {
+                "const": "E",
+                "title": "EmergencySignal",
+                "description": "Signal to send an emergency signal when in need of assistance.",
+                "SubjectCode": [
+                    {
+                        "const": "00",
+                        "description": "Unspecified Emergency",
+                        "allowedObjectTypes": [ "0*", "1*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "01",
+                        "description": "General Distress signal",
+                        "allowedObjectTypes": [ "0*", "1*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "02",
+                        "description": "General Urgency signal",
+                        "allowedObjectTypes": [ "0*", "1*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "10",
+                        "description": "Urgent Unspecified Assistance Required",
+                        "allowedObjectTypes": [ "0*", "1*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "11",
+                        "description": "Urgent Medical Assistance Required",
+                        "allowedObjectTypes": [ "0*", "1*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "12",
+                        "description": "Urgent Fire & Rescue Assistance Required",
+                        "allowedObjectTypes": [ "0*", "1*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "13",
+                        "description": "Urgent Law Enforcement Assistance Required",
+                        "allowedObjectTypes": [ "0*", "1*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "14",
+                        "description": "Urgent Disaster Response Required",
+                        "allowedObjectTypes": [ "0*", "1*", "3*", "4*", "5*", "6*", "7*" ]
+                    }
+                ],
+                "allowedToReference": [
+                    {
+                        "referencedMessageCode": "E",
+                        "allowedReferenceIndicator": [ "1", "2", "3", "4", "6", "7" ]
+                    },
+                    {
+                        "referencedMessageCode": "D",
+                        "allowedReferenceIndicator": [ "3", "5" ]
+                    },
+                    {
+                        "referencedMessageCode": "S",
+                        "allowedReferenceIndicator": [ "5" ]
+                    },
+                    {
+                        "referencedMessageCode": "M",
+                        "allowedReferenceIndicator": [ "5" ]
+                    }
+                ]
+            },
+            {
+                "const": "D",
+                "title": "DangerSign",
+                "description": "Sign to mark a location or area of imminent danger.",
+                "SubjectCode": [
+                    {
+                        "const": "00",
+                        "description": "Unspecified Danger Area",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "10",
+                        "description": "War/Conflict/Terrorism - Unspecified Attack",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "11",
+                        "description": "War/Conflict/Terrorism - Direct Ground Attack",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "12",
+                        "description": "War/Conflict/Terrorism - Mortar/Artillery Attack",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "13",
+                        "description": "War/Conflict/Terrorism - Ground Bomb Attack",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "14",
+                        "description": "War/Conflict/Terrorism - Air Attack",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "15",
+                        "description": "War/Conflict/Terrorism - Complex Attack",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "1A",
+                        "description": "War/Conflict/Terrorism - Chemical Attack",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "1B",
+                        "description": "War/Conflict/Terrorism - Biological Attack",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "1C",
+                        "description": "War/Conflict/Terrorism - Nuclear Attack",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "20",
+                        "description": "Unspecified Hazardous Conflict Area",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "21",
+                        "description": "Hazardous Conflict Area - Mine Field",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "22",
+                        "description": "Hazardous Conflict Area - UXOs",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "23",
+                        "description": "Hazardous Conflict Area - Chemical Contamination",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "24",
+                        "description": "Hazardous Conflict Area - Biological Contamination",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "25",
+                        "description": "Hazardous Conflict Area - Radiological Contamination",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "26",
+                        "description": "Hazardous Conflict Area - Nuclear Contamination",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "27",
+                        "description": "Hazardous Conflict Area - Surface-to-Air Threat",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "30",
+                        "description": "Unspecified Transport Accident",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "31",
+                        "description": "Transport Accident - Air",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "32",
+                        "description": "Transport Accident - Rail",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "33",
+                        "description": "Transport Accident - Road",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "34",
+                        "description": "Transport Accident - Boat",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "40",
+                        "description": "Unspecified Industrial Accident",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "41",
+                        "description": "Industrial Accident - Accident release (other than attack)",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "42",
+                        "description": "Industrial Accident - Explosion (other than attack)",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "43",
+                        "description": "Industrial Accident - Chemical explosion (other than attack)",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "44",
+                        "description": "Industrial Accident - Nuclear explosion/Radiation (other than attack)",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "45",
+                        "description": "Industrial Accident - Mine explosion",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "46",
+                        "description": "Industrial Accident - Pollution",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "47",
+                        "description": "Industrial Accident - Acid rain",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "48",
+                        "description": "Industrial Accident - Atmosphere pollution",
+                        "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
+                        "const": "50",
+                        "description": "Complex/Manmade Hazard - Complex Emergency",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "51",
+                        "description": "Complex/Manmade Hazard - Uncontrolled Banditry",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "52",
+                        "description": "Complex/Manmade Hazard - Uncontrolled Uprising",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "53",
+                        "description": "Complex/Manmade Hazard - Displaced Population",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "54",
+                        "description": "Complex/Manmade Hazard - Famine and Food Insecurity",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "A0",
+                        "description": "Unspecified Geophysical Disaster Area",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "A1",
+                        "description": "Geophysical Disaster Area - Earthquake",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "A2",
+                        "description": "Geophysical Disaster Area - Earthquake w/ Tsunami",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "A3",
+                        "description": "Geophysical Disaster Area - Volcano",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "A4",
+                        "description": "Geophysical Disaster Area - Dry Mass Movement - Rockfall",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "A5",
+                        "description": "Geophysical Disaster Area - Dry Mass Movement - Landslide",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "A6",
+                        "description": "Geophysical Disaster Area - Dry Mass Movement - Avalanche",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "A7",
+                        "description": "Geophysical Disaster Area - Dry Mass Movement - Subsidence",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "B0",
+                        "description": "Unspecified Meteorological Disaster Area",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "B1",
+                        "description": "Meteorological Disaster Area - Unspecified Storm",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "B2",
+                        "description": "Meteorological Disaster Area - Storm - Tropical Cyclone",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "B3",
+                        "description": "Meteorological Disaster Area - Storm - Extra Tropical Cyclone",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "B4",
+                        "description": "Meteorological Disaster Area - Local Storm",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "C0",
+                        "description": "Unspecified Hydrological Disaster Area",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "C1",
+                        "description": "Hydrological Disaster Area - General Flood",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "C2",
+                        "description": "Hydrological Disaster Area - Flash Flood",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "C3",
+                        "description": "Hydrological Disaster Area - Storm Surge",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "C4",
+                        "description": "Hydrological Disaster Area - Wet Mass Movement - Rockfall",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "C5",
+                        "description": "Hydrological Disaster Area - Wet Mass Movement - Landslide",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "C6",
+                        "description": "Hydrological Disaster Area - Wet Mass Movement - Avalanche",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "C7",
+                        "description": "Hydrological Disaster Area - Wet Mass Movement - Subsidence",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "D0",
+                        "description": "Unspecified Climatological Disaster Area",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "D1",
+                        "description": "Climatological Disaster Area - Extreme Temp - Heat Wave",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "D2",
+                        "description": "Climatological Disaster Area - Extreme Temp - Cold Wave",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "D3",
+                        "description": "Climatological Disaster Area - Extreme Winter Condition",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "D4",
+                        "description": "Climatological Disaster Area - Drought",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "D5",
+                        "description": "Climatological Disaster Area - Wildfire - Forest Fire",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "D6",
+                        "description": "Climatological Disaster Area - Wildfire - Land Fire",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "E0",
+                        "description": "Unspecified Biological Disaster Area",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "E1",
+                        "description": "Biological Disaster Area - Unspecified Epidemic",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "E2",
+                        "description": "Biological Disaster Area - Viral Infectious Disease Epidemic",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "E3",
+                        "description": "Biological Disaster Area - Bacterial Infectious Disease Epidemic",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "E4",
+                        "description": "Biological Disaster Area - Parasitic Infectious Disease Epidemic",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "E5",
+                        "description": "Biological Disaster Area - Fungal Infectious Disease Epidemic",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "E6",
+                        "description": "Biological Disaster Area - Prion Infectious Disease Epidemic",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "E7",
+                        "description": "Biological Disaster Area - Insect Infestation",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "E8",
+                        "description": "Biological Disaster Area - Animal Stampede",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    }
+                ],
+                "allowedToReference": [
+                    {
+                        "referencedMessageCode": "P",
+                        "allowedReferenceIndicator": [ "5" ]
+                    },
+                    {
+                        "referencedMessageCode": "D",
+                        "allowedReferenceIndicator": [ "1", "2", "3", "4", "6", "7", "9" ]
+                    },
+                    {
+                        "referencedMessageCode": "I",
+                        "allowedReferenceIndicator": [ "5" ]
+                    },
+                    {
+                        "referencedMessageCode": "M",
+                        "allowedReferenceIndicator": [ "5" ]
+                    }
+                ]
+            },
+            {
+                "const": "S",
+                "title": "StatusSignal",
+                "description": "Signal to provide the status of an object, or specifically for persons: give a proof of life.",
+                "SubjectCode": [
+                    {
+                        "const": "00",
+                        "description": "Unspecified positive status",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "10",
+                        "description": "Proof of Life without further details",
+                        "allowedObjectTypes": [ "0*", "1*" ]
+                    },
+                    {
+                        "const": "11",
+                        "description": "Proof of Life and Situation Normal",
+                        "allowedObjectTypes": [ "0*", "1*" ]
+                    },
+                    {
+                        "const": "12",
+                        "description": "Proof of Life and Contact Requested",
+                        "allowedObjectTypes": [ "0*", "1*" ]
+                    },
+                    {
+                        "const": "13",
+                        "description": "Proof of Life but Assistance Required",
+                        "allowedObjectTypes": [ "0*", "1*" ]
+                    },
+                    {
+                        "const": "20",
+                        "description": "Object status unknown",
+                        "allowedObjectTypes": [ "0*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "21",
+                        "description": "Object functional without further details",
+                        "allowedObjectTypes": [ "0*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "22",
+                        "description": "Object functional and in good order",
+                        "allowedObjectTypes": [ "0*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "23",
+                        "description": "Object functional but damaged",
+                        "allowedObjectTypes": [ "0*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "24",
+                        "description": "Object not functional without further details",
+                        "allowedObjectTypes": [ "0*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "25",
+                        "description": "Object not functional and damaged",
+                        "allowedObjectTypes": [ "0*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "26",
+                        "description": "Object damaged without further details",
+                        "allowedObjectTypes": [ "0*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "28",
+                        "description": "Object destroyed",
+                        "allowedObjectTypes": [ "0*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    }
+                ],
+                "allowedToReference": [
+                    {
+                        "referencedMessageCode": "P",
+                        "allowedReferenceIndicator": [ "3", "5" ]
+                    },
+                    {
+                        "referencedMessageCode": "S",
+                        "allowedReferenceIndicator": [ "1", "2", "4", "6", "7" ]
+                    },
+                    {
+                        "referencedMessageCode": "I",
+                        "allowedReferenceIndicator": [ "3", "5" ]
+                    }
+                ]
+            },
+            {
+                "const": "I",
+                "title": "InfrastructureSign",
+                "description": "Sign to mark critical infrastructure.",
+                "SubjectCode": [
+                    {
+                        "const":"00",
+                        "description": "Unspecified infrastructure",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"10",
+                        "description": "Transportation - Unspecified transportation infrastructure",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"11",
+                        "description": "Transportation - Road or Highway",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"12",
+                        "description": "Transportation - Mass Transit System",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"13",
+                        "description": "Transportation - Railway",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"14",
+                        "description": "Transportation - Canal or Navigable Waterway",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"15",
+                        "description": "Transportation - Seaport",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"16",
+                        "description": "Transportation - Lighthouse",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"17",
+                        "description": "Transportation - Airport",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"20",
+                        "description": "Energy - Unspecified energy infrastructure",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"21",
+                        "description": "Energy - Electrical transmission/distribution",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"22",
+                        "description": "Energy - Natural gas pipeline",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"23",
+                        "description": "Energy - Petroleum pipeline",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"24",
+                        "description": "Energy - Oil-fired power plant",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"25",
+                        "description": "Energy - Gas-fired power plant",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"26",
+                        "description": "Energy - Coal-fired power plant",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"27",
+                        "description": "Energy - Nuclear power plant",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"28",
+                        "description": "Energy - Hydro-electric power plant",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"29",
+                        "description": "Energy - Geothermal energy installation",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"2A",
+                        "description": "Energy - Solar energy installation",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"2B",
+                        "description": "Energy - Wind energy installation",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const":"2C",
+                        "description": "Energy - Ocean power installation",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "2D",
+                        "description": "Energy - Biomass installation",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "30",
+                        "description": "Water management - Unspecified water facility",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "31",
+                        "description": "Water management - Drinking water distribution pipeline",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "32",
+                        "description": "Water management - Drinking water storage reservoir",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "33",
+                        "description": "Water management - Drinking water treatment facility",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "34",
+                        "description": "Water management - Waste water collection/disposal facility",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "35",
+                        "description": "Water management - Drainage system",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "36",
+                        "description": "Water management - Major irrigation system",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "37",
+                        "description": "Water management - Major flood control system",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "38",
+                        "description": "Water management - Coastal water management facility",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "40",
+                        "description": "Communication - Unspecified communication infrastructure",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "41",
+                        "description": "Communication - Postal service",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "42",
+                        "description": "Communication - Telephone land line",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "43",
+                        "description": "Communication - Telephone exchange system",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "44",
+                        "description": "Communication - Mobile phone network system",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "45",
+                        "description": "Communication - Television transmission station",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "46",
+                        "description": "Communication - Radio transmission station",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "47",
+                        "description": "Communication - Internet backbone",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "48",
+                        "description": "Communication - Internet core router",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "49",
+                        "description": "Communication - Undersea cable",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "50",
+                        "description": "Public service - Unspecified public service",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "51",
+                        "description": "Public service - Hospital",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "52",
+                        "description": "Public service - School",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "53",
+                        "description": "Public service - Police station",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "54",
+                        "description": "Public service - Fire station",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "60",
+                        "description": "Solid waste management - Unspecified solid waste management facility",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "61",
+                        "description": "Solid waste management - Municipal garbage and recyclables collection",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "62",
+                        "description": "Solid waste management - Solid waste landfill",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "63",
+                        "description": "Solid waste management - Solid waste incinerator",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "64",
+                        "description": "Solid waste management - Materials recovery facility",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    },
+                    {
+                        "const": "65",
+                        "description": "Solid waste management - Hazardous waste disposal facility",
+                        "allowedObjectTypes": [ "0*", "2*", "3*" ]
+                    }
+                ],
+                "allowedToReference": [
+                    {
+                        "referencedMessageCode": "I",
+                        "allowedReferenceIndicator": [ "1", "2", "3", "4", "6", "7" ]
+                    }
+                ]
+            },
+            {
+                "const": "M",
+                "title": "MissionSignal",
+                "description": "Signal to provide information on activities undertaken during a mission.",
+                "SubjectCode": [
+                    {
+                        "const": "00",
+                        "description": "Unspecified Mission",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "10",
+                        "description": "Unspecified Humanitarian Mission",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "20",
+                        "description": "Unspecified Mission under Humanitarian Law",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "21",
+                        "description": "Humanitarian Law - Monitoring",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "22",
+                        "description": "Humanitarian Law - Visiting Prisoners of War and Detained Persons",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "23",
+                        "description": "Humanitarian Law - Aid for Military Personnel - Health Care for wounded, sick or shipwrecked personnel",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "24",
+                        "description": "Humanitarian Law - Aid for Civilian Population - General Aid",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "25",
+                        "description": "Humanitarian Law - Aid for Civilian Population - Food Distribution",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "26",
+                        "description": "Humanitarian Law - Aid for Civilian Population - Health Care",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "27",
+                        "description": "Humanitarian Law - Aid for Civilian Population - Shelter",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "28",
+                        "description": "Humanitarian Law - Aid for Civilian Population - Restoring Family Links",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "29",
+                        "description": "Humanitarian Law - Aid for Civilian Population - Infrastructure Restoration",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "2A",
+                        "description": "Humanitarian Law - Support to Local Government - Advisory",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "2B",
+                        "description": "Humanitarian Law - Support Mission - Administrative",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "2C",
+                        "description": "Humanitarian Law - Support Mission - Logistics",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "30",
+                        "description": "Unspecified Disaster / Emergency Response Operation",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "40",
+                        "description": "Unspecified Special Political Mission",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "41",
+                        "description": "Special Political Mission - Envoy",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "42",
+                        "description": "Special Political Mission - Sanction panel",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "43",
+                        "description": "Special Political Mission - Monitoring group",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "44",
+                        "description": "Special Political Mission - Field-based mission",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "50",
+                        "description": "Unspecified Diplomatic Mission",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "60",
+                        "description": "Unspecified Law Enforcement Operation",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "70",
+                        "description": "Unspecified Peace Operation",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "71",
+                        "description": "Peace Operation - Conflict prevention",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "72",
+                        "description": "Peace Operation - Peacemaking",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "73",
+                        "description": "Peace Operation - Peacekeeping",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "74",
+                        "description": "Peace Operation - Peacebuilding",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "75",
+                        "description": "Peace Operation - Peace enforcement",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                    {
+                        "const": "80",
+                        "description": "Unspecified Military Operation",
+                        "allowedObjectTypes": [ "0*", "1*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    }
+                ],
+                "allowedToReference": [
+                    {
+                        "referencedMessageCode": "E",
+                        "allowedReferenceIndicator": [ "5" ]
+                    },
+                    {
+                        "referencedMessageCode": "D",
+                        "allowedReferenceIndicator": [ "5" ]
+                    },
+                    {
+                        "referencedMessageCode": "Q",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "M",
+                        "allowedReferenceIndicator": [ "1", "2", "3", "4", "7" ]
+                    }
+                ]
+            },
+            {
+                "const": "Q",
+                "title": "RequestSignal",
+                "description": "Signal to perform requests to other parties.",
+                "SubjectCode": [
+                    {
+                        "const": "10",
+                        "description": "Request for Cease Fire",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "20",
+                        "description": "Request for Area Access",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    }
+                ],
+                "allowedToReference": [
+                    {
+                        "referencedMessageCode": "E",
+                        "allowedReferenceIndicator": [ "5" ]
+                    },
+                    {
+                        "referencedMessageCode": "D",
+                        "allowedReferenceIndicator": [ "5" ]
+                    },
+                    {
+                        "referencedMessageCode": "Q",
+                        "allowedReferenceIndicator": [ "1", "2", "3", "4", "7", "8", "9" ]
+                    }
+                ]
+            },
+            {
+                "const": "R",
+                "title": "Reference",
+                "description": "Message to point to an internet resource.",
+                "allowedToReference": [
+                    {
+                        "referencedMessageCode": "P",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "E",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "D",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "S",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "I",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "Q",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "M",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "F",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "R",
+                        "allowedReferenceIndicator": [ "1", "2", "3", "4" ]
+                    }
+                ]
+            },
+            {
+                "const": "F",
+                "title": "FreeText",
+                "description": "Message to send a free text string.",
+                "allowedToReference": [
+                    {
+                        "referencedMessageCode": "P",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "E",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "D",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "S",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "I",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "Q",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "M",
+                        "allowedReferenceIndicator": [ "3" ]
+                    },
+                    {
+                        "referencedMessageCode": "F",
+                        "allowedReferenceIndicator": [ "1", "2", "3", "4" ]
+                    },
+                    {
+                        "referencedMessageCode": "R",
+                        "allowedReferenceIndicator": [ "3" ]
+                    }
+                ]
+            }
+        ],
+        "ReferenceIndicator": [
+            {
+                "const": "0",
+                "title": "Original",
+                "description": "This message provides new information and is not related to an earlier message.",
+                "allowedToReference": [ ],
+                "allowedToReferenceSameOriginator": false,
+                "allowedToReferenceDifferentOriginator": false
+            },
+            {
+                "const": "1",
+                "title": "Recall",
+                "description": "The originator recalls the referenced message; the referenced message must be ignored.",
+                "allowedToReference": [ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" ],
+                "allowedToReferenceSameOriginator": true,
+                "allowedToReferenceDifferentOriginator": false
+            },
+            {
+                "const": "2",
+                "title": "Update",
+                "description": "This message provides updated information and replaces the information in the referenced message.",
+                "allowedToReference": [ "0", "3", "5" ],
+                "allowedToReferenceSameOriginator": true,
+                "allowedToReferenceDifferentOriginator": false
+            },
+            {
+                "const": "3",
+                "title": "Add",
+                "description": "This message adds additional information to the referenced message, i.e. ties two messages together.",
+                "allowedToReference": [ "0", "2", "5" ],
+                "allowedToReferenceSameOriginator": true,
+                "allowedToReferenceDifferentOriginator": false
+            },
+            {
+                "const": "4",
+                "title": "Discontinue",
+                "description": "The originator discontinues the referenced message, i.e. the information or action is no longer valid.",
+                "allowedToReference": [ "0", "5", "6", "8", "9" ],
+                "allowedToReferenceSameOriginator": true,
+                "allowedToReferenceDifferentOriginator": false
+            },
+            {
+                "const": "5",
+                "title": "Relate",
+                "description": "The information in this message directly relates to the information or action in the referenced message.",
+                "allowedToReference": [ "0", "5" ],
+                "allowedToReferenceSameOriginator": true,
+                "allowedToReferenceDifferentOriginator": true
+            },
+            {
+                "const": "6",
+                "title": "Confirm",
+                "description": "The originator confirms the information or action in the referenced message.",
+                "allowedToReference": [ "0", "2", "3", "4", "5" ],
+                "allowedToReferenceSameOriginator": false,
+                "allowedToReferenceDifferentOriginator": true
+            },
+            {
+                "const": "7",
+                "title": "Acknowledge",
+                "description": "The originator acknowledges the receipt of the referenced message, but the information itself is not confirmed.",
+                "allowedToReference": [ "0", "2", "5", "8", "9" ],
+                "allowedToReferenceSameOriginator": false,
+                "allowedToReferenceDifferentOriginator": true
+            },
+            {
+                "const": "8",
+                "title": "Comply",
+                "description": "The originator will comply with and/or act according to the referenced message, but the information itself is not confirmed.",
+                "allowedToReference": [ "0", "2", "5" ],
+                "allowedToReferenceSameOriginator": false,
+                "allowedToReferenceDifferentOriginator": true
+            },
+            {
+                "const": "9",
+                "title": "Reject",
+                "description": "The originator does not agree (any more) with the information or action in the referenced message.",
+                "allowedToReference": [ "0", "2", "5" ],
+                "allowedToReferenceSameOriginator": false,
+                "allowedToReferenceDifferentOriginator": true
+            }
+        ],
+        "ObjectType": [
+            {
+                "const": "00",
+                "title": "Not provided",
+                "description": "Object type is unknown"
+            },
+            {
+                "const": "10",
+                "title": "Unspecified group of people",
+                "description": "Unspecified number of humans together"
+            },
+            {
+                "const": "11",
+                "title": "Person",
+                "description": "An individual human"
+            },
+            {
+                "const": "12",
+                "title": "Small group of people",
+                "description": "   2-   10 humans together"
+            },
+            {
+                "const": "13",
+                "title": "Medium group of people",
+                "description": "  10-  100 humans together"
+            },
+            {
+                "const": "14",
+                "title": "Large group of people",
+                "description": " 100- 1000 humans together"
+            },
+            {
+                "const": "15",
+                "title": "Enormous group of people",
+                "description": "1000-10000 humans together"
+            },
+            {
+                "const": "20",
+                "title": "Unspecified Area",
+                "description": "An area is a part of the earths surface, either on land or at sea."
+            },
+            {
+                "const": "21",
+                "title": "Circular Area",
+                "description": "A circular area on the earths surface, either on land or at sea."
+            },
+            {
+                "const": "22",
+                "title": "Rectangle Area",
+                "description": "A rectangle area on the earths surface, either on land or at sea."
+            },
+            {
+                "const": "23",
+                "title": "Triangle Area",
+                "description": "A triangle area on the earths surface, either on land or at sea."
+            },
+            {
+                "const": "30",
+                "title": "Unspecified Structure",
+                "description": "Immovable human made individual structures that are fixed to the ground, such as buildings, installations, historic ruins, etc. For non-fixed human made structures or a clustering of structures, such as camps, an area object must be used."
+            },
+            {
+                "const": "31",
+                "title": "Circular Structure",
+                "description": "A circular immovable human made structure"
+            },
+            {
+                "const": "32",
+                "title": "Rectangle Structure",
+                "description": "A rectangle immovable human made structure"
+            },
+            {
+                "const": "33",
+                "title": "Triangle Structure",
+                "description": "A triangle immovable human made structure"
+            },
+            {
+                "const": "40",
+                "title": "Unspecified Land Vehicle",
+                "description": "An object used for transport over land"
+            },
+            {
+                "const": "50",
+                "title": "Unspecified Water Vehicle",
+                "description": "An object used for transport on water"
+            },
+            {
+                "const": "60",
+                "title": "Unspecified Air Vehicle",
+                "description": "An object for transport in the air"
+            },
+            {
+                "const": "70",
+                "title": "Unspecified Space Vehicle",
+                "description": "An object for transport in space"
+            },
+            {
+                "const": "80",
+                "title": "Unspecified goods",
+                "description": "Movable materiel, goods, cargo, supplies, etc."
+            }
+        ]
+    }
+}
