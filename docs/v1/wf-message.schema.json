@@ -1,6 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "$id": "http://whiteflagprotocol.net/v1/wf-message.schema.json",
+    "$id": "https://standard.whiteflagprotocol.org/v1/wf-message.schema.json",
     "$comment": "Schema corresponding with Version 1 of the Whiteflag Protocol Specification DRAFT 6 as updated on 28 FEB 2019",
     "title": "Whiteflag Message",
     "description": "Whiteflag message to communicate pre-defined signs and signals in conflicts and disasters using blockchain technology.",
