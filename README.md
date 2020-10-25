@@ -7,17 +7,17 @@ is to provide an open and decentralised communications protocol to create
 a trusted messaging network for disaster & conflict zones, without the
 requirement for a trusted third party or any specific software or system.
 
+This GitHub repository contains the official, configuration controlled versions
+of the Whiteflag Protocol specification, which are published on
+<https://standard.whiteflagprotocol.org/>.
+
 The Whiteflag Protocol is an [open standard](https://en.wikipedia.org/wiki/Open_standard)
 for a blockchain-based communications protocol that is trusted and accessible
 by all parties involved armed conflicts, in addition to any currently existing
 but limited or unsecure communication methods such as telephone, e-mail,
 messaging, physical signs, registers etc.
 
-This GitHub repository contains the official, configuration controlled versions
-of Whiteflag specification, which are published on
-<https://standard.whiteflagprotocol.org/>.
-
-The Whiteflag specification is released in the [public domain](https://en.wikipedia.org/wiki/Public_domain).
+The standard is released in the [public domain](https://en.wikipedia.org/wiki/Public_domain).
 Please read the [license](https://github.com/WhiteflagProtocol/whiteflag-standard/blob/master/LICENSE.md)
 for more detailed information.
 
