@@ -1,8 +1,8 @@
 |Status   ||
 |-------- |------------------------
 | version |1
-| status  |DRAFT 6
-| date    |28 FEB 2019
+| status  |DRAFT 7 (in development)
+| date    |29 DEC 2021
 
 # 1 Introduction
 
@@ -130,8 +130,8 @@ distributed computing practices, paradigms and standards. Therefore,
 for the time being, the standard will remain under configuration control
 of the authors. Requests and comments may be e-mailed to the authors:
 
--   T. Schless: `tschless (at) acm . org`
--   M. Kolenbrander: `mkolenbrander (at) acm . org`
+-   T. Schless: `timo (at) whiteflagprotocol . org`
+-   M. Kolenbrander: `michael (at) whiteflagprotocol . org`
 
 In the meantime, a more sustainable process for configuration management
 of this standard in line with its open character is under consideration.
