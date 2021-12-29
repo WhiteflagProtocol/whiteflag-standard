@@ -19,10 +19,10 @@ The current version of the protocol is:
 
 ### Baselined specification documents
 
-|Version 1 Draft 6                                         |Description
-|-----------------                                         |-----------------
-|[v1-draft.6.pdf](WhiteflagSpecification-v1-draft.6.pdf)   | Baselined version in pdf document format
-|[v1-draft.6.html](WhiteflagSpecification-v1-draft.6.html) | Baselined version in html format
+|Version 1 Draft 6                               |Description
+|-----------------                               |-----------------
+|[v1-draft.6.pdf](v1/whiteflag-v1-draft.6.pdf)   | Baselined version in pdf document format
+|[v1-draft.6.html](v1/whiteflag-v1-draft.6.html) | Baselined version in html format
 
 ## License
 

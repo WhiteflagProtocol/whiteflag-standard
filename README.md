@@ -24,7 +24,12 @@ for more detailed information.
 ## Protocol Version and Publication
 
 The current baselined version of the protocol is:
-**Version 1 Draft 6** or in short: `v1-draft.6`.
+**Version 1 Draft 6** or in short: `v1-draft.6`, which can be found in
+multiple formats at <https://standard.whiteflagprotocol.org/>.
+
+The current version in development is *Version 1 Draft 7* or `v1-draft.7-dev`.
+This version is intended to make improvements based on ongoing testing and
+evaluation.
 
 ## Repository Structure
 
@@ -37,7 +42,8 @@ for more information on this media type. Using Markdown allows the standard to
 be easily maintained and to be published in other formats, such as html or pdf.
 
 Documents in these formats are generated from the markdown source document with
-[pandoc](https://pandoc.org/) and published in the `docs/` directory.
+[pandoc](https://pandoc.org/) and published in the `docs/` directory. All
+baselined versions can be found at that location.
 
 The `docs/` directory is published on
 <https://standard.whiteflagprotocol.org/>
