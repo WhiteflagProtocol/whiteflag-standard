@@ -1594,21 +1594,22 @@ The `CryptoDataType` field defines the type of cryptographic key data to be
 exchanged, and must be a 2-byte UTF-8 encoded hexadecimal character from
 the following table with codes for each key type:
 
-| Code      | Crypto Data Type | `CryptoData` field usage                                  |
-|-----------|------------------|-----------------------------------------------------------|
-| `00`      | (reserved)       | Must not be used; reserved for future use                 |
-| `01`      | `HDExtPubKey`    | Serialised hierarchical deterministic extended public key |
-| `02`-`09` | (reserved)       | Must not be used; reserved for future use                 |
-| `0A`      | `ECDHPubKey`     | Elliptic Curve Diffie–Hellman public key exchange         |
-| `0B`-`0F` | (reserved)       | Must not be used; reserved for future use                 |
-| `10`      | (reserved)       | Must not be used; reserved for future use                 |
-| `11`      | `InitVector`     | Initialisation Vector for encryption method `1`           |
-| `12`-`1F` | (reserved)       | Must not be used; reserved for future use                 |
-| `20`      | (reserved)       | Must not be used; reserved for future use                 |
-| `21`      | `InitVector`     | Initialisation Vector for encryption method `2`           |
-| `22`-`2F` | (reserved)       | Must not be used; reserved for future use                 |
-| `20`-`99` | (reserved)       | Must not be used; reserved for future encryption features |
-| `A0`-`FF` | (private use)    | Private use, i.e. not standardized                        |
+| Code      | Crypto Data Type | `CryptoData` field usage                                                               |
+|-----------|------------------|----------------------------------------------------------------------------------------|
+| `00`      | (reserved)       | Must not be used; reserved for future use                                              |
+| `01`      | `HDExtPubKey`    | Serialised hierarchical deterministic extended public key                              |
+| `02`-`09` | (reserved)       | Must not be used; reserved for future use                                              |
+| `0A`      | `ECDHPubKey`     | Elliptic Curve Diffie–Hellman public key exchange for encryption key negotiation       |
+| `0B`      | `ECDHPubKey`     | Elliptic Curve Diffie–Hellman public key exchange for authentication token negotiation |
+| `0C`-`0F` | (reserved)       | Must not be used; reserved for future use                                              |
+| `10`      | (reserved)       | Must not be used; reserved for future use                                              |
+| `11`      | `InitVector`     | Initialisation Vector for encryption method `1`                                        |
+| `12`-`1F` | (reserved)       | Must not be used; reserved for future use                                              |
+| `20`      | (reserved)       | Must not be used; reserved for future use                                              |
+| `21`      | `InitVector`     | Initialisation Vector for encryption method `2`                                        |
+| `22`-`2F` | (reserved)       | Must not be used; reserved for future use                                              |
+| `20`-`99` | (reserved)       | Must not be used; reserved for future encryption features                              |
+| `A0`-`FF` | (private use)    | Private use, i.e. not standardized                                                     |
 
 ##### 4.3.5.3 Cryptographic Data Field
 
@@ -1619,9 +1620,9 @@ The content of the `CryptoData` field is determined by the
     contain the serialised extended public key used to derive the
     deterministic public keys (and addresses).
 
-- When the data type is `ECDHPubKey` (code `0A`), the data field must
-    contain a compressed elliptic curve public key for a Diffie-Hellman
-    key exchange.
+- When the data type is `ECDHPubKey` (code `0A` or `0B`), the data field
+    must contain a compressed elliptic curve public key for a
+    Diffie-Hellman key exchange.
 
 - When the data type is `InitVector` (code `11` or `21`), the data field
     must contain the 128-bit initialisation vector required to decrypt
@@ -1762,10 +1763,14 @@ the token is revealed in an `A2` message. The secret token may be
 pre-shared or generated from a shared secret:
 
 1. The token may be a secret piece of either arbitrary data or some
-    (encrypted) meaningful data provided to the originator.
+    (encrypted) meaningful data provided by the originator. The nature
+    and distribution of such a secret is outside the scope of Whiteflag.
 
-2. The token may also be derived from an ECDH shared secret as described
-    in 5.2.3 Key and Token Derivation.
+2. The token may also be derived from an ECDH negotiated shared secret
+    using `K0B` messages, as described in [5.2](#52-cryptographic-support-functions).
+    This allows a secret negotatiated with one (already authenticated)
+    account for the authentication of antother account of the same
+    originator, e.g. to create an anonymous side channel.
 
 The secret token must not be used directly in a single `A2(0)` message.
 Instead, the authentication data sent in the `A2(0)` message must be derived
@@ -1806,15 +1811,17 @@ It may not be assumed that every recipient is able to link
 deterministically derived addresses to the master public key of the
 account in order to authenticate the originator.
 
-#### 5.2.2 Key Agreement
+#### 5.2.2 Encrytpion Key and Authentication Token Negotiation
 
 The protocol supports cryptographic key exchange using Elliptic Curve
 Diffie-Hellman (ECDH), which is an Elliptic Curve variant of the standard
 Diffie-Hellman algorithm. This well known algorithm allows two parties,
 that do not have any prior knowledge of each other, to agree on a shared
 secret using an open communication channel. This shared secret may then
-be used, for example, to derive a secret key for the encryption of
-messages.
+be used:
+
+- to derive an encryption key for encryption method 2
+- to derive an authentication token for authentication method 2
 
 The OpenSSL implementation of ECDH is the reference implementation for
 for Elliptic Curve Diffie-Hellman key agreement with the Whiteflag
@@ -1823,26 +1830,27 @@ Whiteflag are defined by the `brainpoolP256r1` curve as specified
 in RFC 5639.
 
 Any participant may generate a 264-bit compressed public ECDH key and
-publish the key on the Whiteflag network using a `K(0)0A` message. This
+publish the key on the Whiteflag network using a `K(0)0A` message (for
+encryption keys) or a T`K(0)0B` message (for authentication token). This
 allows any two participants, who have both published their public key,
-to generate the shared secret using their own private key and the other's
+to generate shared secrets using their own private key and the other's
 public key.
 
-If one of the participants publishes an `K(2)0A` message with updated key,
+If one of the participants publishes an `K(2)` message with an updated key,
 the existing shared secrets with other participants expire and new shared
 secrets must be generated for and by each other participant.
 
 Only one single participant's public ECDH key is considered valid at any
-point in time. Nevertheless, multiple `K(0)0A` messages may be sent to
-republish the public key. If a subsequent `K(0)0A` message contains a
-different public key, this must be interpreted as an `K(2)0A` message with
+point in time. Nevertheless, multiple `K(0)0A` or `K(0)0A` messages may be
+sent to republish the public key. If a subsequent `K(0)0A` message contains
+a different public key, this must be interpreted as an `K(2)0A` message with
 an updated key (which should have been sent instead).
 
 The shared secret may be used as a basis for encryption and authentication,
 whether for Whiteflag or not, but it should never be used directly as an
-encryption key.
+encryption key or autyhentication token.
 
-#### 5.2.3 Key and Token Derivation
+#### 5.2.3 Encrytpion Key and Authentication Token Derivation
 
 Shared secrets (such as pre-shared, deterministically derived or
 ECDH generated secrets), must use the HKDF function defined in RFC 5869 to
