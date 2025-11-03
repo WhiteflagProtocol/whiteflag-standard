@@ -2,7 +2,7 @@
 title: Whiteflag Specification
 version: 1-draft.7-dev
 status: DRAFT (in development)
-date: 25 OCT 2025
+date: 03 NOV 2025
 ---
 
 ## 1 Introduction
@@ -52,11 +52,12 @@ specialists to be able to adopt and implement the Whiteflag Protocol.
 
 ### 1.3 Document Structure
 
-Chapter 1 "Introduction" describes this document. Chapter 2 "Overview"
-defines the scope and gives an overview of the protocol, followed by typical
-use case examples in Chapter 3 "Use Case Examples". Chapter 4 "Message Format"
-provides the detailed messages descriptions, and Chapter 5 "Protocol" the
-detailed protocol description.
+[Chapter 1](#1-introduction) is the introduction, describing the standard.
+[Chapter 2](#2-overview) defines the scope and gives an overview of the
+protocol. The case examples in [Chapter 3](#3-use-case-examples) have been
+moved to [Annex F](#annex-f-example-use-cases). [Chapter 4](#4-message-format)
+provides the detailed messages specifications, and [Chapter 5](#5-protocol)
+the detailed protocol description.
 
 ### 1.4 Used Terminology
 
@@ -288,15 +289,15 @@ A blockchain is a shared database that maintains a continuously-growing list
 of ordered records called blocks, each containing a timestamp and a hash-based
 link to a previous block going all the way back to the first block.
 
-Blockchain networks are open source distributed computing systems
-with high byzantine fault tolerance: secure by design and inherently resistant
-to modification of the data; once recorded, the data in a block cannot be
-altered retroactively.
+Blockchain networks are open source distributed computing systems with high
+byzantine fault tolerance: secure by design and inherently resistant to 
+modification of the data; once recorded, the data in a block cannot be altered
+retroactively.
 
-Therefore, a blockchain can be seen as an open, distributed ledger that
-can record transactions between parties efficiently and in a verifiable
-and permanent way. This makes blockchains very suitable for the
-recording of events and messages.
+Therefore, a blockchain can be seen as an open, distributed ledger that can
+record transactions between parties efficiently and in a verifiable and
+permanent way. This makes blockchains very suitable for the recording of
+events and messages.
 
 The Whiteflag Protocol defines the messages for signs and signals used in
 armed conflicts and for disasters, and it defines how those messages
@@ -377,9 +378,9 @@ each transaction, deterministic key chains are used to link the
 authentication message both to the blockchain account as well as to
 other messages sent by the same originator but with different addresses.
 
-The authentication mechanism is described in detail in 2.4.2.2 Management
-Messages (initial authentication message) and Joining and Leaving the
-Whiteflag Network (protocol for initial authentication). After initial
+The authentication mechanism is described in detail in [Paragraph 2.4.2.2](#2422-management-messages)
+for initial authentication messages, and in [Paragraph 5.1](#51-joining-and-leaving-the-whiteflag-network)
+for the protocol for initial authentication. After initial
 authentication, the Whiteflag Protocol utilizes the authentication
 mechanism of the underlying blockchain.
 
@@ -401,28 +402,28 @@ hash-based proof-of-work, forming a record that cannot be changed without
 redoing the proof-of-work.
 
 The timestamp proves that the data must have existed at the time in order to
-get into the hash. Each timestamp includes the previous timestamp in its hash,
-forming a chain, with each additional timestamp reinforcing the ones before it.
-The hash chain of blocks provides an unchangeable historical record, which is
-verifiable by anyone.
+get into the hash. Each timestamp includes the previous timestamp in its
+hash, forming a chain, with each additional timestamp reinforcing the ones
+before it. The hash chain of blocks provides an unchangeable historical
+record, which is verifiable by anyone.
 
 Nodes can leave and rejoin a blockchain network and thus the Whiteflag Network
-at will, accepting the proof-of-work chain as validation of what happened while
-they were gone. Upon rejoining, missing blocks are downloaded, verified and
-added to the nodes' local copy of the database until it has caught up with the
-network and is in sync (again).
+at will, accepting the proof-of-work chain as validation of what happened
+while they were gone. Upon rejoining, missing blocks are downloaded, verified
+and added to the nodes' local copy of the database until it has caught up
+with the network and is in sync (again).
 
 ##### 2.4.1.5 Data Security
 
 The Whiteflag Protocol the protocol provides optional message confidentiality
 using an AES based encryption scheme to encrypt the message contents. This is
-described in detail in 4.1.4 Encryption.
+described in detail in [Paragraph 4.1.4](#414-encryption).
 
 The encryption scheme allow for both Diffie-Hellman negotiated keys and
 pre-shared keys. The Whiteflag Protocol specifies the Diffie-Hellman key
-exchange, but does not specify how pre-shared encryption keys should be managed
-or distributed. It is between the originator and recipient to agree on a secure
-key exchange procedure.
+exchange, but does not specify how pre-shared encryption keys should be
+managed or distributed. It is between the originator and recipient to agree
+on a secure key exchange procedure.
 
 #### 2.4.2 Message Functionality
 
@@ -455,7 +456,7 @@ created, e.g. for moving objects (by updating the coordinates of a
 Protective Sign), or requesting assistance for an object under attack
 (by sending an Emergency Signal referring to a Status Signal referring
 to a Danger Sign). Message sequencing is described in detail
-in 5.4.2. Message Sequences.
+in [Paragraph 5.4.2](#542-message-sequences).
 
 ##### 2.4.2.2 Management Messages
 
@@ -534,8 +535,8 @@ protocol.
 
 The Whiteflag Protocol provides a trusted communication channel in the
 sense that the originator is authenticated, that messages cannot not be
-altered or disappear once recorded, all without the requirement of a trusted third
-party.
+altered or disappear once recorded, all without the requirement of a trusted
+third party.
 
 However, it is important to understand that a trusted communication
 channel does not by itself guarantee that the information in a message
@@ -629,9 +630,9 @@ On the Whiteflag Network, messages must be formatted and processed as
 indicated in this standard. Additionally, this standard defines how
 messages and message sequences should be semantically interpreted.
 
-To help implementing and validating Whiteflag Messages, Annex B provides
-a JSON schema that describes the messages, which might be of beneficial
-use for application developers.
+To help implementing and validating Whiteflag Messages, [Annex B](#annex-b-json-schema-of-whiteflag-messages)
+provides a JSON schema that describes the messages, which might be of
+beneficial use for application developers.
 
 However, strictly speaking, this schema is outside the scope of this
 standard: firstly because the Whiteflag Messages sent on the network are
@@ -697,12 +698,12 @@ messages are compressed into a binary string, and optionally encrypted.
 
 An uncompressed and unencrypted Whiteflag Message consists of:
 
-- the Message Header (described in 4.2 Message Header), which is the same
-    for all messages and consists of 7 fields with a total length of 71
-    bytes;
-- the Message Body (described in 4.3 Message Body), of which the fields
-    and number of bytes per field differ between message types, and is
-    therefore variable in length.
+- the Message Header (see [Paragraph 4.2](#42-message-header)), which is
+    the same for all messages and consists of 7 fields with a total length
+    of 71 bytes;
+- the Message Body (see [Paragraph 4.3](#43-message-body)), of which the
+    fields and number of bytes per field differ between message types, and
+    is therefore variable in length.
 
 The individual bytes of an uncompressed and unencrypted messages are
 encoded using a single 7-bit/1-byte UTF-8 code unit, allowing the usage
@@ -711,8 +712,8 @@ to the first 128 characters of the ASCII-set.
 
 Depending on the usage of the field, not all characters/code points are
 allowed for each field. The field descriptions of the message header and
-body in 4.2 Message Header and in 4.3. Message Body, use the following
-characters to indicate which subset of characters is valid:
+body in [Paragraph 4.2](#42-message-header) and in [Paragraph 4.3](#43-message-body),
+use the following characters to indicate which subset of characters is valid:
 
 - `c` indicates any valid 1 byte UTF-8/Unicode character, i.e. UTF-8
     code points `U+0000` through `U+007F`;
@@ -739,8 +740,9 @@ character indicated with a `d`, and therefore encoded and compressed
 in the same way, but semantically they are different.
 
 Capitals used in the field format descriptions of the message header and
-body in 4.2 Message Header and in 4.3 Message Body, including capitals of
-the above, indicate that such a character is to be used literally.
+body in [Paragraph 4.2](#42-message-header) and in [Paragraph 4.3](#43-message-body),
+including capitals of the above, indicate that such a character is to
+be used literally.
 
 Before the message is embedded in a blockchain transaction, the message
 is compressed and optionally encrypted as described below.
@@ -759,8 +761,9 @@ encryption. Compression of the message is done as follows:
 - decimal and hexadecimal characters (`d` and `h`) are compressed
     to a half-byte (4 bits) unsigned binary coded decimal/hexadecimal.
 
-The descriptions of the message header and body in 4.2 Message Header and
-in 4.3 Message Body, show how the compression must be applied to each field.
+The descriptions of the message header and body in [Paragraph 4.2](#42-message-header)
+and in [Paragraph 4.3](#43-message-body), show how the compression must
+be applied to each field.
 
 #### 4.1.4 Encryption
 
@@ -873,7 +876,7 @@ By referencing other messages, message sequences can be created.
 However, not every message type and reference type may reference every
 other message type and reference type. The rules for referencing and
 functionality of message sequences are specified in detail in
-5.4 Referencing.
+[Paragraph 5.4](#54-referencing).
 
 ##### 4.2.1.8 Referenced Message Field
 
@@ -884,7 +887,7 @@ only be identified using the transaction identifier of the underlying
 blockchain, the identifier depends on the underlying blockchain. If the
 underlying blockchain uses a hash larger than 256 bits, the first 256
 bits of the hash should be used. The transaction identifiers of the most
-common blockchains are shown in Annex A.
+common blockchains are shown in [Annex A](#annex-a-blockchain-layer-specific-details).
 
 If the `ReferenceIndicator` field is `0`, the `ReferencedMessage` field
 must be ignored by the receiver. This allows the field to be filled with
@@ -931,7 +934,7 @@ is made, e.g. bytes 139-142 may contain additional `ObjectType2` and
 The `SubjectCode` field defines the actual sign or signal, and must be
 2-byte UTF-8 encoded value from the following tables with subject codes
 for each sign/signal message type below. Common official and/or visual
-equivalents for the defined signs and signals are shown in Annex E.
+equivalents for the defined signs and signals are shown in [Annex E](#annex-e-signs--signals-equivalents).
 
 ###### 4.3.1.2.1 Protective Signs
 
@@ -1378,9 +1381,10 @@ follows: `\_dd.ddddd` (i.e. regular expression
 `\^\[+-\]\[0-9\]{2}\\.\[0-9\]{5}\$`), where:
 
 - The digits represent the north-south longitude; valid values are:
-    `-90.00000` to +`90.00000`
+    `-90.00000` to `+90.00000`
 
-- `\_` is either `+` or `-` to denote north (+) or south (-).
+- `\_` is either `+` or `-` to denote north (+) or south (-);
+    with a `+` encoded as `1` and a `-` encoded as `0`
 
 Based on ISO 6709 - Standard representation of geographic point location
 by coordinates, the `ObjectLongitude` fields must be formatted as
@@ -1390,7 +1394,8 @@ follows: `\_ddd.ddddd` (i.e. regular expression
 - The digits represent the east-west latitude; valid values are:
     `-180.00000` to `+180.00000`
 
-- `\_` is either `+` or `-` to denote east (+) or west (-).
+- `\_` is either `+` or `-` to denote east (+) or west (-);
+    with a `+` encoded as `1` and a `-` encoded as `0`
 
 The object location must be specified for Protective Signs and Danger
 Signs (Message Codes `P` and `D`).
@@ -1459,8 +1464,8 @@ eight (8) objects with their respective quantity.
 
 The `ObjectType*` field contains a hexadecimal code to indicate what
 sort of object the request applies to. The values correspond with those
-of the `ObjectType` field as specified in 4.3.1.5, with the following
-restrictions:
+of the `ObjectType` field as specified in [Paragraph 4.3.1.5](#4315-object-type-field),
+with the following restrictions:
 
 - when referring to persons, the exact number of person must be specified
     and therefore the `12`-`1F` may not be used;
@@ -1468,8 +1473,9 @@ restrictions:
 - unmovable objects, i.e. `20`-`2F` areas and `30`-`3F` structures,may
     not be used.
 
-Note that in accordance with 4.3.1.5, the object code of a `Q` message itself
-must represent an area, i.e. code `20`-`2F`.
+Note that in accordance with [Paragraph 4.3.1.5](#4315-object-type-field),
+the object code of a `Q` message itself must represent an area, i.e.
+code `20`-`2F`.
 
 Valid values for an `ObjectType*Quant` field are `00` to `99`. If the
 quantity of an object is unknown, then the respective `ObjectType*Quant`
@@ -1636,7 +1642,7 @@ Support Messages may be sent with the rest of the key data using
 reference code `3`.
 
 Usage of the Cryptographic Support Message and the data types
-is detailed in 5.2 Cryptographic Support Functions.
+is detailed in [Paragraph 5.2](#52-cryptographic-support-functions).
 
 #### 4.3.6 Management Messages: Test
 
@@ -1657,13 +1663,13 @@ message must contain the following fields:
 The `PseudoMessageCode` field indicates which sign/signal message is
 tested. The contents of the field must be a 1-byte UTF-8 encoded
 alpha-numeric character value corresponding with one of the message
-types defined in 2.4.2 Message Functionality.
+types defined in [Paragraph 2.4.2](#242-message-functionality).
 
 ##### 4.3.5.3 Other Test Message Fields
 
 All other test message fields are identical in use as the equivalent
-fields sign/signal message, as described in 4.3 Message Body, with the
-difference that the fields are shifted 1 byte / 8 bits.
+fields sign/signal message, as described in [Paragraph 4.3](#43-message-body),
+with the difference that the fields are shifted 1 byte / 8 bits.
 
 The field names must be preceded by `Test` when used in a test
 message.
@@ -1753,7 +1759,7 @@ The serialisation format of an extended public key is blockchain
 specific. Although supported, deterministic keys should normally not be
 used.
 
-An example for usage of JWS for authentication is included in Annex C.
+An example for usage of JWS for authentication is included in [Annex C](#annex-c-example-json-authentication-objects).
 
 ##### 5.1.2.2 Method 2: Shared Token Validation
 
@@ -1775,7 +1781,7 @@ pre-shared or generated from a shared secret:
 The secret token must not be used directly in a single `A2(0)` message.
 Instead, the authentication data sent in the `A2(0)` message must be derived
 from the secret token using the HKDF function defined in RFC 5869. The
-procedure is described in detail in the Key and Token Derivation paragraph.
+procedure is described in detail in [5.2.3](#523-encrytpion-key-and-authentication-token-derivation).
 
 An originator may use multiple `A2(0)` messages with tokens
 from different issuers or ECDH counterparts.
@@ -1820,8 +1826,8 @@ that do not have any prior knowledge of each other, to agree on a shared
 secret using an open communication channel. This shared secret may then
 be used:
 
-- to derive an encryption key for encryption method 2
-- to derive an authentication token for authentication method 2
+1. to derive an encryption key for encryption method 2
+2. to derive an authentication token for authentication method 2
 
 The OpenSSL implementation of ECDH is the reference implementation for
 for Elliptic Curve Diffie-Hellman key agreement with the Whiteflag
@@ -1885,9 +1891,9 @@ Implementations must ensure that the data is correctly provided to the HKDF
 function, i.e. as binary information, not as a string. This is especially
 important for blockchains addresses, which appear in different encodings.
 
-Using the 2.4.2.2 blockchain address `1C8KSK68SJjfDSBx9BpSx3qB3bePf23r77` as an
-example, this results in the following pseudocode for deriving authentication
-tokens:
+Using the blockchain address `1C8KSK68SJjfDSBx9BpSx3qB3bePf23r77` from
+[Paragraph 2.4.2.2](#2422-management-messages) as an example, this results in
+the following pseudocode for deriving authentication tokens:
 
 ```pseudocode
     tokenlength := 32
@@ -1918,17 +1924,18 @@ Encryption Standard (AES) using a 256-bit key in counter mode (CTR) with
 either an ECDH negotiated secret (method 1) or a pre-shared secret (method 2).
 
 AES is a symmetric cipher that requires the same key for encryption and
-decryption. This key must be derived as described in the Key and Token
-Derivation paragraph.
+decryption. This key must be derived as described in
+[Paragraph 5.2.3](#523-encrytpion-key-and-authentication-token-derivation).
 
 ##### 5.2.4.1. Encryption Methods 1 and 2
 
 Encryption methods 1 and 2 only differ in the key used for the encryption:
 
-- Encryption method 1 uses the ECDH negotiated secret as described in the
-    Key Agreement paragraph to derive the encryption key. This method can
-    therefore only been used to send encrypted messages between the two
-    blockchain accounts that have negotiated the shared secret.
+- Encryption method 1 uses the ECDH negotiated secret as described in
+    [Paragraph 5.2.2](#522-encrytpion-key-and-authentication-token-negotiation)
+    to derive the encryption key. Thus, this method can only been used to send
+    encrypted messages between the two blockchain accounts that have
+    negotiated the shared secret.
 
 - Encryption method 2 uses a pre-shared secret to derive the encryption key.
     It is outside the scope of this standard to define the key management and
@@ -1937,19 +1944,19 @@ Encryption methods 1 and 2 only differ in the key used for the encryption:
 
 Encryption of a Whiteflag message is performed with the following steps:
 
-- derive the encryption key respectively from an ECDH negotiated secret
-    or a pre-shared secret using the HKDF function as described in the
-    the Key and Token Derivation paragraph;
+1. derive the encryption key respectively from an ECDH negotiated secret
+    or a pre-shared secret using the HKDF function as described in
+    [Paragraph 5.2.3](#523-encrytpion-key-and-authentication-token-derivation);
 
-- generate a unique 128-bit initialisation vector, e.g. with
+2. generate a unique 128-bit initialisation vector, e.g. with
     cryptographically secure random number generator;
 
-- encrypt the compressed binary encoded message starting at bit 32
+3. encrypt the compressed binary encoded message starting at bit 32
     (the 33th bit) up to and including the last bit, using `aes-256-ctr`
     with the appropriate key and the just generated initialisation vector.
 
 Below are the encryption steps in pseudocode, in which the key has already
-been derived as described in 5.2.3 Key and Token Derivation:
+been derived as described in [Paragraph 5.2.3](#523-encrytpion-key-and-authentication-token-derivation):
 
 ```pseudocode
     iv := generateRandomBits(128)
@@ -2101,26 +2108,26 @@ updated, or a related message from another originator.
 
 When referencing messages are referenced themselves, message sequences
 may be created. The paragraphs below describe which message sequences,
-as allowed by the reference options described in Reference Indicator
-Field, provide meaningful information.
+as allowed by the reference options described in [Paragraph 4.2.1.7](#4217-reference-indicator-field),
+provide meaningful information.
 
 ##### 5.4.2.1 Authentication
 
 An `A` message may only reference another `A` message, in order to:
 
-- recall the `A(0)` message with Reference Code `1`;
+1. recall the `A(0)` message with Reference Code `1`;
 
-- update the `A(0)` message with Reference Code `2`, e.g. to provide
+2. update the `A(0)` message with Reference Code `2`, e.g. to provide
     new authentication information;
 
-- provide additional information with Reference Code `3`, when the
+3. provide additional information with Reference Code `3`, when the
     authentication information is too long to provide in the
     `VerificationData` field of a single message;
 
-- to discontinue the original `A(0)`  with an `A(4)` message,
+4. to discontinue the original `A(0)`  with an `A(4)` message,
     meaning the originator leaves the network;
 
-- to confirm the claimed identity of another originator by referencing
+5. to confirm the claimed identity of another originator by referencing
     its `A(0)` message with an `A(6)` message.
 
 For example, an initial authentication of originator X using an URL of
