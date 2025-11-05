@@ -2,7 +2,7 @@
 title: Whiteflag Specification
 version: 1-draft.7-dev
 status: DRAFT (in development)
-date: 03 NOV 2025
+date: 05 NOV 2025
 ---
 
 ## 1 Introduction
@@ -1712,7 +1712,7 @@ The URL should use the `https:` scheme to be able to ensure the validity
 of the resource.
 
 At the URL, a flattened JSON Web Signature JSON serialization (JWS-JS)
-formatted object i.a.w. RFC 7515 - JSON Web Signature (JWS) must be found.
+formatted object i.a.w. RFC 7515 (JSON Web Signature, JWS) must be found.
 This object contains a JSON object with authentication information
 together with a single digital signature.
 
@@ -1722,6 +1722,13 @@ web resource controls the blockchain account used to send the `A`
 message. The digital signature must be created using the key pair of the
 associated blockchain account, i.e. the account from which the `A1`
 message has been sent.
+
+Note that RFC 7515 (JWS) refers to RFC 7518 (JSON Web Algortihms, JWA)
+that registers the cryptographic algorithms and identifiers to be used
+with JWS. However, Whiteflag authentication method 1 must use the
+signature algortihm and cryptographic paramters of the underlying
+blockchain. Therefore, although Whiteflag uses the JWS data structure
+from RFC 7515 (JWS), it cannot and does not comply with RFC 7518 (JWA).
 
 The non-serialised payload with authentication information must be a JSON
 object itself and must at least have the following properties: the
@@ -2549,6 +2556,9 @@ provided here as human readable example:
 
 Note that the used algorithm (ES256, i.e. ECDSA using P-256 and SHA-256,
 in line with the underlying blockchain) is included in the protected header.
+However, Bitcoin and Ethereum use the `secp256k1` curve for ES256, which
+differs from `prime256v1` specified in RFC 7518 (JWA). This is an example
+where Whiteflag's use of RFC 7515 (JWS) does not comply with RFC 7518 (JWA).
 
 ## Annex D. Definitions
 
