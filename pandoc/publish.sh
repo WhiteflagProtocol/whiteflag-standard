@@ -1,30 +1,22 @@
 #!/bin/bash
 ##
-## publish.sh
+## pandoc/publish.sh
 ## Script using pandoc to publish the WF specification in a sepcific document format
-
-# Check pandoc
-if [[ ! -x $(which pandoc) ]]; then
-    printf -- "Cannot find pandoc.\n"
-    printf -- "Please check if pandoc is installed and the path is set correctly.\n"
-    exit 1
-fi
-
-# Check if source file is specified
-if [[ -z "${2}" ]]; then
-    SOURCEDOC="../WhiteflagSpecification.md"
-else
-    SOURCEDOC="${2}"
-fi
+##
 
 # Check arguments
 if [[ -z "${1}" ]]; then
     printf -- "No format specified for the output document.\n"
-    printf -- "Usage: %s [pdf | html ] [<sourcefile>]\n" ${0##*/}
-    printf -- "Default <sourcefile>: %s.\n" ${SOURCEDOC}
+    printf -- "Usage: %s [ pdf | html ] [<sourcefile>]\n" ${0##*/}
     exit 1
 else
     FORMAT="${1}"
+fi
+
+# Source file
+SOURCEDOC="../wf-specification.md"
+if [[ -n "${2}" ]]; then
+    SOURCEDOC="${2}"
 fi
 
 # Arguments have been checked; do not use unset variables from now
@@ -35,7 +27,13 @@ if [[ -e ${SOURCEDOC} ]]; then
     SRCDIR=$(dirname ${SOURCEDOC})
     SRCFILE=$(basename ${SOURCEDOC})
 else
-    printf -- "Source document %s does not exist.\n" ${2}
+    printf -- "Source document %s does not exist.\n" ${SOURCEDOC}
+    exit 1
+fi
+
+# Check pandoc
+if [[ ! -x $(which pandoc) ]]; then
+    printf -- "Cannot find pandoc; please check if pandoc is installed.\n"
     exit 1
 fi
 
@@ -45,11 +43,25 @@ if [[ ${SOURCEDOC##*.} != "md" ]]; then
     exit 1
 fi
 
+# Set default source
+printf -- "Source document: %s\n" ${SOURCEDOC}
+
 # Compile output document name
-VERSION=$(git describe --tags)
-PUBDIR=${SRCDIR}
+VERSION=$(git describe --abbrev=0 --tags)
+PUBDIR=${SRCDIR}"/docs"
 PUBFILE=${SRCFILE%.*}"-"${VERSION}"."${FORMAT}
 OUTPUTDOC=${PUBDIR}"/"${PUBFILE}
+printf -- "Output document: %s\n" ${OUTPUTDOC}
+
+# Final check
+printf -- "Continue? (y/n) " ${OUTPUTDOC}
+read yn 2> /dev/null
+case "$yn" in
+    y|Y) true;;
+    *)
+        printf "Exiting.\n"
+        exit 2;;
+esac
 
 # Call pandoc with options iaw format
 case "${FORMAT}" in
@@ -61,10 +73,6 @@ case "${FORMAT}" in
         pandoc -s --variable=version:${VERSION} -o ${OUTPUTDOC} html.yaml ${SOURCEDOC}
         PANDOCEXIT=${?}
         ;;
-    #docx)
-    #    pandoc -s --reference-docx=template.docx --variable=version:${VERSION} -o ${OUTPUTDOC} ${SOURCEDOC}
-    #    PANDOCEXIT=${?}
-    #    ;;
     *)
         printf -- "Format %s is not supported.\n" ${FORMAT}
         exit 1
