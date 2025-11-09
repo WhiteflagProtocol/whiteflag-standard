@@ -2,7 +2,7 @@
 title: Whiteflag Protocol Specification
 version: 1-draft.7-dev
 status: DRAFT (in development)
-date: 03 NOV 2025
+date: 09 NOV 2025
 ---
 
 ## 1 Introduction
@@ -144,28 +144,28 @@ of this standard in line with its open character is under consideration.
 
 The following principles are the basis for the Whiteflag Protocol:
 
-- the protocol is based on blockchain technology, but is
+1. the protocol is based on blockchain technology, but is
     "blockchain-agnostic", i.e. independent of any specific blockchain;
-- the protocol is as free and open as the underlying blockchain and
+2. the protocol is as free and open as the underlying blockchain and
     internet technologies are: anyone can join at any time without
     permission;
-- the working of the protocol does not rely on any third party, i.e.
+3. the working of the protocol does not rely on any third party, i.e.
     there is no ownership of the network that is created with the
     protocol and no dependency on specific software or a system;
-- the protocol does not have access control, but does provide means of
+4. the protocol does not have access control, but does provide means of
     authentication;
-- the protocol inherits the data integrity and non-repudiation
+5. the protocol inherits the data integrity and non-repudiation
     properties of the underlying blockchain(s);
-- the protocol allows to use encryption for message confidentiality;
-- the protocol should be compliant with international rules and
+6. the protocol allows to use encryption for message confidentiality;
+7. the protocol should be compliant with international rules and
     standards for armed conflicts;
-- the protocol is kept as simple as possible, to ensure easy access,
+8. the protocol is kept as simple as possible, to ensure easy access,
     easy understanding and easy implementation;
-- the message formats are fixed to ensure interoperability and a
+9. the message formats are fixed to ensure interoperability and a
     common understanding between the communicating parties;
-- the protocol is extensible to allow functionality to be added with
+10. the protocol is extensible to allow functionality to be added with
     backwards compatibility;
-- implementation only requires the use of open standards.
+11. implementation only requires the use of open standards.
 
 ### 2.2 Protocol Stack and Scope
 
@@ -290,7 +290,7 @@ of ordered records called blocks, each containing a timestamp and a hash-based
 link to a previous block going all the way back to the first block.
 
 Blockchain networks are open source distributed computing systems with high
-byzantine fault tolerance: secure by design and inherently resistant to 
+byzantine fault tolerance: secure by design and inherently resistant to
 modification of the data; once recorded, the data in a block cannot be altered
 retroactively.
 
@@ -314,10 +314,11 @@ called a *Blockchain Overlay Network*.
 
 The originator is a specific organisation or person that sends Whiteflag
 Messages on the Whiteflag Network. The originator's identity
-is established upon initial entry to the network. An originator may use
-multiple accounts on the blockchain network. Although an account may use
-multiple (deterministic) addresses, the usage of more than one address
-by a single account is not recommended for Whiteflag.
+is established upon initial entry to the network.
+
+An originator may use multiple accounts on the blockchain network. Although
+an account may use multiple (deterministic) addresses, the usage of more than
+one address by a single account is not recommended for Whiteflag.
 
 It is only required for an originator to provide identity information
 before sending messages; it is not required to provide identity
@@ -375,8 +376,10 @@ identities.
 
 For blockchains that encourage or require to use a different address for
 each transaction, deterministic key chains are used to link the
-authentication message both to the blockchain account as well as to
-other messages sent by the same originator but with different addresses.
+authentication message to the blockchain account as well as to other
+messages sent by the same originator but with different addresses. However,
+although supported, deterministic keys and addresses should normally not
+be used for Whiteflag.
 
 The authentication mechanism is described in detail in [Paragraph 2.4.2.2](#2422-management-messages)
 for initial authentication messages, and in [Paragraph 5.1](#51-joining-and-leaving-the-whiteflag-network)
@@ -417,7 +420,7 @@ with the network and is in sync (again).
 
 The Whiteflag Protocol the protocol provides optional message confidentiality
 using an AES based encryption scheme to encrypt the message contents. This is
-described in detail in [Paragraph 4.1.4](#414-encryption).
+described in detail in [Paragraph 4.1.4](#414-message-encryption).
 
 The encryption scheme allow for both Diffie-Hellman negotiated keys and
 pre-shared keys. The Whiteflag Protocol specifies the Diffie-Hellman key
@@ -469,7 +472,7 @@ functionality.
 |------|------------------|-------------------------------------------------------------------------------------|
 | `A`  | `Authentication` | Message introducing the sender on the network with the sender's authentication data |
 | `K`  | `Crypto`         | Message for management of keys and parameters of cryptographic functions            |
-| `T`  | `Test`           | Message that can be used for testing Whiteflag functionality by applications        |
+| `T`  | `Test`           | Message for testing Whiteflag protocol and application functionality                |
 
 ##### 2.4.2.3 Duress Indicator
 
@@ -626,46 +629,14 @@ be taken into account:
 
 #### 2.6.4 Processing and Storage of Messages
 
-On the Whiteflag Network, messages must be formatted and processed as
-indicated in this standard. Additionally, this standard defines how
-messages and message sequences should be semantically interpreted.
+On the Whiteflag Network, i.e. at the blockchain level, messages must be
+formatted and processed as indicated in this standard. Also, this standard
+defines how messages and message sequences should be semantically interpreted.
 
-To help implementing and validating Whiteflag Messages, [Annex B](#annex-b-json-schema-of-whiteflag-messages)
-provides a JSON schema that describes the messages, which might be of
-beneficial use for application developers.
-
-However, strictly speaking, this schema is outside the scope of this
-standard: firstly because the Whiteflag Messages sent on the network are
-not JSON-formatted, and secondly because this standard does deliberately
-not specify how messages are to be processed and stored by applications
-(an application might very well use XML instead of JSON). Nevertheless,
-it is recommended to use a JSON format compliant with this schema for
-open APIs.
-
-### 2.7 Note on the notation of Messages and Message Sequences
-
-For documentation and software development purposes, messages codes and
-message sequences might be written as follows:
-
-- a message may be referred to by its message code,
-    e.g. `T` for a test message;
-- a specific sign or signal may be indicated by the combination of
-    message and subject code, e.g. `E01` for a distress signal;
-- a reference indicator may be written in between brackets after the
-    message code, e.g. `A(2)` for an update to an earlier `A` message;
-- an encrypted message is written between square brackets,
-    e.g. `[Q(0)14]`;
-- the originator may be indicated behind the message code and reference
-    indicator, e.g. `A(0)X` is an original authentication message from X;
-- the symbol `<` is used as a pointer in the message sequence;
-    the symbol is repeated to indicate to which message is
-    referred, e.g. `<<` means two messages before.
-
-For example, a message from originator X for relating an area under
-attack to an existing protective sign from a hospital H may be written
-as `P31(0)H < D10(5)X`. When the attack ends and the status of
-the hospital is provided, the full sequence will read:
-`P31(0)H < D10(5)X < D10(4)X <<< S23(5)H`.
+To help implementing and validating Whiteflag Messages when processed and
+stored outside a blockchain, [Annex B](#annex-b-json-schema-of-whiteflag-messages)
+provides a JSON schema for representing Whiteflag messages in JSON, which
+might useful for application developers.
 
 ## 3 Use Case Examples
 
@@ -675,35 +646,40 @@ the hospital is provided, the full sequence will read:
 
 ### 4.1 Message Structure
 
-#### 4.1.1 Representations
+#### 4.1.1 Message Representations
 
-A Whiteflag message can have different representations at different
-levels of the protocol stack:
+A Whiteflag message has a header and a body, each comprised of a number
+of fields containing the message data. The message has different
+representations at different levels of the protocol stack:
 
 - at the Blockchain Overlay Network Layer (i.e. the level at which the
-    Whiteflag Network is established) the message is
-    represented as a compressed binary string, and optionally encrypted;
+    Whiteflag Network is established and messages are embedded in a
+    blockchain treansaction), the message is represented as a compressed
+    binary string, and optionally encrypted;
 - at the Decentralised Protocol Layer, a message is represented as an
     uncompressed and unencrypted concatenated character string comprised
-    of the message fields;
+    of the message field values;
 - at the API layer, a message and its message fields can have any
     appropriate representation using a structured language, such as JSON
-    or XML;
+    or XML.
 
 The standard describes the uncompressed and unencrypted concatenated
 character string at the Decentralised Protocol Layer, and how these
-messages are compressed into a binary string, and optionally encrypted.
+messages are encoded into a binary string, and optionally encrypted
+to be embedded in a blockcahin transaction at the Blockchain Overlay
+Network Layer.
 
-#### 4.1.2 Encoding
+#### 4.1.2 Message Encoding
 
-An uncompressed and unencrypted Whiteflag Message consists of:
+An uncompressed and unencrypted Whiteflag Message at the Decentralised
+Protocol Layer consists of:
 
 - the Message Header (see [Paragraph 4.2](#42-message-header)), which is
-    the same for all messages and consists of 7 fields with a total length
-    of 71 bytes;
+    the same for all messages types and consists of 7 fields with a total
+    length of 71 bytes;
 - the Message Body (see [Paragraph 4.3](#43-message-body)), of which the
-    fields and number of bytes per field differ between message types, and
-    is therefore variable in length.
+    fields, and therefore the total number of bytes, differ between message
+    types, and is therefore variable in length.
 
 The individual bytes of an uncompressed and unencrypted messages are
 encoded using a single 7-bit/1-byte UTF-8 code unit, allowing the usage
@@ -715,22 +691,25 @@ allowed for each field. The field descriptions of the message header and
 body in [Paragraph 4.2](#42-message-header) and in [Paragraph 4.3](#43-message-body),
 use the following characters to indicate which subset of characters is valid:
 
-- `c` indicates any valid 1 byte UTF-8/Unicode character, i.e. UTF-8
-    code points `U+0000` through `U+007F`;
+- `c` indicates that any valid 1 byte UTF-8/Unicode character may be used,
+    i.e. UTF-8 code points `U+0000` through `U+007F`;
 
-- `a` indicates that any alpha-numeric character (0-9, A-Z, a-z),
+- `a` indicates that any alpha-numeric character (`0`-`9`, `A`-`Z`, `a`-`z`) may be used,
     i.e. UTF-8 code points `U+0030` through `U+0039`, `U+0041` through
     `U+005A`, and `U+0061` through `U+007A`;
 
-- `b` indicates that only a binary character (0-1) is the be used,
-    i.e. UTF-8 code points `U+0030` trough `U+0031`;
+- `b` indicates that a binary character (`0` or `1`) must be used,
+    i.e. UTF-8 code point `U+0030` or `U+0031`;
 
-- `d` indicates that only a decimal character (0-9) is to be used,
+- `d` indicates that a decimal character (`0`-`9`) must be used,
     i.e. UTF-8 code points `U+0030` trough `U+0039`;
 
-- `x` indicates that only a hexadecimal character (0-F) is to be
-    used, i.e. UTF-8 code points `U+0030` trough `U+0039`, and
-    `U+0041` trough `U+0046`.
+- `x` indicates that a hexadecimal character (`0`-`F`) must to be used,
+    i.e. UTF-8 code points `U+0030` trough `U+0039`,
+    and `U+0041` trough `U+0046`;
+
+- `_` indicates the sign of a number, for which `+` or `-` must be used,
+    i.e. UTF-8 code point `U+002B` or `U+002D`;
 
 Instead of `d`, the letters `y`, `m`, `d`, `h`, `m`, and `s`
 are used in some field descriptions in and Message Body to indicate
@@ -747,7 +726,7 @@ be used literally.
 Before the message is embedded in a blockchain transaction, the message
 is compressed and optionally encrypted as described below.
 
-#### 4.1.3 Compression
+#### 4.1.3 Message Compression
 
 Whiteflag messages must be compressed to allow usage on blockchains with
 limited space for custom information, and to improve optional
@@ -755,8 +734,10 @@ encryption. Compression of the message is done as follows:
 
 - all fixed characters are omitted, except for the Prefix field;
 
-- binary characters (`b`), binary indicators and number signs are
-    compressed to 1 bit;
+- binary characters and indicators (`b`) are compressed to 1 bit;
+
+- number signs (`_`) are compressed to 1 bit,
+    with a `+` compressed to a `1` bit, and a `-` compressed to a `0` bit;
 
 - decimal and hexadecimal characters (`d` and `h`) are compressed
     to a half-byte (4 bits) unsigned binary coded decimal/hexadecimal.
@@ -765,7 +746,7 @@ The descriptions of the message header and body in [Paragraph 4.2](#42-message-h
 and in [Paragraph 4.3](#43-message-body), show how the compression must
 be applied to each field.
 
-#### 4.1.4 Encryption
+#### 4.1.4 Message Encryption
 
 The third field of the message is an indicator for which encryption is
 being used. This standard currently only provides limited support for
@@ -780,18 +761,20 @@ length of the message may differ from the unencrypted message length,
 which may complicate the embedding of the message in a transaction on
 certain blockchains.
 
-#### 4.1.5 Embedding
+Message encryption is further described in [Paragraph 5.2.4](#524-message-encryption).
 
-To finally send the message, after compression and encryption, the
-message is embedded in a blockchain transaction. How the message is
-embedded in the transaction depends on the blockchain and is specified
-in Annex A.
+#### 4.1.5 Embedding and Sending Messages
+
+To finally send the message, after compression and encryption, the message
+is embedded in a blockchain transaction. The way this is done is blockchain
+specific. [Annex A](#annex-a-blockchain-layer-specific-details) contains
+information about message embedding for a limited number of blockchains.
 
 ### 4.2 Message Header
 
 #### 4.2.1 Generic Message Header
 
-All messages use the same generic message header, specified below.
+All messages use the same generic message header, as specified below.
 
 ##### 4.2.1.1 Generic Message Header Fields
 
@@ -832,14 +815,16 @@ encrypted for confidentiality. The contents of the field must be a
 | `3`-`9` | (reserved)         | Must not be used                                                                              |
 | (other) | (private use)      | Encrypted with a method indicated by the value, but specific to the application or originator |
 
+Message encryption is further described in [Paragraph 5.2.4](#524-message-encryption).
+
 ##### 4.2.1.5 Duress Indicator Field
 
 The `DuressIndicator` field value must be `0`, unless the sign or
 signal was sent under threat or force. In that case the DuressIndicator
 field must be `1`.
 
-See Duress Indicator for further considerations on the duress
-functionality.
+See [Paragraph 2.4.2.3](#2423-duress-indicator) for further considerations
+on the duress functionality.
 
 ##### 4.2.1.6 Message Code Field
 
@@ -913,9 +898,9 @@ must contain the following fields:
 | 103-104    | 2           | `ObjectType`        | Specifies the type of object the sign/signal refers to                         | `xx`                   | 2x 4-bit unsigned binary coded hexadecimal           |
 | 105-113    | 9           | `ObjectLatitude`    | Specifies the object location in decimal degrees latitude i.a.w. ISO 6709      | `\_dd.ddddd`           | 1x sign bit + 7x 4-bit unsigned binary coded decimal |
 | 114-123    | 10          | `ObjectLongitude`   | Specifies the object location in decimal degrees longitude i.a.w. ISO 6709     | `\_ddd.ddddd`          | 1x sign bit + 8x 4-bit unsigned binary coded decimal |
-| 124-127    | 4           | `ObjectSizeDim1`    | Specifies the size of the object's first dimension in meters                   | `nnnn`                 | 4x 4-bit unsigned binary coded decimal               |
-| 128-131    | 4           | `ObjectSizeDim2`    | Specifies the size of the object's second dimension in meters                  | `nnnn`                 | 4x 4-bit unsigned binary coded decimal               |
-| 132-134    | 3           | `ObjectOrientation` | Specifies the object's orientation in degrees                                  | `nnn`                  | 3x 4-bit unsigned binary coded decimal               |
+| 124-127    | 4           | `ObjectSizeDim1`    | Specifies the size of the object's first dimension in meters                   | `dddd`                 | 4x 4-bit unsigned binary coded decimal               |
+| 128-131    | 4           | `ObjectSizeDim2`    | Specifies the size of the object's second dimension in meters                  | `dddd`                 | 4x 4-bit unsigned binary coded decimal               |
+| 132-134    | 3           | `ObjectOrientation` | Specifies the object's orientation in degrees                                  | `ddd`                  | 3x 4-bit unsigned binary coded decimal               |
 
 In addition, the message body of message type `Q` may be extended with
 the following fields:
@@ -1380,22 +1365,22 @@ by coordinates, the `ObjectLatitude` fields must be formatted as
 follows: `\_dd.ddddd` (i.e. regular expression
 `\^\[+-\]\[0-9\]{2}\\.\[0-9\]{5}\$`), where:
 
-- The digits represent the north-south longitude; valid values are:
-    `-90.00000` to `+90.00000`
+- The digits represent the north-south longitude, with valid values:
+    `-90.00000` to `+90.00000`;
 
-- `\_` is either `+` or `-` to denote north (+) or south (-);
-    with a `+` encoded as `1` and a `-` encoded as `0`
+- `\_` is the sign to indicate north (+) or south (-),
+    with a `+` compressed to a `1` bit, and a `-` compressed to a `0` bit.
 
 Based on ISO 6709 - Standard representation of geographic point location
 by coordinates, the `ObjectLongitude` fields must be formatted as
 follows: `\_ddd.ddddd` (i.e. regular expression
 `\^\[+-\]\[0-9\]{3}\\.\[0-9\]{5}\$`), where:
 
-- The digits represent the east-west latitude; valid values are:
-    `-180.00000` to `+180.00000`
+- The digits represent the east-west latitude, with valid values:
+    `-180.00000` to `+180.00000`;
 
-- `\_` is either `+` or `-` to denote east (+) or west (-);
-    with a `+` encoded as `1` and a `-` encoded as `0`
+- `\_` is the sign to indicate east (+) or west (-),
+    with a `+` compressed to a `1` bit, and a `-` compressed to a `0` bit.
 
 The object location must be specified for Protective Signs and Danger
 Signs (Message Codes `P` and `D`).
@@ -1538,6 +1523,8 @@ all text, an additional text message may be sent using reference code `3`.
 
 #### 4.3.4 Management Messages: Authentication
 
+The usage of authentication messages is described in [Paragraph 5.1](#51-joining-and-leaving-the-whiteflag-network).
+
 ##### 4.3.4.1 Authentication Message Fields
 
 The message body of management messages for (initial) authentication
@@ -1582,6 +1569,8 @@ additional Authentication Message may be sent with the rest of the URL
 or verification token using reference code `3`.
 
 #### 4.3.5 Management Messages: Cryptographic Support
+
+The usage of cryptographic support messages is described in [Paragraph 5.2](#52-cryptographic-support-functions).
 
 ##### 4.3.5.1 Cryptographic Support Message Fields
 
@@ -1646,6 +1635,8 @@ is detailed in [Paragraph 5.2](#52-cryptographic-support-functions).
 
 #### 4.3.6 Management Messages: Test
 
+The usage of test messages is described in [Paragraph 5.5](#55-testing).
+
 ##### 4.3.6.1 Test Message Fields
 
 The message body of test messages has an identical set of fields as signs
@@ -1665,14 +1656,40 @@ tested. The contents of the field must be a 1-byte UTF-8 encoded
 alpha-numeric character value corresponding with one of the message
 types defined in [Paragraph 2.4.2](#242-message-functionality).
 
-##### 4.3.5.3 Other Test Message Fields
+##### 4.3.5.3 Test Message Body
 
-All other test message fields are identical in use as the equivalent
-fields sign/signal message, as described in [Paragraph 4.3](#43-message-body),
-with the difference that the fields are shifted 1 byte / 8 bits.
+All other test message fields in the message body are identical in use as the
+equivalent fields sign/signal message, as described in [Paragraph 4.3](#43-message-body),
+with the difference that the fields are shifted 1 byte / 8 bits, because of
+the Pseudo Message Code field.
 
-The field names must be preceded by `Test` when used in a test
-message.
+The field names must be preceded by `Test` when used in a test message.
+
+### 4.4 Notation of Messages and Message Sequences
+
+For documentation purposes and use case descriptions, messages codes and
+message sequences might be written as follows:
+
+- a message may be referred to by its message code,
+    e.g. `T` for a test message;
+- a specific sign or signal may be indicated by the combination of
+    message and subject code, e.g. `E01` for a distress signal;
+- a reference indicator may be written in between brackets after the
+    message code, e.g. `A(2)` for an update to an earlier `A` message;
+- an encrypted message is written between square brackets,
+    e.g. `[Q(0)14]`;
+- the originator may be indicated behind the message code and reference
+    indicator, e.g. `A(0)X` is an original authentication message from X;
+- the symbol `<` is used as a pointer in the message sequence;
+    the symbol is repeated to indicate to which message is
+    referred, e.g. `<<` means two messages before.
+
+For example, a message from originator X for relating an area under
+attack `D10` to an existing protective sign `P31` of a hospital H in that
+area, may be written as: `P31(0)H < D10(5)X`.
+
+When the attack ends and the status of the hospital is provided,
+the full sequence will read: `P31(0)H < D10(5)X < D10(4)X <<< S23(5)H`.
 
 ## 5 Protocol
 
@@ -1690,13 +1707,17 @@ accounts, and an account may use multiple addresses.
 Each account should be identified by sending an `A(0)` initial
 authentication message, before sending any other message. Any message sent
 by an account before that account has sent an `A(0)` messages, may be
-considered unauthenticated by recipients.
+considered unauthenticated by recipients. The same is the case for any
+message sent after an A(0), but before an A(1) message: these messages may
+be consired unauthenticated.
 
-If an account uses multiple addresses, the `A(0)` message must be sent using
-the address corresponding with public key from which all other addresses
-can be deterministically derived. For recipients to be able to derive those
-address, a `K(3)2` message referencing the `A(0)` message must be sent,
-containing the chain code for child key derivation.
+Although supported, deterministic keys and addresses should normally not
+be used for Whiteflag. If an account uses deterministic addresses, the
+`A(0)` message must be sent using the address corresponding with public key
+from which all other addresses can be deterministically derived. For
+recipients to be able to derive those address, a `K(3)01` message
+referencing the `A(0)` message must be sent, containing the chain code
+for child key derivation.
 
 #### 5.1.2 Validating Authentication Information
 
@@ -1985,15 +2006,16 @@ referenced encrypted message.
 
 ### 5.3 Sending stand-alone Signs and Signals
 
-To send a stand-alone message, Reference Code `0` must be used.
+To send an initial sign or signal, Reference Code `0` must be used. Any
+update of teh sign or signal must be sent by sending a message referencing
+the initial message with the correct reference code, specified in
+[Paragrpah 4.2.1.7](#4217-reference-indicator-field).
 
-However, nothing prevents other senders to reference the message at any
-later point in time, thus creating a message sequence from a previously
-stand-alone message.
+Also, nothing prevents other originators to reference the message at
+any later point in time, adding more information by creating a message
+sequence starting with the initial sign or signal.
 
-A message is sent by embedding it in a blockchain transaction. The way
-this is done is blockchain specific. Annex A contains some information
-about message embedding for a limited number of blockchains.
+Message referencing is described in more detail in [Paragraph 5.4](#54-referencing).
 
 ### 5.4 Referencing
 
@@ -2263,10 +2285,26 @@ updated, or a related message from another originator.
 
 ### 5.5 Testing
 
-Test messages must be disregarded for any other purposes than testing.
-Test messages should only be used on testing networks of blockchains.
+Test messages are used to simulate any other message types for testing
+purposes. They allow test data to be distinguished from real data,
+especially outside test networks.
 
-A test message may reference any other message for testing purposes.
+The message that is simulated is refered to as the pseudo message, and
+is identified by the Pseudo Message Code field, with its data contained
+in the Pseudo Message Body, as described in [Paragraph 4.4.5.3](#4353-test-message-body).
+
+Test messages may be used for both protocol tests and application tests.
+Examples of a protocol tests are encryption, authentication, and reference
+tests. An example of an application test is the evaluation of the correct
+display and updates of entities (e.g. danger, infrastructure) on a map.
+
+The way test messages are processed is not standardised and may be
+determined by the tester. For testing purposes, test messages do not need
+to comply with protocol rules. For example, test messages may be sent before
+an authentication message is sent, and test messages may reference any other
+message using any reference code.
+
+A test message must be disregarded for any other purpose than testing.
 
 ## Annex A. Blockchain layer specific details
 
