@@ -445,7 +445,7 @@ standards, and to provide additional information.
 | `I`  | `InfrastructureSign` | Sign to mark critical infrastructure, e.g. roads, utilities, water treatment, hospitals, power plants etc. |
 | `M`  | `MissionSignal`      | Signal to provide information on activities undertaken during a mission                                    |
 | `Q`  | `RequestSignal`      | Signal to perform requests to other parties                                                                |
-| `R`  | `Resource`           | Message to point to an internet resource                                                                   |
+| `R`  | `Reference`          | Message to provide a reference, e.g. to an information resource outside Whiteflag                          |
 | `F`  | `FreeText`           | Message to send a free text string                                                                         |
 
 A specific Functional Message has a single meaning. For example, a
@@ -1466,39 +1466,43 @@ Valid values for an `ObjectType*Quant` field are `00` to `99`. If the
 quantity of an object is unknown, then the respective `ObjectType*Quant`
 field must be `00`.
 
-#### 4.3.2 Functional Messages: Resource
+#### 4.3.2 Functional Messages: Reference
 
-##### 4.3.2.1 Resource Message Fields
+##### 4.3.2.1 Reference Message Fields
 
-| Byte Index | Byte Length | Field            | Usage                                              | Uncompressed Encoding       | Compressed Encoding                        |
-|------------|-------------|------------------|----------------------------------------------------|-----------------------------|--------------------------------------------|
-| 0-70       | 71          | Message Header   | See Generic Message Header Fields                  |                             |                                            |
-| 71         | 1           | `ResourceMethod` | Indicates the mechanism for pointing to a resource | `x`                         | 1x 4-bit unsigned binary coded hexadecimal |
-| 72-111*    | 40*         | `ResourceData`   | Provides the data required to find the resource    | `cccccccccc ... cccccccccc` | 40x 8-bit UTF-8                            |
+| Byte Index | Byte Length | Field             | Usage                                              | Uncompressed Encoding       | Compressed Encoding                        |
+|------------|-------------|-------------------|----------------------------------------------------|-----------------------------|--------------------------------------------|
+| 0-70       | 71          | Message Header    | See Generic Message Header Fields                  |                             |                                            |
+| 71         | 1           | `ReferenceMethod` | Indicates the mechanism for pointing to a resource | `x`                         | 1x 4-bit unsigned binary coded hexadecimal |
+| 72-111*    | 40*         | `ReferenceData`   | Provides the data required to find the resource    | `cccccccccc ... cccccccccc` | 40x 8-bit UTF-8                            |
 
-##### 4.3.2.2 Resource Method Field
+##### 4.3.2.2 Reference Method Field
 
-The `ResourceMethod` field defines the mechanism for pointing to a resource. The
+The `ReferenceMethod` field defines the mechanism for pointing to a resource. The
 field must be 1-byte UTF-8 encoded hexadecimal character. Currently only
 one resource method has been defined:
 
-| Code    | Resource Method    | Usage                                               |
+| Code    | Reference Method   | Usage                                               |
 |---------|--------------------|-----------------------------------------------------|
 | `0`     | (reserved)         | Must not be used                                    |
 | `1`     | `InternetResource` | Reference to an internet resource                   |
+| `2`     | `CommonName`       | Reference by common name                            |
 | `2`-`9` | (reserved)         | Reserved for future resource referencing mechanisms |
 | `A`-`F` | (private use)      | Private use, i.e. not standardized                  |
 
-##### 4.3.2.3 Resource Data Field
+##### 4.3.2.3 Reference Data Field
 
-The content of the ResourceData field depends on the resource method:
+The content of the ReferenceData field depends on the resource method:
 
-- If the `ResourceMethod` method indicates a reference to an
-    internet resource (resource method 1), then the `ResourceData`
-    field must contain a valid URL.
+- If the `ReferenceMethod` is `1`, then the `ReferenceData` field
+    must contain a valid URL of the referenced internet resource;
 
-The `ResourceData` field may be longer than 40 bytes, if allowed by
-underlying blockchain. If the length of the `ResourceData` field is
+- If the `ReferenceMethod` is `2`, then the `ReferenceData` field
+    must contain a common name for the referenced object, i.e. the
+    name that is commonly used by humans.
+
+The `ReferenceData` field may be longer than 40 bytes, if allowed by
+underlying blockchain. If the length of the `ReferenceData` field is
 insufficient to provide the complete URL, an additional Reference
 Message may be sent with the rest of the URL using reference code `3`.
 
@@ -2073,34 +2077,38 @@ A message with Reference Code `0` (an original message) may not
 reference any message.
 
 A message with Reference Code `1` (a recall message) may reference a
-message with any reference code of the same originator, meaning that
+message with any reference code of the *same originator*, meaning that
 a message with any reference code can be recalled.
 
 A message with Reference Code `2` (an update message) may only reference
 a message with reference code `0`, `3`, or `5` meaning that only original,
-additional, and referring messages may be updated and only by the same
-originator.
+additional, and referring messages may be updated and only by the *same
+originator*.
 
 A message with Reference Code `3` (an additional information message)
 may only reference a message with reference code `0`, `2`, or `5`,
-for the same originator to provide additional information to original,
-updating and referring messages.
+for the *same originator* to provide additional information to original,
+updating and referring messages. The use cases for Reference Code `3` are:
 
-Reference Code `3` may be only used once to refer to the original message
-of the same message type. For example: `S(0) < R(3) < R(3)` and
-`... < [F(3)] < K11(3) << [F(3)] < K11(3)` are allowed, but
-`... < R(3) < R(3) << R(3)` is not. There is one exception: Reference
-Code `3` may be used to reference the same message type of types `P`, `D`,
-`Q`, and `M` more than once, when creating composite areas (see Composite
-Areas and Structures). In that case, the additional information must reference
-the initially referenced message and may not reference another message with
-additional information, e.g. `D(0) < D(3) << D(3) <<< D(3)`
+- extending the data field on blockchains that only allow messages of
+    limited lentgh, by referencing the previous segment of the same message
+    type to ensure the correct order: e.g. `A1(0) < A1(3) < A1(3)` and
+    `F(0) < F(3) < F(3)` should be considered to be one message;
+
+- creating composite areas by an identical sign or signal referencing the
+    initial one, e.g. `D(0) < D(3) << D(3) <<< D(3)`;
+
+- provide additional data to a different message type,
+    e.g. `I(0) < S(3) < R1(3)` where the reference message `R1(3)`
+    provides an internet resource related to the `S(3)` message providing
+    the status of infrastructure I.
 
 A message with Reference Code `4` (a discontinue message) may only
 reference a message with reference code `0`, `5`, `6`, `8`, or `9` of the
-same originator, because an only originator may only discontinue an original,
-related, confirmation, comply or reject message. Discontinuing a message
-also implies that any later updates to that message are discontinued.
+*same originator*, because an only originator may only discontinue an
+original,related, confirmation, comply or reject message. Discontinuing
+a message also implies that any later updates to that message are
+discontinued.
 
 A message with Reference Code 5 (a referring message) may only reference
 a message with Reference Code `0` or `5`, i.e. to refer to an
