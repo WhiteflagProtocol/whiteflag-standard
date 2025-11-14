@@ -395,7 +395,12 @@
                     {
                         "const": "0A",
                         "title": "ECDHPubKey",
-                        "description": "Elliptic Curve Diffie–Hellman public key exchange"
+                        "description": "Elliptic Curve Diffie-Hellman public key exchange for encryption key negotiation"
+                    },
+                    {
+                        "const": "0B",
+                        "title": "ECDHPubKey",
+                        "description": "Elliptic Curve Diffie-Hellman public key exchange for authentication token negotiation"
                     },
                     {
                         "const": "11",
@@ -697,6 +702,11 @@
                         "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
                     },
                     {
+                        "const": "1D",
+                        "description": "War/Conflict/Terrorism - Electronic Attack / Jamming",
+                        "allowedObjectTypes": [ "0*", "2*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
                         "const": "20",
                         "description": "Unspecified Hazardous Conflict Area",
                         "allowedObjectTypes": [ "0*", "2*" ]
@@ -829,6 +839,16 @@
                     {
                         "const": "54",
                         "description": "Complex/Manmade Hazard - Famine and Food Insecurity",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "55",
+                        "description": "Complex/Manmade Hazard - Looting / Plundering",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                                        {
+                        "const": "56",
+                        "description": "Complex/Manmade Hazard - Vandalism / Defacementy",
                         "allowedObjectTypes": [ "0*", "2*" ]
                     },
                     {
@@ -1099,6 +1119,11 @@
                     {
                         "const": "26",
                         "description": "Object damaged without further details",
+                        "allowedObjectTypes": [ "0*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                                        {
+                        "const": "27",
+                        "description": "Object deliberately misused",
                         "allowedObjectTypes": [ "0*", "3*", "4*", "5*", "6*", "7*", "8*" ]
                     },
                     {

@@ -997,7 +997,8 @@ References:
 |              |             | `1A`         | War/Conflict/Terrorism - Chemical Attack                              |
 |              |             | `1B`         | War/Conflict/Terrorism - Biological Attack                            |
 |              |             | `1C`         | War/Conflict/Terrorism - Nuclear Attack                               |
-|              |             | `1D`-`1F`    | (reserved)                                                            |
+|              |             | `1D`         | War/Conflict/Terrorism - Electronic Attack / Jamming                  |
+|              |             | `1E`-`1F`    | (reserved)                                                            |
 |              |             | `20`         | Unspecified Hazardous Conflict Area                                   |
 |              |             | `21`         | Hazardous Conflict Area - Mine Field                                  |
 |              |             | `22`         | Hazardous Conflict Area - UXOs                                        |
@@ -1028,7 +1029,9 @@ References:
 |              |             | `52`         | Complex/Man-made Hazard - Uncontrolled Uprising                       |
 |              |             | `53`         | Complex/Man-made Hazard - Displaced Population                        |
 |              |             | `54`         | Complex/Man-made Hazard - Famine and Food Insecurity                  |
-|              |             | `55`-`5F`    | (reserved)                                                            |
+|              |             | `55`         | Complex/Man-made Hazard - Looting / Plundering                        |
+|              |             | `56`         | Complex/Man-made Hazard - Vandalism / Defacement                      |
+|              |             | `57`-`5F`    | (reserved)                                                            |
 |              |             | `60`-`9F`    | (reserved)                                                            |
 |              |             | `A0`         | Unspecified Geophysical Disaster Area                                 |
 |              |             | `A1`         | Geophysical Disaster Area - Earthquake                                |
@@ -1092,6 +1095,7 @@ References:
 |              |               | `24`         | Object not functional without further details |
 |              |               | `25`         | Object not functional and damaged             |
 |              |               | `26`         | Object damaged without further details        |
+|              |               | `27`         | Object deliberately misused                   |
 |              |               | `28`         | Object destroyed                              |
 |              |               | `29`-`2F`    | (reserved)                                    |
 |              |               | `30`-`EF`    | (reserved)                                    |
