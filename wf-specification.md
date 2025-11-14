@@ -1299,39 +1299,39 @@ optional and must be set to 00 if not used. However, it is encouraged
 to use it, because it might be valuable for the receiver(s) of the
 message.
 
-| Code      | Object Type                 | Usage                                                                                                                                                                                                                                          |
-|-----------|-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `00`      | Not provided                | Object type is unknown                                                                                                                                                                                                                         |
-| `01`-`0F` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `10`      | Unspecified group of people | Unspecified number of humans together                                                                                                                                                                                                          |
-| `11`      | Person                      | An individual human                                                                                                                                                                                                                            |
-| `12`      | Small group of people       | 2-   10 humans together                                                                                                                                                                                                                        |
-| `13`      | Medium group of people      | 10-  100 humans together                                                                                                                                                                                                                       |
-| `14`      | Large group of people       | 100- 1000 humans together                                                                                                                                                                                                                      |
-| `15`      | Enormous group of people    | 1000-10000 humans together                                                                                                                                                                                                                     |
-| `12`-`1F` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `20`      | Unspecified Area            | An area is a part of the earths surface, either on land or at sea.                                                                                                                                                                             |
-| `21`      | Circular Area               |                                                                                                                                                                                                                                                |
-| `22`      | Rectangle Area              |                                                                                                                                                                                                                                                |
-| `23`      | Triangle Area               |                                                                                                                                                                                                                                                |
-| `24`-`2F` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `30`      | Unspecified Structure       | Immovable human made individual structures that are fixed to the ground, such as buildings, installations, historic ruins, etc. For non-fixed human made structures or a clustering of structures, such as camps, an area object must be used. |
-| `31`      | Circular Structure          |                                                                                                                                                                                                                                                |
-| `32`      | Rectangle Structure         |                                                                                                                                                                                                                                                |
-| `33`      | Triangle Structure          |                                                                                                                                                                                                                                                |
-| `34`-`3F` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `40`      | Unspecified Land Vehicle    | An object used for transport over land                                                                                                                                                                                                         |
-| `41`-`4F` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `50`      | Unspecified Water Vehicle   | An object used for transport on water                                                                                                                                                                                                          |
-| `51`-`5F` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `60`      | Unspecified Air Vehicle     | An object for transport in the air                                                                                                                                                                                                             |
-| `61`-`6F` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `70`      | Unspecified Space Vehicle   | An object for transport in space                                                                                                                                                                                                               |
-| `71`-`7F` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `80`      | Unspecified goods           | Movable materiel, goods, cargo, supplies, etc.                                                                                                                                                                                                 |
-| `80`-`8F` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `90`-`EF` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `F0`-`FF` | (private use)               | Private use, i.e. not standardized                                                                                                                                                                                                             |
+| Code      | Object Type                 | Usage                                                                                                                           |
+|-----------|-----------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| `00`      | Not provided                | Object type is unknown                                                                                                          |
+| `01`-`0F` | (reserved)                  |                                                                                                                                 |
+| `10`      | Unspecified group of people | Unspecified number of humans together                                                                                           |
+| `11`      | Person                      | An individual human                                                                                                             |
+| `12`      | Small group of people       | 2-   10 humans together                                                                                                         |
+| `13`      | Medium group of people      | 10-  100 humans together                                                                                                        |
+| `14`      | Large group of people       | 100- 1000 humans together                                                                                                       |
+| `15`      | Enormous group of people    | 1000-10000 humans together                                                                                                      |
+| `12`-`1F` | (reserved)                  |                                                                                                                                 |
+| `20`      | Unspecified Area / Point    | A point on the earth's surface, either on land or at sea.                                                                       |
+| `21`      | Circular Area               | A circle on the earth's surface, either on land or at sea.                                                                      |
+| `22`      | Rectangle Area              | A rectange on the earth's surface, either on land or at sea.                                                                    |
+| `23`      | Triangle Area               | A triangle on the earth's surface, either on land or at sea.                                                                    |
+| `24`-`2F` | (reserved)                  |                                                                                                                                 |
+| `30`      | Unspecified Structure       | Immovable human made individual structures that are fixed to the ground, such as buildings, installations, historic ruins, etc. |
+| `31`      | Circular Structure          |                                                                                                                                 |
+| `32`      | Rectangle Structure         |                                                                                                                                 |
+| `33`      | Triangle Structure          |                                                                                                                                 |
+| `34`-`3F` | (reserved)                  |                                                                                                                                 |
+| `40`      | Unspecified Land Vehicle    | An object used for transport over land                                                                                          |
+| `41`-`4F` | (reserved)                  |                                                                                                                                 |
+| `50`      | Unspecified Water Vehicle   | An object used for transport on water                                                                                           |
+| `51`-`5F` | (reserved)                  |                                                                                                                                 |
+| `60`      | Unspecified Air Vehicle     | An object for transport in the air                                                                                              |
+| `61`-`6F` | (reserved)                  |                                                                                                                                 |
+| `70`      | Unspecified Space Vehicle   | An object for transport in space                                                                                                |
+| `71`-`7F` | (reserved)                  |                                                                                                                                 |
+| `80`      | Unspecified goods           | Movable materiel, goods, cargo, supplies, etc.                                                                                  |
+| `80`-`8F` | (reserved)                  |                                                                                                                                 |
+| `90`-`EF` | (reserved)                  |                                                                                                                                 |
+| `F0`-`FF` | (private use)               | Private use, i.e. not standardized                                                                                              |
 
 The table below shows which object types may be used for which message
 subjects, and which combinations types are not allowed.
@@ -1415,12 +1415,12 @@ For shaped areas and structures (Object Codes `21-2F` and `31-3F`),
 the Object Size must be provided. For unspecified areas and structures
 (Object Codes `20` and `30`) the dimensions are by definition
 unknown, and must be omitted. For all other objects, the Object Size
-must be omitted.
+must be omitted, i.e. set to 0.
 
 For circle shaped areas and structures (Object Codes `21` and `31`),
 the `ObjectSizeDim1` field represents the radius; the
 `ObjectSizeDim2` field has no meaning for circle shaped areas and
-structures and must be omitted.
+structures and must be omitted, , i.e. set to 0.
 
 For rectangle shaped areas and structures (Object Codes `22` and
 `32`), the `ObjectSizeDim1` field represents the length of the side
@@ -2106,8 +2106,9 @@ updating and referring messages. The use cases for Reference Code `3` are:
     type to ensure the correct order: e.g. `A1(0) < A1(3) < A1(3)` and
     `F(0) < F(3) < F(3)` should be considered to be one message;
 
-- creating composite areas by an identical sign or signal referencing the
-    initial one, e.g. `D(0) < D(3) << D(3) <<< D(3)`;
+- creating composite areas and polygons by an identical sign or signal
+    referencing the initial one, e.g. `D(0) < D(3) << D(3) <<< D(3)`,
+    as further described in [Paragraph 5.4.2.5](#5425-composite-areas-and-structures);
 
 - provide additional data to a different message type,
     e.g. `I(0) < S(3) < R1(3)` where the reference message `R1(3)`
@@ -2233,27 +2234,28 @@ signals:
 
 ##### 5.4.2.5 Composite Areas and Structures
 
-A composite area is a single area specified by multiple messages. A
-composite structure is a single structure specified by multiple
-messages. Composite areas and structures may be used, for example, when
-an area/structure is larger than the `ObjectSize` fields allows, or to
-create areas/structures with shapes other than the `ObjectType` field
-allows.
+A composite area is a single area specified by multiple messages using
+Object Code `20`-`29`. A composite structure is a single or group of
+related structures, specified by multiple messages using Object
+Code `30`-`39`.
 
-To report a new composite area or structure, the first message must have
-its Reference Indicator set to `0` (original message), and any following
+For multiple message to be related, the first message must have its
+Reference Indicator set to `0` (original message), and any following
 message in the sequence must reference the original message using
 Reference Indicator `3`. The referencing messages must have the same
 Subject Code as the original message.
+
+Composite areas and structures may be used, for example, when an
+area/structure is larger than the `ObjectSize` fields allows, or to create
+areas/structures with shapes other than the `ObjectType` field allows.
+Specifically, a polygon area or structure may be created by using multiple
+messages with the Object Code set to `20` and `30`, indicating a collection
+of points, instead of a shapes.
 
 For example, a single mine field comprised of three area parts is
 reported on the network with the following message sequence:
 
 `D21(0) < D21(3) << D21(3)`
-
-Composite areas may only be created using messages with Object Code
-`20`-`29`. Composite structures may only be created using messages
-with Object Code `30`-`39`.
 
 To reference a composite area or structure as a whole (e.g. to discontinue
 it using Reference Code `4` or to confirm it using Reference Code `6`),
