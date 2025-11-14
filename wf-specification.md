@@ -152,8 +152,8 @@ The following principles are the basis for the Whiteflag Protocol:
 3. the working of the protocol does not rely on any third party, i.e.
     there is no ownership of the network that is created with the
     protocol and no dependency on specific software or a system;
-4. the protocol does not have access control, but does provide means of
-    authentication;
+4. the protocol does not have access control, but does provide means
+    of authentication;
 5. the protocol inherits the data integrity and non-repudiation
     properties of the underlying blockchain(s);
 6. the protocol allows to use encryption for message confidentiality;
@@ -325,7 +325,7 @@ before sending messages; it is not required to provide identity
 information to receive messages, as anyone can observe what is happening
 on the blockchain.
 
-##### 2.4.1.3 Authentication mechanisms
+##### 2.4.1.3 Authentication methods
 
 An originator must introduce itself on the Whiteflag Network
 and provide identity information with one or more initial authentication
@@ -357,15 +357,17 @@ protocol.
     authentication data on the internet resource, this will never result in
     a valid digital signature as long as the private key remains secret.
 
-2. The second method uses a pre-shared token. The originator and a
-    receiver exchange a token, which is not known to anybody. The
-    the originator identifies himself by putting a combined hash of the token
-    and the blockchain account in the initial authentication message. The
-    receiver can verify now that the claimed blockchain address actually
-    belongs to the originator who was in prior possession of the token. Note
-    that the secret token itself is not revealed. The originator may do this
-    multiple times with different tokens, different accounts and/or different
-    receivers, and any combination of those.
+2. The second method uses a pre-shared secret. The originator and a
+    receiver exchange a seceret, not known to anybody else. The originator
+    identifies himself by putting an authentication token derived from the
+    shared secret in the initial authentication message, as proof of
+    possession of the shared seceret. The authentication token is created
+    by hashing the shared secret and blockchain address. The receiver can
+    verify that the claimed blockchain address belongs to the originator,
+    because he was in prior possession of the secret. Note that the secre
+    itself is not revealed. The originator may do this multiple times with
+    different tokens, different accounts and/or different receivers, and any
+    combination of those.
 
 The initial authentication can be enhanced by using multiple initial
 authentication messages, i.e. by combining both verification methods,
@@ -381,7 +383,7 @@ messages sent by the same originator but with different addresses. However,
 although supported, deterministic keys and addresses should normally not
 be used for Whiteflag.
 
-The authentication mechanism is described in detail in [Paragraph 2.4.2.2](#2422-management-messages)
+The authentication method is described in detail in [Paragraph 2.4.2.2](#2422-management-messages)
 for initial authentication messages, and in [Paragraph 5.1](#51-joining-and-leaving-the-whiteflag-network)
 for the protocol for initial authentication. After initial
 authentication, the Whiteflag Protocol utilizes the authentication
@@ -468,11 +470,11 @@ verify the validity of the blockchain address and related account, to
 support cryptographic functions and to test connectivity and
 functionality.
 
-| Code | Name             | Description                                                                         |
-|------|------------------|-------------------------------------------------------------------------------------|
-| `A`  | `Authentication` | Message introducing the sender on the network with the sender's authentication data |
-| `K`  | `Crypto`         | Message for management of keys and parameters of cryptographic functions            |
-| `T`  | `Test`           | Message for testing Whiteflag protocol and application functionality                |
+| Code | Name             | Description                                                              |
+|------|------------------|--------------------------------------------------------------------------|
+| `A`  | `Authentication` | Message for authentication of the originator                             |
+| `K`  | `Crypto`         | Message for management of keys and parameters of cryptographic functions |
+| `T`  | `Test`           | Message for testing Whiteflag protocol and application functionality     |
 
 ##### 2.4.2.3 Duress Indicator
 
@@ -1534,11 +1536,15 @@ The usage of authentication messages is described in [Paragraph 5.1](#51-joining
 The message body of management messages for (initial) authentication
 (message type `A`), must contain the following fields:
 
-| Byte Index | Byte Length | Field                | Usage                                         | Uncompressed Encoding       | Compressed Encoding                        |
-|------------|-------------|----------------------|-----------------------------------------------|-----------------------------|--------------------------------------------|
-| 0-70       | 71          | Message Header       | See Generic Message Header Fields             |                             |                                            |
-| 71         | 1           | `VerificationMethod` | Indicates the authentication mechanism        | `x`                         | 1x 4-bit unsigned binary coded hexadecimal |
-| 72-111*    | 40*         | `VerificationData`   | Provides the data required for authentication | `cccccccccc ... cccccccccc` | 25x 8-bit UTF-8                            |
+| Byte Index | Byte Length | Field                | Usage                                                 | Uncompressed Encoding       | Compressed Encoding                          |
+|------------|-------------|----------------------|-------------------------------------------------------|-----------------------------|----------------------------------------------|
+| 0-70       | 71          | Message Header       | See Generic Message Header Fields                     |                             |                                              |
+| 71         | 1           | `VerificationMethod` | Indicates the authentication method                   | `x`                         | 1x 4-bit unsigned binary coded hexadecimal   |
+| 72-111*    | 40*         | `VerificationData`   | Contains UTF-8 text data required for authentication  | `cccccccccc ... cccccccccc` | 25x 8-bit UTF-8                              |
+|            |             |                      | Contains hexadecimal data required for authentication | `xxxxxxxxxx ... xxxxxxxxxx` | 128x 4-bit unsigned binary coded hexadecimal |
+
+Depending on the verification method, the `VerificationData` field may
+contain either UTF-8 text data `c` or hexadecimal data `x`.
 
 ##### 4.3.4.2 Verification Method Field
 
@@ -1547,13 +1553,13 @@ of the blockchain address and related account, and must be a 1-byte
 UTF-8 encoded hexadecimal character from the following table with codes
 for each verification method:
 
-| Code    | Verification Method | Usage                                         |
-|---------|---------------------|-----------------------------------------------|
-| `0`     | (reserved)          | Must not be used                              |
-| `1`     | `InternetResource`  | Authentication through an internet resource   |
-| `2`     | `SharedToken`       | Authentication by a secret pre-shared token   |
-| `3`-`9` | (reserved)          | Reserved for future authentication mechanisms |
-| `A`-`F` | (private use)       | Private use, i.e. not standardized            |
+| Code    | Verification Method | Data | Usage                                       |
+|---------|---------------------|------|---------------------------------------------|
+| `0`     | (reserved)          | -    | Must not be used                            |
+| `1`     | `InternetResource`  | `c`  | Authentication through an internet resource |
+| `2`     | `SharedSecret`      | `x`  | Authentication with a shared secret         |
+| `3`-`9` | (reserved)          | -    | Reserved for future authentication methods  |
+| `A`-`F` | (private use)       | -    | Private use, i.e. not standardized          |
 
 ##### 4.3.4.3 Verification Data Field
 
@@ -1563,14 +1569,15 @@ method:
 - If the `InternetResource` method is specified (verification method 1),
     then the VerificationData field must contain a valid URL;
 
-- If the `SharedToken` method is specified (verification method 2),
-    then the VerificationData field must contain the verification token.
+- If the `SharedSecret` method is specified (verification method 2),
+    then the VerificationData field must contain a hexadecimal authentication
+    token derived from a shared secret.
 
 The `VerificationData` field may be longer than 40 bytes, if allowed
 by underlying blockchain. If the length of the `VerificationData` field
-is insufficient to provide the complete URL or verification token, an
+is insufficient to provide the complete URL or authentication token, an
 additional Authentication Message may be sent with the rest of the URL
-or verification token using reference code `3`.
+or authentication token using reference code `3`.
 
 #### 4.3.5 Management Messages: Cryptographic Support
 
@@ -1585,7 +1592,7 @@ The message body of management messages for cryptographic support
 |------------|-------------|------------------|--------------------------------------------|-----------------------------|----------------------------------------------|
 | 0-70       | 71          | Message Header   | See Generic Message Header Fields          |                             |                                              |
 | 71-72      | 2           | `CryptoDataType` | Indicates the type of data in this message | `xx`                        | 2x 4-bit unsigned binary coded hexadecimal   |
-| 73-144*    | 80*         | `CryptoData`     | Contains the cryptographic data            | `xxxxxxxxxx ... xxxxxxxxxx` | 128x 4-bit unsigned binary coded hexadecimal |
+| 73-144*    | 80*         | `CryptoData`     | Contains the binary cryptographic data     | `xxxxxxxxxx ... xxxxxxxxxx` | 128x 4-bit unsigned binary coded hexadecimal |
 
 ##### 4.3.5.2 Cryptographic Data Type Field
 
@@ -1786,26 +1793,26 @@ used.
 
 An example for usage of JWS for authentication is included in [Annex C](#annex-c-example-json-authentication-objects).
 
-##### 5.1.2.2 Method 2: Shared Token Validation
+##### 5.1.2.2 Method 2: Shared Secret Validation
 
-The option to use a secret token for authentication allows the issuer
-of the token to authenticate the originator's blockchain account when
-the token is revealed in an `A2` message. The secret token may be
-pre-shared or generated from a shared secret:
+The option to use a shared secret for authentication allows the issuer
+of the secret to authenticate the originator's blockchain account when
+proof of possession of the secret is revealed in an `A2` message. The
+secret may be pre-shared or negatiated:
 
-1. The token may be a secret piece of either arbitrary data or some
-    (encrypted) meaningful data provided by the originator. The nature
-    and distribution of such a secret is outside the scope of Whiteflag.
+1. The pre-shared secret be a piece of arbitrary data or some (encrypted)
+    meaningful data provided by the originator. The nature and distribution
+    of such a secret is outside the scope of Whiteflag.
 
-2. The token may also be derived from an ECDH negotiated shared secret
+2. The secret may also be negotiated by exchanging ECDH public keys
     using `K0B` messages, as described in [5.2](#52-cryptographic-support-functions).
-    This allows a secret negotatiated with one (already authenticated)
-    account for the authentication of antother account of the same
-    originator, e.g. to create an anonymous side channel.
+    This allows a secret to be negotatiated with one (already authenticated)
+    account, and then to be used for authentication of antother account of
+    the same originator, e.g. to create an anonymous side channel.
 
-The secret token must not be used directly in a single `A2(0)` message.
-Instead, the authentication data sent in the `A2(0)` message must be derived
-from the secret token using the HKDF function defined in RFC 5869. The
+The shared secret must not be used directly in a single `A2(0)` message.
+Instead, the authentication token sent in the `A2(0)` message must be derived
+from the shared secret using the HKDF function defined in RFC 5869. The
 procedure is described in detail in [5.2.3](#523-encrytpion-key-and-authentication-token-derivation).
 
 An originator may use multiple `A2(0)` messages with tokens
@@ -1862,7 +1869,7 @@ in RFC 5639.
 
 Any participant may generate a 264-bit compressed public ECDH key and
 publish the key on the Whiteflag network using a `K(0)0A` message (for
-encryption keys) or a T`K(0)0B` message (for authentication token). This
+encryption keys) or a `K(0)0B` message (for authentication token). This
 allows any two participants, who have both published their public key,
 to generate shared secrets using their own private key and the other's
 public key.
@@ -1899,17 +1906,17 @@ the blockchain address as the info value.
 - for authentication method 2 (token-based):
     1. the key length (token length) must be 32 bytes (256 bits)
     2. the salt value must be (hexadecimal): `420abc48f5d69328c457d61725d3fd7af2883cad8460976167e375b9f2c14081`
-    3. the info value must be the binary blockchain address
+    3. the info value must be the (binary) blockchain address
 
 - for encryption method 1 (`aes-256-ctr` with negotiated secret):
     1. the key length must be 32 bytes (256 bits)
     2. the salt value must be (hexadecimal): `8ddb03085a2c15e69c35c224bce2952dca7878770724741cbce5a135328be0c0`
-    3. the info value must be the binary blockchain address
+    3. the info value must be the (binary) blockchain address
 
 - for encryption method 2 (`aes-256-ctr` with pre-shared secret):
     1. the key length must be 32 bytes (256 bits)
     2. the salt value must be (hexadecimal): `c4d028bd45c876135e80ef7889835822a6f19a31835557d5854d1334e8497b56`
-    3. the info value must be the binary blockchain address
+    3. the info value must be the (binary) blockchain address
 
 Note that the salts are shown above in hexadecimal representation.
 Implementations must ensure that the data is correctly provided to the HKDF
@@ -1924,7 +1931,7 @@ the following pseudocode for deriving authentication tokens:
     tokenlength := 32
     salt := 0x420abc48f5d69328c457d61725d3fd7af2883cad8460976167e375b9f2c14081
     info := 0x007a0baf6f84f0fa7402ea972686e56d50b707c9b67b108866
-    secretToken := HKDF(sharedSecret, salt, info, tokenlength, digest="sha256")
+    authToken := HKDF(sharedSecret, salt, info, tokenlength, digest="sha256")
 ```
 
 The pseudocode for deriving encryption/decryption keys for the same blockchain
