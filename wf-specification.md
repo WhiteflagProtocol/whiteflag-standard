@@ -1802,7 +1802,7 @@ An example for usage of JWS for authentication is included in [Annex C](#annex-c
 The option to use a shared secret for authentication allows the issuer
 of the secret to authenticate the originator's blockchain account when
 proof of possession of the secret is revealed in an `A2` message. The
-secret may be pre-shared or negatiated:
+secret may be pre-shared or negotiated:
 
 1. The pre-shared secret be a piece of arbitrary data or some (encrypted)
     meaningful data provided by the originator. The nature and distribution
@@ -1810,8 +1810,8 @@ secret may be pre-shared or negatiated:
 
 2. The secret may also be negotiated by exchanging ECDH public keys
     using `K0B` messages, as described in [5.2](#52-cryptographic-support-functions).
-    This allows a secret to be negotatiated with one (already authenticated)
-    account, and then to be used for authentication of antother account of
+    This allows a secret to be negotiated with one (already authenticated)
+    account, and then to be used for authentication of another account of
     the same originator, e.g. to create an anonymous side channel.
 
 The shared secret must not be used directly in a single `A2(0)` message.
@@ -1853,7 +1853,7 @@ It may not be assumed that every recipient is able to link
 deterministically derived addresses to the master public key of the
 account in order to authenticate the originator.
 
-#### 5.2.2 Encrytpion Key and Authentication Token Negotiation
+#### 5.2.2 Encryption Key and Authentication Token Negotiation
 
 The protocol supports cryptographic key exchange using Elliptic Curve
 Diffie-Hellman (ECDH), which is an Elliptic Curve variant of the standard
@@ -1890,9 +1890,9 @@ an updated key (which should have been sent instead).
 
 The shared secret may be used as a basis for encryption and authentication,
 whether for Whiteflag or not, but it should never be used directly as an
-encryption key or autyhentication token.
+encryption key or authentication token.
 
-#### 5.2.3 Encrytpion Key and Authentication Token Derivation
+#### 5.2.3 Encryption Key and Authentication Token Derivation
 
 Shared secrets (such as pre-shared, deterministically derived or
 ECDH generated secrets), must use the HKDF function defined in RFC 5869 to
@@ -2022,9 +2022,9 @@ referenced encrypted message.
 ### 5.3 Sending stand-alone Signs and Signals
 
 To send an initial sign or signal, Reference Code `0` must be used. Any
-update of teh sign or signal must be sent by sending a message referencing
+update of the sign or signal must be sent by sending a message referencing
 the initial message with the correct reference code, specified in
-[Paragrpah 4.2.1.7](#4217-reference-indicator-field).
+[Paragraph 4.2.1.7](#4217-reference-indicator-field).
 
 Also, nothing prevents other originators to reference the message at
 any later point in time, adding more information by creating a message
@@ -2102,7 +2102,7 @@ for the *same originator* to provide additional information to original,
 updating and referring messages. The use cases for Reference Code `3` are:
 
 - extending the data field on blockchains that only allow messages of
-    limited lentgh, by referencing the previous segment of the same message
+    limited length, by referencing the previous segment of the same message
     type to ensure the correct order: e.g. `A1(0) < A1(3) < A1(3)` and
     `F(0) < F(3) < F(3)` should be considered to be one message;
 
@@ -2118,7 +2118,7 @@ updating and referring messages. The use cases for Reference Code `3` are:
 A message with Reference Code `4` (a discontinue message) may only
 reference a message with reference code `0`, `5`, `6`, `8`, or `9` of the
 *same originator*, because an only originator may only discontinue an
-original,related, confirmation, comply or reject message. Discontinuing
+original, related, confirmation, comply or reject message. Discontinuing
 a message also implies that any later updates to that message are
 discontinued.
 
