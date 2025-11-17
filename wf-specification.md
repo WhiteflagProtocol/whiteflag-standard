@@ -1804,12 +1804,12 @@ of the secret to authenticate the originator's blockchain account when
 proof of possession of the secret is revealed in an `A2` message. The
 secret may be pre-shared or negotiated:
 
-1. The pre-shared secret be a piece of arbitrary data or some (encrypted)
-    meaningful data provided by the originator. The nature and distribution
+1. The pre-shared secret may be either arbitrary data or some (encrypted)
+    meaningful data provided to the originator. The nature and distribution
     of such a secret is outside the scope of Whiteflag.
 
 2. The secret may also be negotiated by exchanging ECDH public keys
-    using `K0B` messages, as described in [5.2](#52-cryptographic-support-functions).
+    using `K0B` messages, as described in [Paragraph 5.2](#52-cryptographic-support-functions).
     This allows a secret to be negotiated with one (already authenticated)
     account, and then to be used for authentication of another account of
     the same originator, e.g. to create an anonymous side channel.
@@ -1817,7 +1817,7 @@ secret may be pre-shared or negotiated:
 The shared secret must not be used directly in a single `A2(0)` message.
 Instead, the authentication token sent in the `A2(0)` message must be derived
 from the shared secret using the HKDF function defined in RFC 5869. The
-procedure is described in detail in [5.2.3](#523-encrytpion-key-and-authentication-token-derivation).
+procedure is described in detail in [Paragraph 5.2.3](#523-encryption-key-and-authentication-token-derivation).
 
 An originator may use multiple `A2(0)` messages with tokens
 from different issuers or ECDH counterparts.
@@ -1961,14 +1961,14 @@ either an ECDH negotiated secret (method 1) or a pre-shared secret (method 2).
 
 AES is a symmetric cipher that requires the same key for encryption and
 decryption. This key must be derived as described in
-[Paragraph 5.2.3](#523-encrytpion-key-and-authentication-token-derivation).
+[Paragraph 5.2.3](#523-encryption-key-and-authentication-token-derivation).
 
 ##### 5.2.4.1. Encryption Methods 1 and 2
 
 Encryption methods 1 and 2 only differ in the key used for the encryption:
 
 - Encryption method 1 uses the ECDH negotiated secret as described in
-    [Paragraph 5.2.2](#522-encrytpion-key-and-authentication-token-negotiation)
+    [Paragraph 5.2.2](#522-encryption-key-and-authentication-token-negotiation)
     to derive the encryption key. Thus, this method can only been used to send
     encrypted messages between the two blockchain accounts that have
     negotiated the shared secret.
@@ -1982,7 +1982,7 @@ Encryption of a Whiteflag message is performed with the following steps:
 
 1. derive the encryption key respectively from an ECDH negotiated secret
     or a pre-shared secret using the HKDF function as described in
-    [Paragraph 5.2.3](#523-encrytpion-key-and-authentication-token-derivation);
+    [Paragraph 5.2.3](#523-encryption-key-and-authentication-token-derivation);
 
 2. generate a unique 128-bit initialisation vector, e.g. with
     cryptographically secure random number generator;
@@ -1992,7 +1992,7 @@ Encryption of a Whiteflag message is performed with the following steps:
     with the appropriate key and the just generated initialisation vector.
 
 Below are the encryption steps in pseudocode, in which the key has already
-been derived as described in [Paragraph 5.2.3](#523-encrytpion-key-and-authentication-token-derivation):
+been derived as described in [Paragraph 5.2.3](#523-encryption-key-and-authentication-token-derivation):
 
 ```pseudocode
     iv := generateRandomBits(128)
