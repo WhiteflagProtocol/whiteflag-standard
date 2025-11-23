@@ -1,0 +1,10 @@
+## Development Environments
+.eslintcache
+.DS_Store
+.idea
+.vscode/
+launch.json
+jsconfig.json
+
+## Temporary files
+._*

@@ -9,7 +9,7 @@ third party or any specific software or system.
 ## Protocol Versions and Artefacts
 
 The current version of the protocol is:
-**Version 1 Draft 6** or in short: `v1-draft.6`.
+**Version 1 Draft 7** or in short: `v1-draft.7`.
 
 ### Current version
 
@@ -22,7 +22,9 @@ The current version of the protocol is:
 
 | Version       | Documents                                                                             |
 |---------------|---------------------------------------------------------------------------------------|
+| v1-draft.4    | [pdf](v1/wf-specification-v1-draft.4.pdf) [html](v1/wf-specification-v1-draft.4.html) |
 | v1-draft.6    | [pdf](v1/wf-specification-v1-draft.6.pdf) [html](v1/wf-specification-v1-draft.6.html) |
+| v1-draft.7    | [pdf](v1/wf-specification-v1-draft.7.pdf) [html](v1/wf-specification-v1-draft.7.html) |
 
 ## License
 

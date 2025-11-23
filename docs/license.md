@@ -1,7 +1,7 @@
 # Whiteflag Protocol Specification CC0-1.0 License
 
 All persons and organisations that contributed to the initial development
-of the Whiteflag Protocol did so disinterestedly. 
+of the Whiteflag Protocol did so disinterestedly.
 
 The Whiteflag Protocol specification is dedicated to the public domain
 under the [Creative Commons CC0-1.0 Universal Public Domain Dedication](http://creativecommons.org/publicdomain/zero/1.0/)

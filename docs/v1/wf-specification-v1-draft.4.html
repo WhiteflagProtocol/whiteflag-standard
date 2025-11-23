@@ -6,7 +6,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-<meta name="dcterms.date" content="2019-02-28" />
+<meta name="dcterms.date" content="2018-09-06" />
 <meta name="keywords" content="whiteflag, protocol, specification,
 blockchain" />
 <title>Whiteflag Protocol Specification</title>
@@ -240,8 +240,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1 class="title">Whiteflag Protocol Specification</h1>
 <p class="subtitle">Specification for a decentralised protocol to create
 a trusted messaging network for disaster &amp; conflict zones</p>
-<h2 class="version">v1-draft.6</h2>
-<p class="date">28 FEB 2019</p>
+<h2 class="version">v1-draft.4</h2>
+<p class="date">06 SEP 2018</p>
 </header>
 <h1 id="introduction">1 Introduction</h1>
 <h2 id="background">1.1 Background</h2>
@@ -264,9 +264,9 @@ parties in conflict zones to digitally communicate pre-defined signs and
 signals using blockchain technology. These sign and signals can also be
 used to communicate information about natural and man-made disasters,
 thus creating shared situational awareness beyond conflicts.</p>
-<p>All in all, the protocol forms the basis for a neutral and open
-network, the Whiteflag Network, for trusted real-time messaging between
-parties in conflicts and disaster response.</p>
+<p>All in all, the protocol forms the basis for an neutral and open
+network, the Whiteflag Messaging Network, for trusted real-time
+messaging between parties in conflicts and disaster response.</p>
 <h2 id="purpose">1.2 Purpose</h2>
 <p>The purpose of the Whiteflag Protocol is to provide an open,
 real-time, trusted communication channel between any or all parties in
@@ -346,7 +346,7 @@ regulations and standards, depending on location and context. The misuse
 of emergency signals, including misuse of the duress functionality, may
 be a punishable violation under local and international laws.</p></li>
 </ul>
-<h2 id="configuration-management">1.6 Configuration Management</h2>
+<h2 id="configuration-control">1.6 Configuration Control</h2>
 <p>It is foreseen that this standard requires updates in the near future
 as a result of validation testing and to ensure compatibility with
 emerging distributed computing practices, paradigms and standards.
@@ -357,8 +357,8 @@ e-mailed to the authors:</p>
 <li>T. Schless: <code>tschless (at) acm . org</code></li>
 <li>M. Kolenbrander: <code>mkolenbrander (at) acm . org</code></li>
 </ul>
-<p>In the meantime, a more sustainable process for configuration
-management of this standard in line with its open character is under
+<p>In the meantime, a more sustainable process for configuration control
+of this standard in line with its open character is under
 consideration.</p>
 <h1 id="overview">2 Overview</h1>
 <h2 id="design-principles">2.1 Design Principles</h2>
@@ -405,8 +405,8 @@ interaction with specific blockchains, typically through their
 APIs.</p></li>
 <li><p>The <em>Blockchain Overlay Network Layer</em> is an abstraction
 for applications using existing blockchains to validate their
-transactions. In this case, the Whiteflag Network is created as a
-blockchain overlay network by Whiteflag applications encapsulating
+transactions. In this case, the Whiteflag Messaging Network is created
+as a blockchain overlay network by Whiteflag applications encapsulating
 Whiteflag messages in blockchain transactions.</p></li>
 <li><p>The <em>Decentralised Protocol Layer</em> is a protocol that is
 not controlled by a single entity. That is exactly what the Whiteflag
@@ -417,11 +417,10 @@ Whiteflag Protocol. These APIs may provide useful additions to the
 protocol such as handling, tracking and searching of Whiteflag
 messages.</p></li>
 <li><p>The <em>Application Layer</em> is the part of the stack that
-comprises the applications that are actually used by the end-users.
-These might be existing classical applications such as databases in use
-by various organisations, or newly developed web applications or
-smartphone apps that can send, receive, filter, analyse
-messages.</p></li>
+comprises the applications that are actually used by the end-uses. These
+might be existing classical applications such as databases in use by
+various organisations, or newly developed web applications or smartphone
+apps that can send, receive, filter, analyse messages.</p></li>
 </ul>
 <h2 id="references">2.3 References</h2>
 <h3 id="international-rules-regulations">2.3.1 International Rules &amp;
@@ -458,7 +457,7 @@ United Nations Educational, Scientific and Cultural Organization
 Operational Purposes, Centre for Research on the Epidemiology of
 Disasters (CRED) and Munich Reinsurance Company (Munich RE), October
 2009.</p>
-<p>L. Economic Infrastructure Common Reporting Standard Codes,
+<p>L. Economic Infrastucture Common Reporting Standard Codes,
 Organisation for Economic Cooperation and Development (OECD).</p>
 <h3 id="technical-standards">2.3.2 Technical Standards</h3>
 <h4 id="communication-and-data-format-standards">2.3.2.1 Communication
@@ -497,47 +496,58 @@ Overview</h2>
 <h3 id="blockchain-and-communication-functionality">2.4.1 Blockchain and
 Communication Functionality</h3>
 <h4 id="general">2.4.1.1 General</h4>
-<p>A blockchain is a shared database that maintains a
+<p>A blockchain is a distributed database that maintains a
 continuously-growing list of ordered records called blocks, each
 containing a timestamp and a hash-based link to a previous block going
-all the way back to the first block.</p>
-<p>Blockchain networks are open source distributed computing systems
-with high byzantine fault tolerance: secure by design and inherently
-resistant to modification of the data; once recorded, the data in a
-block cannot be altered retroactively.</p>
+all the way back to the genesis block. Blockchains are distributed
+computing systems with high byzantine fault tolerance: secure by design
+and inherently resistant to modification of the data; once recorded, the
+data in a block cannot be altered retroactively.</p>
 <p>Therefore, a blockchain can be seen as an open, distributed ledger
 that can record transactions between parties efficiently and in a
 verifiable and permanent way. This makes blockchains very suitable for
 the recording of events and messages.</p>
-<p>The Whiteflag Protocol defines the messages for signs and signals
-used in armed conflicts and for disasters, and it defines how those
-messages can be sent on, in principle, any blockchain network by
-encapsulating them in transactions. A messages is recorded in the
-database when such a transaction (including the encapsulated data) gets
-included in a new block.</p>
+<p>The Whiteflag Protocol is not a blockchain in itself. It defines the
+messages for signs and signals used in armed conflicts and for
+disasters, and it defines how those messages can be send as transactions
+on, in principle, any blockchain. Possibly, even other related
+distributed computing and networking technologies may be usable,
+depending on the characteristics.</p>
 <p>The usage of the Whiteflag Protocol on one or more specific
-blockchain network(s), establishes what in this specification is called
-the Whiteflag Messaging Network, or just “the network”, and can be seen
-as what is sometimes called a <em>Blockchain Overlay Network</em>.</p>
+blockchains, establishes what in this specification is called the
+Whiteflag Messaging Network, or just “the network”, and can be seen as
+what is sometimes called a <em>Blockchain Overlay Network</em>.</p>
+<p>Please note that the Whiteflag Protocol is specifically designed to
+use public blockchain systems. Private blockchain systems, or
+permissioned distributed ledger systems, do not conform to the design
+principles of the Whiteflag Messaging Network, as these systems require
+a trusted party (master nodes) for consensus in the network.</p>
 <h4 id="originator-and-account">2.4.1.2 Originator and Account</h4>
-<p>The originator is a specific organisation or person that sends
-Whiteflag Messages on the Whiteflag Network. The originator’s identity
-is established upon initial entry to the network. An originator may use
-multiple accounts on the blockchain network. Although an account may use
+<p>The originator is a specific person or organisation that sends
+Whiteflag Messages on the Whiteflag Messaging Network. The originator’s
+identity is established upon initial entry to the network. An originator
+may use multiple accounts on the blockchain. Although an account may use
 multiple (deterministic) addresses, the usage of more than one address
 by a single account is not recommended for Whiteflag.</p>
 <p>It is only required for an originator to provide identity information
 before sending messages; it is not required to provide identity
 information to receive messages, as anyone can observe what is happening
 on the blockchain.</p>
+<p>Blockchain networks using digital signature schemes that provide
+fully anonymous transactions could theoretically be used to anonymously
+send messages on the Whiteflag Messaging Network. Examples of such
+blockchains are ZCash and Monero, which use zero-knowledge-proofs and
+ring signatures respectively to create conditions of untraceability and
+unlinkability. These type of blockchains do not conform to the
+principles of this standard, and should therefore not be used.</p>
 <h4 id="authentication-mechanisms">2.4.1.3 Authentication
 mechanisms</h4>
-<p>An originator must introduce itself on the Whiteflag Network and
-provide identity information with one or more initial authentication
-messages. An initial authentication message contains the self-chosen
-name of the originator, and a method to verify that the originator’s
-blockchain address is under control by the person or organisation the
-originator claims he is.</p>
+<p>An originator must introduce itself on the Whiteflag Messaging
+Network and provide identity information with one or more initial
+authentication messages. An initial authentication message contains the
+self-chosen name of the originator, and a method to verify that the
+originator’s blockchain address is under control by the person or
+organisation the originator claims he is.</p>
 <p>Currently, two basic methods of verification are supported by the
 protocol.</p>
 <ol type="1">
@@ -561,14 +571,12 @@ an attacker could alter the authentication data on the internet
 resource, this will never result in a valid digital signature as long as
 the private key remains secret.</p></li>
 <li><p>The second method uses a pre-shared token. The originator and a
-receiver exchange a token, which is not known to anybody. The the
-originator identifies himself by putting a combined hash of the token
-and the blockchain account in the initial authentication message. The
-receiver can verify now that the claimed blockchain address actually
-belongs to the originator who was in prior possession of the token. Note
-that the secret token itself is not revealed. The originator may do this
-multiple times with different tokens, different accounts and/or
-different receivers, and any combination of those.</p></li>
+receiver exchange a token, which is not known to anybody else until the
+originator identifies himself by putting the token in the initial
+authentication message. The receiver can verify now that the claimed
+blockchain address actually belongs to the originator who was in prior
+possession of the token. The originator may do this multiple times with
+different tokens and/or different receivers.</p></li>
 </ol>
 <p>The initial authentication can be enhanced by using multiple initial
 authentication messages, i.e. by combining both verification methods,
@@ -581,45 +589,57 @@ for each transaction, deterministic key chains are used to link the
 authentication message both to the blockchain account as well as to
 other messages sent by the same originator but with different
 addresses.</p>
-<p>The authentication mechanism is described in detail in 2.4.2.2
-Management Messages (initial authentication message) and Joining and
-Leaving the Whiteflag Network (protocol for initial authentication).
-After initial authentication, the Whiteflag Protocol utilizes the
-authentication mechanism of the underlying blockchain.</p>
+<p>The authentication mechanism is described in detail in Management
+Messages: (initial authentication message) and Joining and Leaving the
+Whiteflag Network (protocol for initial authentication). After initial
+authentication, the Whiteflag Protocol utilizes the authentication
+mechanism of the underlying blockchain.</p>
 <p>As means for digital identification on the internet are still
 evolving, it is anticipated that additional methods will be added in
 future versions.</p>
 <h4 id="communications-security">2.4.1.4 Communications Security</h4>
-<p>The Whiteflag Protocol leverages blockchain technology to ensure data
-integrity, non-repudiation and historical continuity. The underlying
-blockchain(s) ensure(s) that any message ever sent will be verifiable,
-unalterable and available to anybody, even to participants that start to
-use the protocol later in time.</p>
-<p>Blockchain networks using the proof-of-work consensus model (Nakamoto
-consensus) timestamp transactions by hashing them into an ongoing chain
-of hash-based proof-of-work, forming a record that cannot be changed
-without redoing the proof-of-work.</p>
-<p>The timestamp proves that the data must have existed at the time in
-order to get into the hash. Each timestamp includes the previous
-timestamp in its hash, forming a chain, with each additional timestamp
-reinforcing the ones before it. The hash chain of blocks provides an
-unchangeable historical record, which is verifiable by anyone.</p>
-<p>Nodes can leave and rejoin a blockchain network and thus the
-Whiteflag Network at will, accepting the proof-of-work chain as
-validation of what happened while they were gone. Upon rejoining,
-missing blocks are downloaded, verified and added to the nodes’ local
-copy of the database until it has caught up with the network and is in
-sync (again).</p>
+<p>The Whiteflag Protocol leverages blockchain technology to ensure
+authentication, data integrity and non-repudiation. The blockchains
+ensures that any message ever sent will be verifiable, unalterable and
+available to anybody, even to participants that start to use the
+protocol later in time.</p>
+<p>In blockchain systems, an electronic token (often called a coin) is
+defined as a chain of digital signatures. These tokens are constructed
+of input and output channels, which can be used to include data in a
+transaction. An owner transfers a token to the next by digitally signing
+a hash of the previous transaction and the public key of the next owner
+and adding these to the end of the token. A sender can verify the
+signatures to verify the chain of ownership.</p>
+<p>Public blockchain networks using the proof-of-work consensus model
+(Nakamoto consensus) timestamp transactions by hashing them into an
+ongoing chain of hash-based proof-of-work, forming a record that cannot
+be changed without redoing the proof-of-work. The timestamp proves that
+the data must have existed at the time in order to get into the hash.
+Each timestamp includes the previous timestamp in its hash, forming a
+chain, with each additional timestamp reinforcing the ones before
+it.</p>
+<p>Blockchain networks using a different consensus model (such as
+proof-of-stake) are currently in an experimental phase and have not yet
+been proven to work securely at large scale. At this point, it is not
+advised to use any other type of public blockchain system than those
+using a proof-of-work based consensus model.</p>
+<p>Nodes can leave and rejoin the blockchain and thus the Whiteflag
+Network at will, accepting the proof-of-work chain as validation of what
+happened while they were gone. Upon rejoining, missing blocks are
+downloaded, verified and added to the nodes’ local copy of the database
+until it has caught up with the network and is in sync (again).</p>
+<p>The hash chain of blocks provides an unchangeable historical record,
+which is verifiable to anyone and goes all the way back to the first
+block ever created by the network.</p>
 <h4 id="data-security">2.4.1.5 Data Security</h4>
-<p>The Whiteflag Protocol the protocol provides optional message
-confidentiality using an AES based encryption scheme to encrypt the
-message contents. This is described in detail in 4.1.4 Encryption.</p>
-<p>The encryption scheme allow for both Diffie-Hellman negotiated keys
-and pre-shared keys. The Whiteflag Protocol specifies the Diffie-Hellman
-key exchange, but does not specify how pre-shared encryption keys should
-be managed or distributed. It is between the originator and recipient to
-agree on a secure key exchange procedure.</p>
-<h3 id="message-functionality">2.4.2 Message Functionality</h3>
+<p>Even though the Whiteflag Protocol is not designed with message
+confidentiality specifically in mind, the protocol does allow encryption
+for message confidentiality by defining the means to optionally encrypt
+the message contents. This is described in detail in 4.1.4.</p>
+<p>The Whiteflag Protocol does not specify how the encryption keys
+should be managed or distributed. It is between the originator and
+recipient to agree on the encryption method and key exchange.</p>
+<h3 id="message-functionality">2.4.2 Message functionality</h3>
 <h4 id="functional-messages">2.4.2.1 Functional Messages</h4>
 <p>The following Functional Messages are specified in this standard.
 These messages are to send a sign or signal as defined in international
@@ -679,7 +699,7 @@ mission</td>
 </tr>
 <tr class="even">
 <td><code>R</code></td>
-<td><code>Resource</code></td>
+<td><code>Reference</code></td>
 <td>Message to point to an internet resource</td>
 </tr>
 <tr class="odd">
@@ -698,10 +718,10 @@ Message by referencing it. In this way, sequences of message can be
 created, e.g. for moving objects (by updating the coordinates of a
 Protective Sign), or requesting assistance for an object under attack
 (by sending an Emergency Signal referring to a Status Signal referring
-to a Danger Sign). Message sequencing is described in detail in 5.4.2.
-Message Sequences.</p>
+to a Danger Sign). Message sequencing is described in detail in Message
+Sequences.</p>
 <h4 id="management-messages">2.4.2.2 Management Messages</h4>
-<p>A number of management messages are defined to provide additional
+<p>A number of Management Messages are defined to provide additional
 means to verify the validity of the blockchain address and related
 account, to support cryptographic functions and to test connectivity and
 functionality.</p>
@@ -759,7 +779,7 @@ scenarios and requirements.</p>
 information. The Whiteflag protocol uses the EPSG:4326/WGS84 geodetic
 coordinate system. The protocol does (currently) not allow to provide
 height and altitude information, and therefore can only be used to
-provide an object location on the earth’s surface.</p>
+locate objects on the earth’s surface.</p>
 <p>Structures and areas can be represented using a limited number of
 geometric shapes: circles, rectangles and isosceles triangles, and any
 combination of these.</p>
@@ -798,7 +818,7 @@ the sense that the originator is authenticated, that messages cannot not
 be altered or disappear once recorded, all without the requirement of a
 trusted third party.</p>
 <p>However, it is important to understand that a trusted communication
-channel does not by itself guarantee that the information in a message
+channel does not in any way guarantee that the information in a message
 is true. Upon reception of a Whiteflag message, it is up to the receiver
 to assess the credibility of the information sent.</p>
 <p>Nevertheless, the characteristics of the protocol do help in
@@ -861,57 +881,54 @@ create custom perspectives, merge information with other sources, etc.
 etc.</p>
 <h3 id="account-and-private-key-protection">2.6.2 Account and Private
 Key Protection</h3>
-<p>The protocol does not define any specific setup of the blockchain
-account and private key protection. There are however several important
-guidelines to consider.</p>
-<ol type="1">
+<p>The protocol does not state a mandatory blockchain account and
+private key protection setup. There are however several important
+guidelines to consider:</p>
+<ul>
 <li>Third party hosts should not be used to create accounts on a
 blockchain, because the identity of the sender should be directly linked
 to the account. Using a third party to create an account creates attack
 vectors by which an account could be compromised.</li>
 <li>Public blockchains provide free, open source clients that facilitate
-the creation of accounts without any third party involved. Also, it is
-very possible to create specific Whiteflag software that also manages
-the associated blockchain accounts and cryptographic keys itself. In
-general, it is good practice to protect your account by implementing
-security measures on machines and devices under your own control or
-supervision.</li>
-<li>Third party hosts should not be used to store private keys. Storing
-the secret key outside your control or under supervision creates attack
-vectors by which an account could be compromised.</li>
+the creation of accounts without any third party involved. It is good
+practice to protect your account by implementing security measures on
+machines and devices under your own control or supervision.</li>
+<li>Third party hosts should not be used host to store private keys.
+Storing the secret key outside your control or under supervision creates
+attack vectors by which an account could be compromised.</li>
 <li>To protect private keys from theft, hardware wallets, secure
 processing units and cold wallets should be used when possible.</li>
 <li>To protect an account from being compromised, multi-factor
-authentication as well as multi-signature accounts may be used.</li>
+authentication as well as multi-signature accounts should be used when
+possible.</li>
 <li>If account and/or related addresses need to be permanently
 de-activated, simply delete the private key(s), and, if possible, send
-an <code>A(4)</code> message for every <code>A(0)</code> sent
-before.</li>
-</ol>
+an <code>A(4)</code> message.</li>
+</ul>
 <h3 id="encryption-and-key-exchange">2.6.3 Encryption and Key
 Exchange</h3>
 <p>The protocol provides the option to encrypt a message for
-confidentiality. When using encryption, a number of considerations
-should be taken into account:</p>
-<ol type="1">
-<li><p>Even if messages are encrypted, information may leak through
-usage patterns. Therefore, it is advised not to use the same blockchain
-addressed and the same proof-of-identity for both encrypted and
-unencrypted messages.</p></li>
-<li><p>The security of encryption relies largely on the actual
-implementations.</p></li>
-<li><p>All messages are persistent on the blockchain and it should be
-assumed that at some point in the future messages can and will be
-decrypted. Therefore, only use dedicated keys, and only encrypt
-information that is time-sensitive, i.e. information that will not be
-valid or relevant anymore over time, such as the status or the location
-of a moving object.</p></li>
-</ol>
+confidentiality. However, this standard provides the minimum
+functionality required for one interoperable encryption and key
+management mechanism. Please note that the security of encryption relies
+largely on the actual implementations.</p>
+<p>If there is a reason to use encryption, do note that all messages are
+persistent on the blockchain and it should be assumed that at some point
+in the future messages can and will be decrypted. Therefore, only use
+dedicated keys, and only encrypt information that is time-sensitive,
+i.e. information that will not be valid or relevant anymore over time,
+such as the status or the location of a moving object.</p>
+<p>When using encryption, a number of considerations should be taken
+into account. Obviously, a secure encryption algorithm suitable for
+relatively short strings should be used. Also, do take into account that
+even if messages are encrypted, information may leak through usage
+patterns. Therefore, do not use the same blockchain addressed and the
+same proof-of-identity for both encrypted and unencrypted messages.</p>
 <h3 id="processing-and-storage-of-messages">2.6.4 Processing and Storage
 of Messages</h3>
 <p>On the Whiteflag Network, messages must be formatted and processed as
 indicated in this standard. Additionally, this standard defines how
-messages and message sequences should be semantically interpreted.</p>
+messages and message sequences should semantically interpreted.</p>
 <p>To help implementing and validating Whiteflag Messages, Annex B
 provides a JSON schema that describes the messages, which might be of
 beneficial use for application developers.</p>
@@ -958,8 +975,8 @@ status of the hospital is provided, the full sequence will read:
 levels of the protocol stack:</p>
 <ul>
 <li>at the Blockchain Overlay Network Layer (i.e. the level at which the
-Whiteflag Network is established) the message is represented as a
-compressed binary string, and optionally encrypted;</li>
+Whiteflag Messaging Network is established) the message is represented
+as a compressed binary string, and optionally encrypted;</li>
 <li>at the Decentralised Protocol Layer, a message is represented as an
 uncompressed and unencrypted concatenated character string comprised of
 the message fields;</li>
@@ -974,29 +991,27 @@ encrypted.</p>
 <h3 id="encoding">4.1.2 Encoding</h3>
 <p>An uncompressed and unencrypted Whiteflag Message consists of:</p>
 <ul>
-<li>the Message Header (described in 4.2 Message Header), which is the
-same for all messages and consists of 7 fields with a total length of 71
+<li>the Message Header (described in Message Header), which is the same
+for all messages and consists of 7 fields with a total length of 71
 bytes;</li>
-<li>the Message Body (described in 4.3 Message Body), of which the
-fields and number of bytes per field differ between message types, and
-is therefore variable in length.</li>
+<li>the Message Body (described in Message Body), of which the fields
+and number of bytes per field differ between message types, and is
+therefore variable in length.</li>
 </ul>
 <p>The individual bytes of an uncompressed and unencrypted messages are
 encoded using a single 7-bit/1-byte UTF-8 code unit, allowing the usage
-of UTF-8/Unicode code points <code>U+0000</code> through
-<code>U+007F</code>, which are identical to the first 128 characters of
-the ASCII-set.</p>
+of UTF-8/Unicode code points U+0000 through U+007F, which are identical
+to the first 128 characters of the ASCII-set.</p>
 <p>Depending on the usage of the field, not all characters/code points
 are allowed for each field. The field descriptions of the message header
-and body in 4.2 Message Header and in 4.3. Message Body, use the
-following characters to indicate which subset of characters is
-valid:</p>
+and body in in Message Header and Message Body, use the following
+characters to indicate which subset of characters is valid:</p>
 <ul>
 <li><p><code>c</code> indicates any valid 1 byte UTF-8/Unicode
 character, i.e. UTF-8 code points <code>U+0000</code> through
 <code>U+007F</code>;</p></li>
-<li><p><code>a</code> indicates that any alpha-numeric character (0-9,
-A-Z, a-z), i.e. UTF-8 code points <code>U+0030</code> through
+<li><p><code>a</code> indicates that any alpha-numeric character (0-1,
+A-Z, a-z), i.e. UTF-8 code points <code>U+0030</code> trough
 <code>U+0039</code>, <code>U+0041</code> through <code>U+005A</code>,
 and <code>U+0061</code> through <code>U+007A</code>;</p></li>
 <li><p><code>b</code> indicates that only a binary character (0-1) is
@@ -1018,9 +1033,8 @@ minutes and seconds respectively. Syntactically they are the same as a
 decimal character indicated with a <code>d</code>, and therefore encoded
 and compressed in the same way, but semantically they are different.</p>
 <p>Capitals used in the field format descriptions of the message header
-and body in 4.2 Message Header and in 4.3 Message Body, including
-capitals of the above, indicate that such a character is to be used
-literally.</p>
+and body in Message Header and Message Body, including capitals of the
+above, indicate that such a character is to be used literally.</p>
 <p>Before the message is embedded in a blockchain transaction, the
 message is compressed and optionally encrypted as described below.</p>
 <h3 id="compression">4.1.3 Compression</h3>
@@ -1036,9 +1050,9 @@ signs are compressed to 1 bit;</p></li>
 <code>h</code>) are compressed to a half-byte (4 bits) unsigned binary
 coded decimal/hexadecimal.</p></li>
 </ul>
-<p>The descriptions of the message header and body in 4.2 Message Header
-and in 4.3 Message Body, show how the compression must be applied to
-each field.</p>
+<p>The descriptions of the message header and body in in Message Header
+and Message Body, show how the compression must be applied to each
+field.</p>
 <h3 id="encryption">4.1.4 Encryption</h3>
 <p>The third field of the message is an indicator for which encryption
 is being used. This standard currently only provides limited support for
@@ -1177,15 +1191,13 @@ table.</p>
 </tr>
 <tr class="even">
 <td><code>1</code></td>
-<td><code>aes-256-ctr-ecdh</code></td>
-<td>Message is encrypted using 256-bit key AES counter mode with an ECDH
-negotiated key</td>
+<td><code>aes-128-ctr</code></td>
+<td>Message is encrypted using 128-bit key AES counter mode</td>
 </tr>
 <tr class="odd">
 <td><code>2</code></td>
-<td><code>aes-256-ctr-psk</code></td>
-<td>Message is encrypted using 256-bit key AES counter mode with a
-pre-shared key</td>
+<td><code>aes-256-ctr</code></td>
+<td>Message is encrypted using 256-bit key AES counter mode</td>
 </tr>
 <tr class="even">
 <td><code>3</code>-<code>9</code></td>
@@ -1298,7 +1310,7 @@ referenced message.</td>
 but the information itself is not confirmed.</td>
 <td>May be used by any account of a different originator than of the
 referenced message. The information in this message must repeat the
-referenced message.</td>
+referenced message,</td>
 </tr>
 <tr class="odd">
 <td><code>8</code></td>
@@ -1326,8 +1338,8 @@ messages to evaluate the reliability of the originator.</p>
 <p>By referencing other messages, message sequences can be created.
 However, not every message type and reference type may reference every
 other message type and reference type. The rules for referencing and
-functionality of message sequences are specified in detail in 5.4
-Referencing.</p>
+functionality of message sequences are specified in detail in
+Referencing Messages and Message Sequences.</p>
 <h4 id="referenced-message-field">4.2.1.8 Referenced Message Field</h4>
 <p>The <code>ReferencedMessage</code> field is a 64-byte UTF-8 encoded
 string containing a unique hexadecimal identifier of the referenced
@@ -1689,27 +1701,26 @@ Annex E.</p>
 </tr>
 </tbody>
 </table>
-<p>References: <em>P01-03</em>: i.a.w. Convention (IV) respecting the
-Laws and Customs of War on Land and its annex: Regulations concerning
-the Laws and Customs of War on Land. The Hague, 18 October 1907
-<em>P11-12</em>: Convention (I) for the Amelioration of the Condition of
-the Wounded and Sick in Armed Forces in the Field. Geneva, 12 August
-1949. <em>P13</em>: Protocol additional to the Geneva Conventions of 12
-August 1949, and relating to the Adoption of an Additional Distinctive
-Emblem (Protocol III), 8 December 2005. <em>P20</em>: Convention on the
-Safety of United Nations and Associated Personnel. New York, 9 December
-1994. <em>P31</em>: Convention (IV) relative to the Protection of
-Civilian Persons in Time of War. Geneva, 12 August 1949 <em>P32-33</em>:
-Convention (III) relative to the Treatment of Prisoners of War. Geneva,
-12 August 1949. <em>P51</em>: Treaty on the Protection of Artistic and
-Scientific Institutions and Historic Monuments (Roerich Pact).
-Washington, 15 April 1935 <em>P52-53</em>: The 1954 Hague Convention for
+<p>References: P01-03: i.a.w. Convention (IV) respecting the Laws and
+Customs of War on Land and its annex: Regulations concerning the Laws
+and Customs of War on Land. The Hague, 18 October 1907 P11-12:
+Convention (I) for the Amelioration of the Condition of the Wounded and
+Sick in Armed Forces in the Field. Geneva, 12 August 1949. P13: Protocol
+additional to the Geneva Conventions of 12 August 1949, and relating to
+the Adoption of an Additional Distinctive Emblem (Protocol III), 8
+December 2005. P20: Convention on the Safety of United Nations and
+Associated Personnel. New York, 9 December 1994. P31: Convention (IV)
+relative to the Protection of Civilian Persons in Time of War. Geneva,
+12 August 1949 P32-33: Convention (III) relative to the Treatment of
+Prisoners of War. Geneva, 12 August 1949. P51: Treaty on the Protection
+of Artistic and Scientific Institutions and Historic Monuments (Roerich
+Pact). Washington, 15 April 1935 P52-53: The 1954 Hague Convention for
 the Protection of Cultural Property in the Event of Armed Conflict and
 its two (1954 and 1999) Protocols, United Nations Educational,
-Scientific and Cultural Organization (UNESCO) <em>P60</em>: Protocol
-Additional to the Geneva Conventions of 12 August 1949, and relating to
-the Protection of Victims of International Armed Conflicts (Protocol I),
-8 June 1977.</p>
+Scientific and Cultural Organization (UNESCO) P60: Protocol Additional
+to the Geneva Conventions of 12 August 1949, and relating to the
+Protection of Victims of International Armed Conflicts (Protocol I), 8
+June 1977.</p>
 <h5 id="emergency-signals">4.3.1.2.2 Emergency Signals</h5>
 <table>
 <colgroup>
@@ -3707,9 +3718,9 @@ used;</p></li>
 <code>00</code> to <code>99</code>. If the quantity of an object is
 unknown, then the respective <code>ObjectType*Quant</code> field must be
 <code>00</code>.</p>
-<h3 id="functional-messages-resource">4.3.2 Functional Messages:
-Resource</h3>
-<h4 id="resource-message-fields">4.3.2.1 Resource Message Fields</h4>
+<h3 id="functional-messages-reference">4.3.2 Functional Messages:
+Reference</h3>
+<h4 id="reference-message-fields">4.3.2.1 Reference Message Fields</h4>
 <table>
 <colgroup>
 <col style="width: 8%" />
@@ -3741,26 +3752,25 @@ Resource</h3>
 <tr class="even">
 <td>71</td>
 <td>1</td>
-<td><code>ResourceMethod</code></td>
-<td>Indicates the mechanism for pointing to a resource</td>
+<td><code>ReferenceMethod</code></td>
+<td>Indicates the mechanism for reference</td>
 <td><code>x</code></td>
 <td>1x 4-bit unsigned binary coded hexadecimal</td>
 </tr>
 <tr class="odd">
 <td>72-111*</td>
 <td>40*</td>
-<td><code>ResourceData</code></td>
-<td>Provides the data required to find the resource</td>
+<td><code>ReferenceData</code></td>
+<td>Provides the data required to find the reference</td>
 <td><code>cccccccccc ... cccccccccc</code></td>
 <td>40x 8-bit UTF-8</td>
 </tr>
 </tbody>
 </table>
-<h4 id="resource-method-field">4.3.2.2 Resource Method Field</h4>
-<p>The <code>ResourceMethod</code> field defines the mechanism for
-pointing to a resource. The field must be 1-byte UTF-8 encoded
-hexadecimal character. Currently only one resource method has been
-defined:</p>
+<h4 id="reference-method-field">4.3.2.2 Reference Method Field</h4>
+<p>The <code>ReferenceMethod</code> field defines the mechanism for
+reference. The field must be 1-byte UTF-8 encoded hexadecimal character.
+Currently only one reference method has been defined:</p>
 <table>
 <colgroup>
 <col style="width: 15%" />
@@ -3770,7 +3780,7 @@ defined:</p>
 <thead>
 <tr class="header">
 <th>Code</th>
-<th>Resource Method</th>
+<th>Reference Method</th>
 <th>Usage</th>
 </tr>
 </thead>
@@ -3788,7 +3798,7 @@ defined:</p>
 <tr class="odd">
 <td><code>2</code>-<code>9</code></td>
 <td>(reserved)</td>
-<td>Reserved for future resource referencing mechanisms</td>
+<td>Reserved for future reference mechanisms</td>
 </tr>
 <tr class="even">
 <td><code>A</code>-<code>F</code></td>
@@ -3797,17 +3807,17 @@ defined:</p>
 </tr>
 </tbody>
 </table>
-<h4 id="resource-data-field">4.3.2.3 Resource Data Field</h4>
-<p>The content of the ResourceData field depends on the resource
+<h4 id="reference-data-field">4.3.2.3 Reference Data Field</h4>
+<p>The content of the ReferenceData field depends on the reference
 method:</p>
 <ul>
-<li>If the <code>ResourceMethod</code> method indicates a reference to
-an internet resource (resource method 1), then the
-<code>ResourceData</code> field must contain a valid URL.</li>
+<li>If the <code>ReferenceMethod</code> method indicates a reference to
+an internet resource (reference method1), then the
+<code>VerificationData</code> field must contain a valid URL.</li>
 </ul>
-<p>The <code>ResourceData</code> field may be longer than 40 bytes, if
+<p>The <code>ReferenceData</code> field may be longer than 40 bytes, if
 allowed by underlying blockchain. If the length of the
-<code>ResourceData</code> field is insufficient to provide the complete
+<code>ReferenceData</code> field is insufficient to provide the complete
 URL, an additional Reference Message may be sent with the rest of the
 URL using reference code <code>3</code>.</p>
 <h3 id="functional-messages-free-text">4.3.3 Functional Messages: Free
@@ -4137,7 +4147,7 @@ allowed by underlying blockchain. If the length of the
 an additional Cryptographic Support Messages may be sent with the rest
 of the key data using reference code <code>3</code>.</p>
 <p>Usage of the Cryptographic Support Message and the data types is
-detailed in 5.2 Cryptographic Support Functions.</p>
+detailed in Cryptographic Support Functions.</p>
 <h3 id="management-messages-test">4.3.6 Management Messages: Test</h3>
 <h4 id="test-message-fields">4.3.6.1 Test Message Fields</h4>
 <p>The message body of test messages has an identical set of fields as
@@ -4193,11 +4203,11 @@ signals. A test message must contain the following fields:</p>
 <p>The <code>PseudoMessageCode</code> field indicates which sign/signal
 message is tested. The contents of the field must be a 1-byte UTF-8
 encoded alpha-numeric character value corresponding with one of the
-message types defined in 2.4.2 Message Functionality.</p>
+message types defined in Message functionality.</p>
 <h4 id="other-test-message-fields">4.3.5.3 Other Test Message
 Fields</h4>
 <p>All other test message fields are identical in use as the equivalent
-fields sign/signal message, as described in 4.3 Message Body, with the
+fields sign/signal message, as described in Message Body, with the
 difference that the fields are shifted 1 byte / 8 bits.</p>
 <p>The field names must be preceded by <code>Test</code> when used in a
 test message.</p>
@@ -4210,11 +4220,10 @@ identity information to receive messages.</p>
 <p>To send Whiteflag Messages on the network, the originator must have
 at least one blockchain account and address. An originator may use
 multiple accounts, and an account may use multiple addresses.</p>
-<p>Each account should be identified by sending an <code>A(0)</code>
-initial authentication message, before sending any other message. Any
-message sent by an account before that account has sent an
-<code>A(0)</code> messages, may be considered unauthenticated by
-recipients.</p>
+<p>Each account must be identified by sending an <code>A(0)</code>
+initial authentication message, before sending any other message.
+Messages sent by an account before that account has sent a valid
+<code>A(0)</code> message, must be ignored.</p>
 <p>If an account uses multiple addresses, the <code>A(0)</code> message
 must be sent using the address corresponding with public key from which
 all other addresses can be deterministically derived. For recipients to
@@ -4234,24 +4243,42 @@ ensure the validity of the resource.</p>
 <p>At the URL, a flattened JSON Web Signature JSON serialization
 (JWS-JS) formatted object i.a.w. RFC 7515 - JSON Web Signature (JWS)
 must be found. This object contains a JSON object with authentication
-information together with a single digital signature.</p>
+information together with only one digital signature.</p>
 <p>The digital signature is used for authentication, non-reputation and
-data integrity. In other words: it ensures that only the owner of the
+data integrity; in other words: it ensures that only the owner of the
 web resource controls the blockchain account used to send the
 <code>A</code> message. The digital signature must be created using the
 key pair of the associated blockchain account, i.e. the account from
 which the <code>A1</code> message has been sent.</p>
-<p>The non-serialised payload with authentication information must be a
-JSON object itself and must at least have the following properties: the
-originator’s blockchain address, the originator’s name, and the same URL
-as in the A message, as follows:</p>
+<p>Multiple JWS-JS objects may be returned from the same URL. The
+object(s) must either be returned directly or be embedded within HTML as
+follows:</p>
 <div class="sourceCode" id="cb1"><pre
-class="sourceCode json"><code class="sourceCode json"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>    <span class="er">&quot;protected&quot;:</span> <span class="fu">{</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;addr&quot;</span><span class="fu">:</span> <span class="st">&quot;...&quot;</span><span class="fu">,</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;orgname&quot;</span><span class="fu">:</span> <span class="st">&quot;...&quot;</span><span class="fu">,</span></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;url&quot;</span><span class="fu">:</span> <span class="st">&quot;...&quot;</span><span class="fu">,</span></span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;extpubkey&quot;</span><span class="fu">:</span> <span class="st">&quot;...&quot;</span></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span></code></pre></div>
+class="sourceCode html"><code class="sourceCode html"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;</span><span class="kw">script</span><span class="ot"> type=</span><span class="st">&quot;application/json&quot;</span> <span class="er">data-wf-auth-message</span><span class="ot">=</span><span class="st">&quot;...&quot;</span><span class="dt">&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>        {</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;payload&quot;</span><span class="op">:</span> <span class="st">&quot;...&quot;</span><span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;protected&quot;</span><span class="op">:</span> <span class="st">&quot;...&quot;</span><span class="op">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>            <span class="st">&quot;signature&quot;</span><span class="op">:</span> <span class="st">&quot;...&quot;</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        }</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&lt;/</span><span class="kw">script</span><span class="dt">&gt;</span></span></code></pre></div>
+<p>The <code>data-wf-auth-message</code> html tag must be added if
+embedded in html. The tag should contain the transaction hash of the
+corresponding <code>A1</code> message. This allows for easier lookup and
+parsing. The tag may be empty if the transaction hash is unknown at the
+time of publication, because the signature may have been created before
+the <code>A1</code> transaction is send or processed on the
+blockchain.</p>
+<p>The non-serialised payload must be a JSON object itself and must at
+least have the following properties: the originator’s blockchain
+address, the originator’s name, and the same URL as in the A message, as
+follows:</p>
+<div class="sourceCode" id="cb2"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>    <span class="er">&quot;protected&quot;:</span> <span class="fu">{</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;addr&quot;</span><span class="fu">:</span> <span class="st">&quot;...&quot;</span><span class="fu">,</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;orgname&quot;</span><span class="fu">:</span> <span class="st">&quot;...&quot;</span><span class="fu">,</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;url&quot;</span><span class="fu">:</span> <span class="st">&quot;...&quot;</span><span class="fu">,</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;extpubkey&quot;</span><span class="fu">:</span> <span class="st">&quot;...&quot;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span></code></pre></div>
 <p>in which:</p>
 <ul>
 <li><p><code>addr</code> is the same blockchain address used to send the
@@ -4280,20 +4307,35 @@ Validation</h4>
 <p>The option to use a secret token for authentication allows the issuer
 of the token to authenticate the originator’s blockchain account when
 the token is revealed in an <code>A2</code> message. The secret token
-may be pre-shared or generated from a shared secret:</p>
+may be pre-shared or generated from a shared secret as follows.</p>
 <ol type="1">
 <li><p>The token may be a secret piece of either arbitrary data or some
 (encrypted) meaningful data provided to the originator.</p></li>
 <li><p>The token may also be derived from an ECDH shared secret as
-described in 5.2.3 Key and Token Derivation.</p></li>
+described in Key and Token Derivation.</p></li>
 </ol>
 <p>The secret token must not be used directly in a single
-<code>A2(0)</code> message. Instead, the authentication data sent in the
-<code>A2(0)</code> message must be derived from the secret token using
-the HKDF function defined in RFC 5869. The procedure is described in
-detail in the Key and Token Derivation paragraph.</p>
-<p>An originator may use multiple <code>A2(0)</code> messages with
-tokens from different issuers or ECDH counterparts.</p>
+<code>A2(0)</code> message. Instead, the token must be hashed using the
+SHA-512 hashing algorithm in order to loose any information that may
+reside in the token and to create a sufficiently long token that can be
+sent in two parts. This is to prevent misuse of the token in the time
+between the propagation of the <code>A2(0)</code> transaction and a
+secure number of confirmations. The second part of the token must be
+sent with an <code>A2(3)</code> message after any reasonable number of
+confirmations of the <code>A2(0)</code> transaction, and only if the
+first part of the token is not used in an <code>A2(0)</code> message
+from another originator with a higher number of confirmations.</p>
+<p>The following pseudocode reflects the procedure:</p>
+<pre class="pseudocode"><code>    publicToken := SHA512(secretToken)
+    A2(0).VerificationData := publicToken[0..255]
+    A2(3).VerificationData := publicToken[255..511]
+
+    send(A2(0))
+    A2(3).ReferencedMessage := A2(0).transactionHash
+    if (A2(0).confirmations == n AND NOT(A2(0) == A2(0)X)) then:
+        send(A2(3))</code></pre>
+<p>An originator may use multiple <code>A2(0) &lt; A2(3)</code>
+sequences with tokens from different issuers or ECDH counterparts.</p>
 <p>The issuer or ECDH counterparts may send <code>A2(6)</code> or
 <code>A2(7)</code> messages to confirm or acknowledge the claim, but
 also may choose not to do so to prevent others to record metadata on
@@ -4308,20 +4350,20 @@ messages.</p>
 message.</p>
 <p>An <code>A(3)</code> message must be used when providing longer URLs
 or tokens than a single message <code>A(0)</code> or <code>A(2)</code>
-message can contain in its <code>VerificationData</code> field.</p>
+message can contain in its VerificationData field.</p>
 <h3 id="leaving-the-network">5.1.4 Leaving the Network</h3>
 <p>An account may leave the network with an <code>A(4)</code> message
-referencing, and thus discontinuing, each <code>A(0)</code> message that
-has been sent earlier. Any message sent by an account after that account
-has discontinued all its <code>A(0)</code> messages, should be
-considered unauthenticated.</p>
+referencing the <code>A(0)</code> or latest <code>A(2)</code> message,
+whichever was sent last. Any message sent by an account after that
+account has sent an <code>A(4)</code> message must be ignored.</p>
 <h2 id="cryptographic-support-functions">5.2 Cryptographic Support
 Functions</h2>
 <h3 id="hierarchical-deterministic-accounts-and-addresses">5.2.1
 Hierarchical Deterministic Accounts and Addresses</h3>
 <p>It may not be assumed that every recipient is able to link
 deterministically derived addresses to the master public key of the
-account in order to authenticate the originator.</p>
+account in order to authenticate the originator. Therefore,
+deterministic keys and addresses should normally not be used.</p>
 <h3 id="key-agreement">5.2.2 Key Agreement</h3>
 <p>The protocol supports cryptographic key exchange using Elliptic Curve
 Diffie-Hellman (ECDH), which is an Elliptic Curve variant of the
@@ -4337,121 +4379,82 @@ are defined by the <code>brainpoolP256r1</code> curve as specified in
 RFC 5639.</p>
 <p>Any participant may generate a 264-bit compressed public ECDH key and
 publish the key on the Whiteflag network using a <code>K(0)0A</code>
-message. This allows any two participants, who have both published their
-public key, to generate the shared secret using their own private key
-and the other’s public key.</p>
-<p>If one of the participants publishes an <code>K(2)0A</code> message
-with updated key, the existing shared secrets with other participants
-expire and new shared secrets must be generated for and by each other
-participant.</p>
-<p>Only one single participant’s public ECDH key is considered valid at
-any point in time. Nevertheless, multiple <code>K(0)0A</code> messages
-may be sent to republish the public key. If a subsequent
-<code>K(0)0A</code> message contains a different public key, this must
-be interpreted as an <code>K(2)0A</code> message with an updated key
-(which should have been sent instead).</p>
+message. This allows any two participants who have both published their
+public key to generate the shared secret using their own private key and
+the other’s public key.</p>
 <p>The shared secret may be used as a basis for encryption and
-authentication, whether for Whiteflag or not, but it should never be
-used directly as an encryption key.</p>
-<h3 id="key-and-token-derivation">5.2.3 Key and Token Derivation</h3>
-<p>Shared secrets (such as pre-shared, deterministically derived or ECDH
-generated secrets), must use the HKDF function defined in RFC 5869 to
-derive the actual tokens and encryption keys used for Whiteflag.</p>
-<p>Note that it is crucial for security that shared secrets used as the
-input keying material for HKDF, have enough entropy, i.e. are
-sufficiently long (at least 16 bytes) and are practically
-indistinguishable from random data.</p>
-<p>The HKDF function must use SHA-256 as the digest algorithm.
-Furthermore, the HKDF function takes three (3) parameters depending on
-the encryption method or token type: the key/token length, a usage
-specific salt and the the blockchain address as the info value.</p>
+authentication, whether or not defined within the scope of this
+standard, but it should never be used directly as an encryption key.</p>
+<p>If one of the participants publishes an updated <code>K(2)0A</code>
+message, the existing shared secrets with other participants expire and
+new shared secrets must be generated for and by each other
+participant.</p>
+<h4 id="key-and-token-derivation">5.2.3 Key and Token Derivation</h4>
+<p>Encryption and decryption keys, as well as authentication tokens, may
+be derived from the generated ECDH shared secret as described above in
+Key Agreement. The HKDF function defined in RFC 5869 is used for key and
+token derivation. To derive the key of the required length, perform the
+following steps:</p>
 <ul>
-<li>for authentication method 2 (token-based):
-<ol type="1">
-<li>the key length (token length) must be 32 bytes (256 bits)</li>
-<li>the salt value must be (hexadecimal):
-<code>420abc48f5d69328c457d61725d3fd7af2883cad8460976167e375b9f2c14081</code></li>
-<li>the info value must be the binary blockchain address</li>
-</ol></li>
-<li>for encryption method 1 (<code>aes-256-ctr</code> with negotiated
-secret):
-<ol type="1">
-<li>the key length must be 32 bytes (256 bits)</li>
-<li>the salt value must be (hexadecimal):
-<code>8ddb03085a2c15e69c35c224bce2952dca7878770724741cbce5a135328be0c0</code></li>
-<li>the info value must be the binary blockchain address</li>
-</ol></li>
-<li>for encryption method 2 (<code>aes-256-ctr</code> with pre-shared
-secret):
-<ol type="1">
-<li>the key length must be 32 bytes (256 bits)</li>
-<li>the salt value must be (hexadecimal):
-<code>c4d028bd45c876135e80ef7889835822a6f19a31835557d5854d1334e8497b56</code></li>
-<li>the info value must be the binary blockchain address</li>
-</ol></li>
+<li><p>take the SHA-256 hash from the ECDH shared secret;</p></li>
+<li><p>perform an HKDF function to generate the required AES key length,
+using the first 96 bits of the hashed shared secret as the “salt”, the
+second 160 bits as the “input key material” (IKM), and SHA-256 as the
+digest algorithm.</p></li>
 </ul>
-<p>Note that the salts are shown above in hexadecimal representation.
-Implementations must ensure that the data is correctly provided to the
-HKDF function, i.e. as binary information, not as a string. This is
-especially important for blockchains addresses, which appear in
-different encodings.</p>
-<p>Using the 2.4.2.2 blockchain address
-<code>1C8KSK68SJjfDSBx9BpSx3qB3bePf23r77</code> as an example, this
-results in the following pseudocode for deriving authentication
+<p>In addition to the parameters described above, the HKDF function
+takes two parameters depending on the encryption method or token type:
+the key/token length and a usage specific “info” string:</p>
+<ul>
+<li><p>for authentication method 2, the key length (token length) must
+be 64 bytes (512 bits) and the info string must be
+<code>wf-auth-02</code>;</p></li>
+<li><p>for encryption method 1 (<code>aes-128-ctr</code>) the key length
+must be 16 bytes (128 bits) and the info string must be
+<code>wf-enc-01</code>;</p></li>
+<li><p>for encryption method 2 (<code>aes-256-ctr</code>), the key
+length must be 32 bytes (256 bits) and the info string must be
+<code>wf-enc-02</code>.</p></li>
+</ul>
+<p>This results in the following pseudocode for deriving authentication
 tokens:</p>
-<pre class="pseudocode"><code>    tokenlength := 32
-    salt := 0x420abc48f5d69328c457d61725d3fd7af2883cad8460976167e375b9f2c14081
-    info := 0x007a0baf6f84f0fa7402ea972686e56d50b707c9b67b108866
-    secretToken := HKDF(sharedSecret, salt, info, tokenlength, digest=&quot;sha256&quot;)</code></pre>
-<p>The pseudocode for deriving encryption/decryption keys for the same
-blockchain address is as follows:</p>
-<pre class="pseudocode"><code>    if (EncryptionIndicator == 1) then:
-        keylength := 32
-        salt := 0x8ddb03085a2c15e69c35c224bce2952dca7878770724741cbce5a135328be0c0
-        info := 0x007a0baf6f84f0fa7402ea972686e56d50b707c9b67b108866
+<pre class="pseudocode"><code>    hashedSecret := SHA256(sharedSecret)
+    salt := hashedSecret[0...96]
+    ikm := hasedSecret[96...255]
+    tokenlength := 64
+    info := &quot;wf-auth-02&quot;
+    secretToken := HKDF(ikm, salt, info, tokenlength, digest=&quot;sha256&quot;)</code></pre>
+<p>The pseudocode for deriving encryption/decryption keys is:</p>
+<pre class="pseudocode"><code>    hashedSecret := SHA256(sharedSecret)
+    salt := hashedSecret[0...96]
+    ikm := hasedSecret[96..255]
+    if (EncryptionIndicator == 1) then:
+        keylength := 16
+        info := &quot;wf-enc-01&quot;
     if (EncryptionIndicator == 2) then:
         keylength := 32
-        salt := 0xc4d028bd45c876135e80ef7889835822a6f19a31835557d5854d1334e8497b56
-        info := 0x007a0baf6f84f0fa7402ea972686e56d50b707c9b67b108866
-    key := HKDF(sharedSecret, salt, info, keylength, digest=&quot;sha256&quot;)</code></pre>
+        info := &quot;wf-enc-02&quot;
+    key := HKDF(ikm, salt, info, keylength, digest=&quot;sha256&quot;)</code></pre>
 <h3 id="message-encryption">5.2.4 Message Encryption</h3>
 <p>Two encryption methods are currently defined by Whiteflag: the
-Advanced Encryption Standard (AES) using a 256-bit key in counter mode
-(CTR) with either an ECDH negotiated secret (method 1) or a pre-shared
-secret (method 2).</p>
+Advanced Encryption Standard (AES) in counter mode (CTR) with either a
+128-bit or a 256-bit key as described below.</p>
 <p>AES is a symmetric cipher that requires the same key for encryption
-and decryption. This key must be derived as described in the Key and
-Token Derivation paragraph.</p>
+and decryption. This key may be pre-shared, deterministically derived
+with some pre-shared secret, or may be generated an ECDH shared secret
+as described in Key and Token Derivation.</p>
 <h4 id="encryption-methods-1-and-2">5.2.4.1. Encryption Methods 1 and
 2</h4>
-<p>Encryption methods 1 and 2 only differ in the key used for the
-encryption:</p>
-<ul>
-<li><p>Encryption method 1 uses the ECDH negotiated secret as described
-in the Key Agreement paragraph to derive the encryption key. This method
-can therefore only been used to send encrypted messages between the two
-blockchain accounts that have negotiated the shared secret.</p></li>
-<li><p>Encryption method 2 uses a pre-shared secret to derive the
-encryption key. It is outside the scope of this standard to define the
-key management and distribution of pre-shared keys. However, it is
-important for security that the pre-shared secret is sufficiently long
-and random.</p></li>
-</ul>
 <p>Encryption of a Whiteflag message is performed with the following
 steps:</p>
 <ul>
-<li><p>derive the encryption key respectively from an ECDH negotiated
-secret or a pre-shared secret using the HKDF function as described in
-the the Key and Token Derivation paragraph;</p></li>
-<li><p>generate a unique 128-bit initialisation vector, e.g. with
-cryptographically secure random number generator;</p></li>
+<li><p>generate a new random 128-bit initialisation vector;</p></li>
 <li><p>encrypt the compressed binary encoded message starting at bit 32
 (the 33th bit) up to and including the last bit, using
-<code>aes-256-ctr</code> with the appropriate key and the just generated
-initialisation vector.</p></li>
+<code>aes-128-ctr</code> or <code>aes-256-ctr</code> with the
+appropriate key and the just generated initialisation vector.</p></li>
 </ul>
-<p>Below are the encryption steps in pseudocode, in which the key has
-already been derived as described in 5.2.3 Key and Token Derivation:</p>
+<p>Encryption steps in pseudocode:</p>
 <pre class="pseudocode"><code>    iv := generateRandomBits(128)
     encryptedMessagePart := aes(encodedMessage[32...n], key, iv, mode=&quot;ctr&quot;)
     encryptedMessage := encodedMessage[0...31] + encryptedMessagePart</code></pre>
@@ -4483,7 +4486,7 @@ way this is done is blockchain specific. Annex A contains some
 information about message embedding for a limited number of
 blockchains.</p>
 <h2 id="referencing">5.4 Referencing</h2>
-<h3 id="reference-options">5.4.1 Reference Options</h3>
+<h3 id="reference-options">5.4.1 Reference options</h3>
 <h4 id="allowed-referencing-between-message-types">5.4.1.1 Allowed
 Referencing between Message Types</h4>
 <p>The table below shows which references types (as defined in Reference
@@ -4630,29 +4633,29 @@ which reference types are not allowed.</p>
 </tr>
 <tr class="even">
 <td><code>F</code></td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
+<td>3/5</td>
+<td>3/5</td>
+<td>3/5</td>
+<td>3/5</td>
+<td>3/5</td>
+<td>3/5</td>
+<td>3/5</td>
 <td>1/2/3/4</td>
-<td>3</td>
+<td>3/5</td>
 <td>X</td>
 <td>X</td>
 <td>X</td>
 </tr>
 <tr class="odd">
 <td><code>R</code></td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
-<td>3</td>
+<td>3/5</td>
+<td>3/5</td>
+<td>3/5</td>
+<td>3/5</td>
+<td>3/5</td>
+<td>3/5</td>
+<td>3/5</td>
+<td>3/5</td>
 <td>1/2/3/4</td>
 <td>X</td>
 <td>X</td>
@@ -4705,8 +4708,8 @@ which reference types are not allowed.</p>
 </tr>
 </tbody>
 </table>
-<p><em>X</em>: prohibited <em>T</em>: a test message may make any
-reference for testing purposes</p>
+<p>X: prohibited T: a test message may make any reference for testing
+purposes</p>
 <h4 id="allowed-referencing-between-reference-types">5.4.1.2 Allowed
 Referencing between Reference Types</h4>
 <p>The table below shows which reference types (as defined in Reference
@@ -4874,11 +4877,11 @@ certain reference code to create a meaningful message sequence.</p>
 </tr>
 </tbody>
 </table>
-<p><em>Same</em>: reference code allowed by the <em>same</em> originator
-of the referenced message <em>Other</em>: reference code allowed by an
-<em>other</em> originator than of the referenced message <em>Both</em>:
-reference code is allowed by <em>both</em> the same or an other
-originator than of the referenced message <em>X</em>: prohibited</p>
+<p>Same: reference code allowed by the <em>same</em> originator of the
+referenced message Other: reference code allowed by an <em>other</em>
+originator than of the referenced message Both: reference code is
+allowed by <em>both</em> the same or an other originator than of the
+referenced message X: prohibited</p>
 <p>A message with Reference Code <code>0</code> (an original message)
 may not reference any message.</p>
 <p>A message with Reference Code <code>1</code> (a recall message) may
@@ -4896,11 +4899,11 @@ originator to provide additional information to original, updating and
 referring messages.</p>
 <p>Reference Code <code>3</code> may be only used once to refer to the
 original message of the same message type. For example:
-<code>S(0) &lt; R(3) &lt; R(3)</code> and
-<code>... &lt; [F(3)] &lt; K11(3) &lt;&lt; [F(3)] &lt; K11(3)</code> are
-allowed, but <code>... &lt; R(3) &lt; R(3) &lt;&lt; R(3)</code> is not.
-There is one exception: Reference Code <code>3</code> may be used to
-reference the same message type of types <code>P</code>, <code>D</code>,
+<code>R(0) &lt; R(3)</code> and
+<code>[R(0)] &lt; K11(3) &lt;&lt; [R(3)] &lt; K11(3)</code> are allowed,
+but <code>R(0) &lt; R(3) &lt;&lt; R(3)</code> is not. There is one
+exception: Reference Code <code>3</code> may be used to reference the
+same message type of types <code>P</code>, <code>D</code>,
 <code>Q</code>, and <code>M</code> more than once, when creating
 composite areas (see Composite Areas and Structures). In that case, the
 additional information must reference the initially referenced message
@@ -4983,7 +4986,7 @@ signals:</p>
 <thead>
 <tr class="header">
 <th>Message Sequence</th>
-<th>Explanation</th>
+<th></th>
 </tr>
 </thead>
 <tbody>
@@ -5021,7 +5024,7 @@ and signals:</p>
 <thead>
 <tr class="header">
 <th>Message Sequence</th>
-<th>Explanation</th>
+<th></th>
 </tr>
 </thead>
 <tbody>
@@ -5070,7 +5073,7 @@ and signals:</p>
 <thead>
 <tr class="header">
 <th>Message Sequence</th>
-<th>Explanation</th>
+<th></th>
 </tr>
 </thead>
 <tbody>
@@ -5110,7 +5113,7 @@ reported on the network with the following message sequence:</p>
 created using messages with Object Code
 <code>30</code>-<code>39</code>.</p>
 <p>To reference a composite area or structure as a whole (e.g. to
-discontinue it using Reference Code <code>4</code> or to confirm it
+dsicontinue it using Reference Code <code>4</code> or to confirm it
 using Reference Code <code>6</code>), the referencing message must
 reference the original message.</p>
 <p>An update message (Reference Code <code>2</code>) may reference
@@ -5118,137 +5121,22 @@ individual messages of the sequence, and thus updating each part of the
 composite area/structure separately. A recall message (Reference Code
 <code>1</code>) may either reference the original message, or individual
 messages of the sequence.</p>
-<h4 id="acknowledging-messages">5.4.2.6 Acknowledging messages</h4>
-<p>Acknowledgements may be sent to inform others of having ‘received’ a
-certain message, i.e. to acknowledge that a certain message has been
-witnessed, e.g. to notify the receipt of updated information or a
-rejection. Acknowledgements may refer to an original, updated, related,
-comply or reject message and can be used in message sequences.</p>
-<table>
-<colgroup>
-<col style="width: 34%" />
-<col style="width: 65%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Message Sequence</th>
-<th>Explanation</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>D21(0)X &lt; D21(2)X &lt; D21(7)Y</code></td>
-<td>An acknowledging message <code>D21(7)</code> referring to a
-<code>D21(2)</code> update message, means that the update to
-<code>D21(0)</code> message has been acknowledged.</td>
-</tr>
-<tr class="even">
-<td><code>Q20(0)X &lt; Q20(9)Y &lt; Q20(7)X</code></td>
-<td>An Area Access request signal ‘Q20(0)’ is rejected by a Q20(9)
-message, which is then acknowledged by an Q20(7) message</td>
-</tr>
-</tbody>
-</table>
-<h4 id="complying-to-messages">5.4.2.7 Complying to messages</h4>
-<p>The ‘comply’ message reference code provides the option to an
-originator to indicate they will act upon or in accordance with an
-original, updated, or a related message from another originator. This
-referencing option may be useful to respond to other originators’
-message to inform or notify them about an action to be undertaken.</p>
-<table>
-<colgroup>
-<col style="width: 34%" />
-<col style="width: 65%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Message Sequence</th>
-<th>Explanation</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>E11(0)X &lt; E11(8)Y</code></td>
-<td>An Emergency Signal <code>E11(0)</code> indicating that urgent
-medical assistance is required, is responded to by somebody complying
-with the ask for assistance.</td>
-</tr>
-<tr class="even">
-<td><code>P02(0)X &lt; P02(8)Y &lt;&lt; P02(8)Z</code></td>
-<td>A request for negotiation <code>P02(0)</code> will be complied to by
-two different originators respectively sending a <code>P02(8)</code>
-message.</td>
-</tr>
-</tbody>
-</table>
-<h4 id="rejecting-messages">5.4.2.8 Rejecting messages</h4>
-<p>The ‘reject’ message reference code may be used to indicate that the
-originator rejects, denies or does not agree with the referred original,
-updated, or a related message from another originator.</p>
-<table>
-<colgroup>
-<col style="width: 34%" />
-<col style="width: 65%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Message Sequence</th>
-<th>Explanation</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td><code>Q20(0)X &lt; Q20(9)Y</code></td>
-<td>An Area Access request signal ‘Q20(0)’ is rejected by a Q20(9)
-message</td>
-</tr>
-<tr class="even">
-<td><code>D21(0)X &lt; D21(9)Y</code></td>
-<td>An original message reporting a minefield is rejected by a different
-originators with a <code>D21(9)</code> messages referring to the
-original <code>D21(0)</code>.</td>
-</tr>
-</tbody>
-</table>
 <h2 id="testing">5.5 Testing</h2>
 <p>Test messages must be disregarded for any other purposes than
 testing. Test messages should only be used on testing networks of
 blockchains.</p>
 <p>A test message may reference any other message for testing
 purposes.</p>
-<h1 id="annex-a.-blockchain-layer-specific-details">Annex A. Blockchain
-layer specific details</h1>
-<p>This Annex is meant to provide additional information and
-considerations about the use of blockchain networks for Whiteflag
-Protocol end-users and for creating implementations.</p>
-<h2 id="a.1-implementation-guidelines">A.1 Implementation
-Guidelines</h2>
-<h3 id="a.1.1-completeness-of-the-blockchain-database">A.1.1
-Completeness of the blockchain database</h3>
-<p>When using the Whiteflag Network as a source for improving
-situational awareness, it is important for end-users to have a complete
-view on all messages that have been sent in a given context. It is
-advised for end-users to assess if all (relevant) blocks have been
-processed and no message has been omitted or skipped, as this might
-result in inaccurate interpretation of information.</p>
-<h3 id="a.1.2-data-encapsulation-in-transactions">A.1.2 Data
-encapsulation in transactions</h3>
-<p>The Whiteflag Network is created as a blockchain overlay network by
-Whiteflag applications embedding Whiteflag messages in blockchain
-transactions. The underlying blockchain network(s) therefore need(s) to
-allow for the encapsulating of data in a transaction.</p>
-<p>For security reasons, it is currently advised to implement the
-Whiteflag Protocol only on blockchain networks that use a proof-of-work
-consensus model.</p>
-<p>There exist multiple blockchain networks that provide this
-functionality. See the table below for several examples:</p>
+<h1 id="annex-a.-blockchain-specific-details">Annex A. Blockchain
+specific details</h1>
 <table>
 <colgroup>
-<col style="width: 11%" />
+<col style="width: 9%" />
+<col style="width: 13%" />
 <col style="width: 17%" />
-<col style="width: 23%" />
+<col style="width: 15%" />
 <col style="width: 20%" />
-<col style="width: 27%" />
+<col style="width: 22%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -5257,15 +5145,17 @@ functionality. See the table below for several examples:</p>
 <th>Maximum message length</th>
 <th>Signature algorithm</th>
 <th>Transaction hash</th>
+<th>HD parent public key format</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Bitcoin</td>
+<td>Bitcoin*</td>
 <td><code>OP_RETURN</code></td>
 <td>80 bytes</td>
 <td>ECDSA secp256k1</td>
 <td>256 bits (64 hexadecimals)</td>
+<td>BIP-0032</td>
 </tr>
 <tr class="even">
 <td>Ethereum</td>
@@ -5273,177 +5163,55 @@ functionality. See the table below for several examples:</p>
 <td>(dynamic)</td>
 <td>ECDSA secp256k1</td>
 <td>256 bits (64 hexadecimals)</td>
+<td>…</td>
+</tr>
+<tr class="odd">
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
+<td>…</td>
 </tr>
 </tbody>
 </table>
-<p>In the case of Bitcoin, the <code>OP_RETURN</code> field of a raw
-transaction allows for the encapsulation of data constrained to a
-maximum 80 bytes.</p>
-<p>In the case of Ethereum, the <code>data</code> field of a raw
-transaction allows for the encapsulation of a dynamic amount of data
-that is relative to the <code>gasLimit</code> of individual blocks. In
-practice, this field can generally store multiple kilobytes of data.</p>
-<p>Message formatting within the Whiteflag Protocol has been structured
-to not require more than 80 bytes for sending signs and signals.
-Reference messages and/or concatenation may be used in cases where
-providing additional data is required.</p>
-<p>Please note that the above parameters may change over time as the
-codebases of blockchain networks evolve, in which case implementations
-of the Whiteflag Protocol may need to be updated accordingly.</p>
-<h3 id="a.1.3.-monitoring-of-dynamic-blockchain-parameters">A.1.3.
-Monitoring of Dynamic Blockchain Parameters</h3>
-<p>Blockchain networks are highly dynamic distributed computing networks
-that, because of their decentralized architecture, rely both on actively
-and continuously maintained consensus by its participating validating
-nodes, as well as on the peer-to-peer infrastructure for transceiving
-data over the network.</p>
-<p>It is advisable to monitor several parameters when implementing the
-Whiteflag Protocol to ensure the underlying blockchain network(s) is/are
-operating correctly.</p>
-<h4 id="a.1.3.1-relaying-and-processing-of-messages">A.1.3.1 Relaying
-and Processing of Messages</h4>
-<p>The following parameters concern the relaying and processing of
-Whiteflag messages by the underlying blockchain network(s).</p>
-<h5 id="peer-to-peer-connectivity">Peer-to-Peer Connectivity</h5>
-<p>Monitoring of the amount of peers a message sending Whiteflag account
-connects to, to ensure messages are relayed correctly. Many blockchain
-networks provide a list of nodes that have proven long-term reliability.
-It is up to the Whiteflag participant to decide how many and which peers
-to connect to.</p>
-<h5 id="transaction-costs">Transaction Costs</h5>
-<p>Each message will inflict a minimal Transaction Cost to be paid for
-the network to process the transaction. These costs usually consist of a
-minimum transaction amount and a transaction fee. End-users need to
-ensure the proper amount of funds are included for each message that is
-sent.</p>
-<h5 id="block-time">Block Time</h5>
-<p>Each blockchain networks’ consensus protocol defines an average Block
-Time the network targets for creating new blocks. Monitoring of block
-creation time can assist in determining the expected validation time of
-a message.</p>
-<h5 id="transaction-relay-time">Transaction Relay Time</h5>
-<p>Monitoring of the number of transactions on the blockchain network
-pending verification. In cases of very high transactional load,
-transactions may require longer processing times or increased fees.</p>
-<h5 id="number-of-block-confirmations">Number of Block
-Confirmations</h5>
-<p>Monitoring the number of blocks that have been added to the shared
-database <em>after</em> the block containing a Whiteflag message. It is
-up to the Whiteflag participant to determine how many blocks
-<em>deep</em> a message needs to be for it to be considered secured in
-the blockchain.</p>
-<h5 id="blockchain-protocol-changes">Blockchain Protocol Changes</h5>
-<p>Blockchain networks rely on their respective protocols for verifying
-transactions on the network. In case of a change in protocol, features
-may change causing Whiteflag Protocol implementations to require
-updating.</p>
-<h4 id="a.1.3.2-blockchain-security">A.1.3.2 Blockchain Security</h4>
-<p>The following parameters concern the security of the underlying
-blockchain network(s):</p>
-<h5 id="network-hash-rate">Network hash-rate</h5>
-<p>Monitoring of the aggregated computational power of the number of
-transaction validating nodes.</p>
-<h5 id="changes-in-network-hash-rate">Changes in Network Hash-Rate</h5>
-<p>Monitoring whether there are significant changes in the network’s
-hash-rate and if so, take appropriate measures.</p>
-<h5 id="hash-rate-distribution">Hash-Rate Distribution</h5>
-<p>Monitoring the distribution of the total hash-rate amongst the
-participating validating nodes. In case of a validating node (or a
-collection of nodes) representing 51% of the total network hash-rate,
-take appropriate measures.</p>
-<h5 id="consensus-protocol-changes">Consensus Protocol Changes</h5>
-<p>Blockchain networks rely on their respective consensus protocols for
-the proper validation of transactions. Major changes to a consensus
-protocol may have significant impact to a blockchain network as a
-whole.</p>
-<h5 id="chain-reorganisation-dynamics">Chain Reorganisation
-Dynamics</h5>
-<p>Malicious actors may perform attacks on a blockchain network by
-causing rapid and/or large-scale chain reorganisations. Many blockchain
-network prescribe a chain “re-org limit” and have implemented other
-measures to mitigate such events. It is advised to assess resiliency to
-such attacks per individual blockchain network.</p>
-<h2
-id="a.2.-general-considerations-related-to-blockchain-network-functionality">A.2.
-General considerations related to blockchain network functionality</h2>
-<h3 id="a.2.1-consensus-protocols">A.2.1 Consensus protocols</h3>
-<p>Blockchain networks using the proof-of-work consensus model (Nakamoto
-consensus) timestamp transactions by hashing them into an ongoing chain
-of hash-based proof-of-work, forming a record that cannot be changed
-without redoing the proof-of-work. The timestamp proves that the data
-must have existed at the time in order to get into the hash. Each
-timestamp includes the previous timestamp in its hash, forming a chain,
-with each additional timestamp reinforcing the ones before it. The hash
-chain of blocks provides an unchangeable historical record, which is
-verifiable by anyone.</p>
-<p>Blockchain networks using different consensus protocols are currently
-in an experimental phase and have not yet been proven to work securely
-at large scale. At this point, it is therefore not advised to use an
-other type of blockchain network than those using a proof-of-work
-consensus protocol.</p>
-<h3 id="a.2.2-market-dynamics">A.2.2 Market dynamics</h3>
-<p>Blockchain networks require a native currency (often called
-crypto-currency) to incentivize validating nodes to expend resources on
-doing the proof-of-work. Transactions containing Whiteflag messages are
-sent by spending only the minimum amount of native currency required by
-the blockchain network’s protocol to effect a valid transaction, plus an
-additional fee.</p>
-<p>While these amounts may be relatively small, the market dynamics
-related to these native currencies can cause price volatility, bear/bull
-dynamics or even trade-halts, which may cause effect usability.</p>
-<h3
-id="a.2.3-private-blockchain-networks-and-permissioned-distributed-ledgers">A.2.3
-Private Blockchain Networks and Permissioned Distributed Ledgers</h3>
-<p>Please note that the Whiteflag Protocol is specifically designed to
-be implemented on open blockchain networks. Private blockchain networks,
-or permissioned distributed ledgers, do not adhere to the design
-principles of the Whiteflag Network, as these systems require a trusted
-party (i.e. trusted nodes) to establish consensus within the network and
-do not provide open access, and should therefore not be used.</p>
-<h3 id="a.2.4-anonymous-transactions">A.2.4 Anonymous Transactions</h3>
-<p>Blockchain networks using digital signature schemes that enable fully
-anonymous transactions could theoretically be used to anonymously send
-messages on the Whiteflag Network. Examples of such blockchains employ
-techniques like zero-knowledge-proofs and ring signatures to create
-conditions of untraceability and unlinkability. These type of
-transactions do not adhere to the principles of this standard, as they
-limit message authentication, and should therefore not be used.</p>
+<p>* including forked blockchains such as Bitcoin Cash and Litecoin</p>
 <h1 id="annex-b.-json-schema-of-whiteflag-messages">Annex B. JSON Schema
 of Whiteflag Messages</h1>
 <p>(<em>contained in separate file</em>)</p>
 <h1 id="annex-c.-example-json-authentication-objects">Annex C. Example
 JSON Authentication Objects</h1>
-<p>The JSON representation of an <code>A1</code> message sent using an
-example static Base58 blockchain address
+<p>The JSON representation of an <code>A1</code> message sent using the
+example static Bitcoin address
 <code>1C8KSK68SJjfDSBx9BpSx3qB3bePf23r77</code> may be as follows:</p>
-<div class="sourceCode" id="cb5"><pre
-class="sourceCode json"><code class="sourceCode json"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;MetaHeader&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;example&quot;</span><span class="fu">:</span> <span class="kw">true</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;MessageHeader&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;Prefix&quot;</span><span class="fu">:</span> <span class="st">&quot;WF&quot;</span><span class="fu">,</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;Version&quot;</span><span class="fu">:</span> <span class="st">&quot;1&quot;</span><span class="fu">,</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;EncryptionIndicator&quot;</span><span class="fu">:</span> <span class="st">&quot;0&quot;</span><span class="fu">,</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;DuressIndicator&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;MessageCode&quot;</span><span class="fu">:</span> <span class="st">&quot;A&quot;</span><span class="fu">,</span></span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;ReferenceIndicator&quot;</span><span class="fu">:</span> <span class="st">&quot;0&quot;</span><span class="fu">,</span></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;ReferencedMessage&quot;</span><span class="fu">:</span> <span class="st">&quot;0000000000000000000000000000000000000000000000000000000000000000&quot;</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;MessageBody&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;VerificationMethod&quot;</span><span class="fu">:</span> <span class="st">&quot;1&quot;</span><span class="fu">,</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;VerificationData&quot;</span><span class="fu">:</span> <span class="st">&quot;https://organisation.int/whiteflag&quot;</span></span>
-<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
-<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;MetaHeader&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;example&quot;</span><span class="fu">:</span> <span class="kw">true</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;MessageHeader&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;Prefix&quot;</span><span class="fu">:</span> <span class="st">&quot;WF&quot;</span><span class="fu">,</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;Version&quot;</span><span class="fu">:</span> <span class="st">&quot;1&quot;</span><span class="fu">,</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;EncryptionIndicator&quot;</span><span class="fu">:</span> <span class="st">&quot;0&quot;</span><span class="fu">,</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;DuressIndicator&quot;</span><span class="fu">:</span> <span class="kw">false</span><span class="fu">,</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;MessageCode&quot;</span><span class="fu">:</span> <span class="st">&quot;A&quot;</span><span class="fu">,</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;ReferenceIndicator&quot;</span><span class="fu">:</span> <span class="st">&quot;0&quot;</span><span class="fu">,</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;ReferencedMessage&quot;</span><span class="fu">:</span> <span class="st">&quot;0000000000000000000000000000000000000000000000000000000000000000&quot;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;MessageBody&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;VerificationMethod&quot;</span><span class="fu">:</span> <span class="st">&quot;1&quot;</span><span class="fu">,</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;VerificationData&quot;</span><span class="fu">:</span> <span class="st">&quot;https://organisation.int/whiteflag&quot;</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">}</span></span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 <p>The related JSON formatted object with the authentication information
 to be signed and published at the provided URL
 <code>https://organisation.int/whiteflag</code> would be:</p>
-<div class="sourceCode" id="cb6"><pre
-class="sourceCode json"><code class="sourceCode json"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;addr&quot;</span><span class="fu">:</span> <span class="st">&quot;1C8KSK68SJjfDSBx9BpSx3qB3bePf23r77&quot;</span><span class="fu">,</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;orgname&quot;</span><span class="fu">:</span> <span class="st">&quot;Organisation Name&quot;</span><span class="fu">,</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;url&quot;</span><span class="fu">:</span> <span class="st">&quot;https://organisation.int/whiteflag&quot;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;addr&quot;</span><span class="fu">:</span> <span class="st">&quot;1C8KSK68SJjfDSBx9BpSx3qB3bePf23r77&quot;</span><span class="fu">,</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;orgname&quot;</span><span class="fu">:</span> <span class="st">&quot;Organisation Name&quot;</span><span class="fu">,</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;url&quot;</span><span class="fu">:</span> <span class="st">&quot;https://organisation.int/whiteflag&quot;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 <p>This object is then used as the payload to create a JSON Web
 Signature (JWS) object that includes a digital signature created with
 the private key of the Bitcoin address. The compact serialization
@@ -5453,35 +5221,36 @@ token:</p>
 yIsIm9yZ25hbWUiOiJPcmdhbmlzYXRpb24gTmFtZSIsInVybCI6Imh0dHBzOi8vb3JnYW5pc2F0aW9u
 LmludC93aGl0ZWZsYWcifQo.XWBRA1TrCxs8tpep1lLPcmpp9JlO_A0TJB5ULOROvadje3SgAsfkFEj
 E2DoHGpWJ_zNGlEPBtdUQo9MEypIp2Q</code></pre>
-<p>However, for practical purposes the object published at the provided
-URL must be a flattened JWS JSON Serialization object:</p>
-<div class="sourceCode" id="cb8"><pre
-class="sourceCode json"><code class="sourceCode json"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;protected&quot;</span><span class="fu">:</span> <span class="st">&quot;eyJhbGciOiJFUzI1NiJ9&quot;</span><span class="fu">,</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;payload&quot;</span><span class="fu">:</span> <span class="st">&quot;eeyJhZGRyIjoiMUM4S1NLNjhTSmpmRFNCeDlCcFN4M3FCM2JlUGYyM3I3NyIsIm</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="st">                9yZ25hbWUiOiJPcmdhbmlzYXRpb24gTmFtZSIsInVybCI6Imh0dHBzOi8vb3JnY</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="st">                W5pc2F0aW9uLmludC93aGl0ZWZsYWcifQo&quot;</span><span class="fu">,</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;signature&quot;</span><span class="fu">:</span> <span class="st">&quot;XWBRA1TrCxs8tpep1lLPcmpp9JlO_A0TJB5ULOROvadje3SgAsfkFEjE2DoHG</span></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a><span class="st">                  pWJ_zNGlEPBtdUQo9MEypIp2Q&quot;</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
-<p>The equivalent of a fully unserialized JSON object representation is
+<p>However, for practical purposes (such as easy embedding in HTML) the
+object published at the provided URL must be a flattened JWS JSON
+Serialization object:</p>
+<div class="sourceCode" id="cb10"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;protected&quot;</span><span class="fu">:</span> <span class="st">&quot;eyJhbGciOiJFUzI1NiJ9&quot;</span><span class="fu">,</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;payload&quot;</span><span class="fu">:</span> <span class="st">&quot;eeyJhZGRyIjoiMUM4S1NLNjhTSmpmRFNCeDlCcFN4M3FCM2JlUGYyM3I3NyIsIm</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="st">                9yZ25hbWUiOiJPcmdhbmlzYXRpb24gTmFtZSIsInVybCI6Imh0dHBzOi8vb3JnY</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="st">                W5pc2F0aW9uLmludC93aGl0ZWZsYWcifQo&quot;</span><span class="fu">,</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;signature&quot;</span><span class="fu">:</span> <span class="st">&quot;XWBRA1TrCxs8tpep1lLPcmpp9JlO_A0TJB5ULOROvadje3SgAsfkFEjE2DoHG</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="st">                  pWJ_zNGlEPBtdUQo9MEypIp2Q&quot;</span></span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>The equivalent a fully unserialized JSON object representation is
 provided here as human readable example:</p>
-<div class="sourceCode" id="cb9"><pre
-class="sourceCode json"><code class="sourceCode json"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;protected&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;alg&quot;</span><span class="fu">:</span> <span class="st">&quot;ES256&quot;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;payload&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;addr&quot;</span><span class="fu">:</span> <span class="st">&quot;1C8KSK68SJjfDSBx9BpSx3qB3bePf23r77&quot;</span><span class="fu">,</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;orgname&quot;</span><span class="fu">:</span> <span class="st">&quot;Organisation Name&quot;</span><span class="fu">,</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;url&quot;</span><span class="fu">:</span> <span class="st">&quot;https://organisation.int/whiteflag&quot;</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;signature&quot;</span><span class="fu">:</span> <span class="st">&quot;XWBRA1TrCxs8tpep1lLPcmpp9JlO_A0TJB5ULOROvadje3SgAsfkFEjE2DoHG</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a><span class="st">                  pWJ_zNGlEPBtdUQo9MEypIp2Q&quot;</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre
+class="sourceCode json"><code class="sourceCode json"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;protected&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;alg&quot;</span><span class="fu">:</span> <span class="st">&quot;ES256&quot;</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;payload&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;addr&quot;</span><span class="fu">:</span> <span class="st">&quot;1C8KSK68SJjfDSBx9BpSx3qB3bePf23r77&quot;</span><span class="fu">,</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;orgname&quot;</span><span class="fu">:</span> <span class="st">&quot;Organisation Name&quot;</span><span class="fu">,</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>        <span class="dt">&quot;url&quot;</span><span class="fu">:</span> <span class="st">&quot;https://organisation.int/whiteflag&quot;</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">},</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;signature&quot;</span><span class="fu">:</span> <span class="st">&quot;XWBRA1TrCxs8tpep1lLPcmpp9JlO_A0TJB5ULOROvadje3SgAsfkFEjE2DoHG</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="st">                  pWJ_zNGlEPBtdUQo9MEypIp2Q&quot;</span></span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
 <p>Note that the used algorithm (ES256, i.e. ECDSA using P-256 and
-SHA-256, in line with the underlying blockchain) is included in the
-protected header.</p>
+SHA-256, in line with the underlying blockchain for the example,
+i.e. Bitcoin) is included in the protected header.</p>
 <h1 id="annex-d.-definitions">Annex D. Definitions</h1>
 <p>Below is an overview of terms as used in this standard within the
 context of Whiteflag.</p>
@@ -5561,7 +5330,7 @@ specific <em>blockchain</em>.</td>
 <em>address</em>.</td>
 </tr>
 <tr class="even">
-<td>Open Standard</td>
+<td>Open standard</td>
 <td>A standard that is public and without any restriction in their
 access or implementation.</td>
 </tr>
@@ -5577,7 +5346,7 @@ participant may have multiple <em>blockchain</em>
 <em>accounts</em>.</td>
 </tr>
 <tr class="odd">
-<td>Protective Sign</td>
+<td>Protective sign</td>
 <td>A symbol used to mark persons and objects under the protection of
 treaties international law and regulations.</td>
 </tr>
@@ -5693,9 +5462,9 @@ validated UN blockchain account.</p>
 <p>A link to an UNMAS website with additional information (mine types,
 quantity, level of danger, stay clear area, current de-mining status) is
 provided using an <code>R</code> message, which can be resent when the
-web page is updated.</p>
+is updated.</p>
 <p>This scenario resulted in the following message sequence:</p>
-<p><code>D21(0)A &lt; D21(6)U &lt; R(3)U ... &lt; R(2)U</code></p>
+<p><code>D21(0)A &lt; D21(6)U &lt;&lt;&lt; R(5)U ... &lt; R(2)U</code></p>
 <p>It would be very easy for anyone to develop a web application to
 actively monitor all these sorts of messages and project this
 information on a map, creating broad awareness of the danger among aid
@@ -5720,7 +5489,7 @@ of time. In the following example sequence, party A requests a cease
 fire using a <code>Q</code> message with additional information included
 in an <code>F</code> message; parties B and C agree with the request by
 responding with reference code <code>8</code>:</p>
-<p><code>Q(0)A &lt; F(3)A &lt;&lt; Q(8)B &lt;&lt;&lt; Q(8)C</code></p>
+<p><code>Q(0)A &lt; F(5)A &lt;&lt; Q(8)B &lt;&lt;&lt; Q(8)C</code></p>
 <p>Note that Whiteflag is limited to fixed messages and in itself not
 suitable to conduct detailed negotiations. However, even though other
 communication channels are used to come to a cease fire, Whiteflag

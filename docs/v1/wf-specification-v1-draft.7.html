@@ -6,7 +6,7 @@
 <meta charset="utf-8" />
 <meta name="generator" content="pandoc" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-<meta name="dcterms.date" content="2019-02-28" />
+<meta name="dcterms.date" content="2025-11-23" />
 <meta name="keywords" content="whiteflag, protocol, specification,
 blockchain" />
 <title>Whiteflag Protocol Specification</title>
@@ -240,8 +240,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1 class="title">Whiteflag Protocol Specification</h1>
 <p class="subtitle">Specification for a decentralised protocol to create
 a trusted messaging network for disaster &amp; conflict zones</p>
-<h2 class="version">v1-draft.6</h2>
-<p class="date">28 FEB 2019</p>
+<h2 class="version">v1-draft.7</h2>
+<p class="date">23 NOV 2025</p>
 </header>
 <h1 id="introduction">1 Introduction</h1>
 <h2 id="background">1.1 Background</h2>
@@ -281,11 +281,14 @@ and the message format of the communication channel for policy makers
 and specialists to be able to adopt and implement the Whiteflag
 Protocol.</p>
 <h2 id="document-structure">1.3 Document Structure</h2>
-<p>Chapter 1 “Introduction” describes this document. Chapter 2
-“Overview” defines the scope and gives an overview of the protocol,
-followed by typical use case examples in Chapter 3 “Use Case Examples”.
-Chapter 4 “Message Format” provides the detailed messages descriptions,
-and Chapter 5 “Protocol” the detailed protocol description.</p>
+<p><a href="#1-introduction">Chapter 1</a> is the introduction,
+describing the standard. <a href="#2-overview">Chapter 2</a> defines the
+scope and gives an overview of the protocol. The case examples in <a
+href="#3-use-case-examples">Chapter 3</a> have been moved to <a
+href="#annex-f-example-use-cases">Annex F</a>. <a
+href="#4-message-format">Chapter 4</a> provides the detailed messages
+specifications, and <a href="#5-protocol">Chapter 5</a> the detailed
+protocol description.</p>
 <h2 id="used-terminology">1.4 Used Terminology</h2>
 <p>The following phrases in this specification must be interpreted as
 follows:</p>
@@ -354,8 +357,9 @@ Therefore, for the time being, the standard will remain under
 configuration control of the authors. Requests and comments may be
 e-mailed to the authors:</p>
 <ul>
-<li>T. Schless: <code>tschless (at) acm . org</code></li>
-<li>M. Kolenbrander: <code>mkolenbrander (at) acm . org</code></li>
+<li>T. Schless: <code>timo (at) whiteflagprotocol . org</code></li>
+<li>M. Kolenbrander:
+<code>michael (at) whiteflagprotocol . org</code></li>
 </ul>
 <p>In the meantime, a more sustainable process for configuration
 management of this standard in line with its open character is under
@@ -364,7 +368,7 @@ consideration.</p>
 <h2 id="design-principles">2.1 Design Principles</h2>
 <p>The following principles are the basis for the Whiteflag
 Protocol:</p>
-<ul>
+<ol type="1">
 <li>the protocol is based on blockchain technology, but is
 “blockchain-agnostic”, i.e. independent of any specific blockchain;</li>
 <li>the protocol is as free and open as the underlying blockchain and
@@ -388,7 +392,7 @@ common understanding between the communicating parties;</li>
 <li>the protocol is extensible to allow functionality to be added with
 backwards compatibility;</li>
 <li>implementation only requires the use of open standards.</li>
-</ul>
+</ol>
 <h2 id="protocol-stack-and-scope">2.2 Protocol Stack and Scope</h2>
 <p>The Whiteflag Protocol works on top of the internet and on one or
 more blockchains to create a network for trusted communications that can
@@ -522,16 +526,16 @@ as what is sometimes called a <em>Blockchain Overlay Network</em>.</p>
 <h4 id="originator-and-account">2.4.1.2 Originator and Account</h4>
 <p>The originator is a specific organisation or person that sends
 Whiteflag Messages on the Whiteflag Network. The originator’s identity
-is established upon initial entry to the network. An originator may use
-multiple accounts on the blockchain network. Although an account may use
-multiple (deterministic) addresses, the usage of more than one address
-by a single account is not recommended for Whiteflag.</p>
+is established upon initial entry to the network.</p>
+<p>An originator may use multiple accounts on the blockchain network.
+Although an account may use multiple (deterministic) addresses, the
+usage of more than one address by a single account is not recommended
+for Whiteflag.</p>
 <p>It is only required for an originator to provide identity information
 before sending messages; it is not required to provide identity
 information to receive messages, as anyone can observe what is happening
 on the blockchain.</p>
-<h4 id="authentication-mechanisms">2.4.1.3 Authentication
-mechanisms</h4>
+<h4 id="authentication-methods">2.4.1.3 Authentication methods</h4>
 <p>An originator must introduce itself on the Whiteflag Network and
 provide identity information with one or more initial authentication
 messages. An initial authentication message contains the self-chosen
@@ -560,15 +564,17 @@ post. Although an internet site is vulnerable to being compromised and
 an attacker could alter the authentication data on the internet
 resource, this will never result in a valid digital signature as long as
 the private key remains secret.</p></li>
-<li><p>The second method uses a pre-shared token. The originator and a
-receiver exchange a token, which is not known to anybody. The the
-originator identifies himself by putting a combined hash of the token
-and the blockchain account in the initial authentication message. The
-receiver can verify now that the claimed blockchain address actually
-belongs to the originator who was in prior possession of the token. Note
-that the secret token itself is not revealed. The originator may do this
-multiple times with different tokens, different accounts and/or
-different receivers, and any combination of those.</p></li>
+<li><p>The second method uses a pre-shared secret. The originator and a
+receiver exchange a seceret, not known to anybody else. The originator
+identifies himself by putting an authentication token derived from the
+shared secret in the initial authentication message, as proof of
+possession of the shared seceret. The authentication token is created by
+hashing the shared secret and blockchain address. The receiver can
+verify that the claimed blockchain address belongs to the originator,
+because he was in prior possession of the secret. Note that the secre
+itself is not revealed. The originator may do this multiple times with
+different tokens, different accounts and/or different receivers, and any
+combination of those.</p></li>
 </ol>
 <p>The initial authentication can be enhanced by using multiple initial
 authentication messages, i.e. by combining both verification methods,
@@ -578,14 +584,17 @@ especially useful if those confirming participants have well-established
 identities.</p>
 <p>For blockchains that encourage or require to use a different address
 for each transaction, deterministic key chains are used to link the
-authentication message both to the blockchain account as well as to
-other messages sent by the same originator but with different
-addresses.</p>
-<p>The authentication mechanism is described in detail in 2.4.2.2
-Management Messages (initial authentication message) and Joining and
-Leaving the Whiteflag Network (protocol for initial authentication).
-After initial authentication, the Whiteflag Protocol utilizes the
-authentication mechanism of the underlying blockchain.</p>
+authentication message to the blockchain account as well as to other
+messages sent by the same originator but with different addresses.
+However, although supported, deterministic keys and addresses should
+normally not be used for Whiteflag.</p>
+<p>The authentication method is described in detail in <a
+href="#2422-management-messages">Paragraph 2.4.2.2</a> for initial
+authentication messages, and in <a
+href="#51-joining-and-leaving-the-whiteflag-network">Paragraph 5.1</a>
+for the protocol for initial authentication. After initial
+authentication, the Whiteflag Protocol utilizes the authentication
+mechanism of the underlying blockchain.</p>
 <p>As means for digital identification on the internet are still
 evolving, it is anticipated that additional methods will be added in
 future versions.</p>
@@ -613,7 +622,8 @@ sync (again).</p>
 <h4 id="data-security">2.4.1.5 Data Security</h4>
 <p>The Whiteflag Protocol the protocol provides optional message
 confidentiality using an AES based encryption scheme to encrypt the
-message contents. This is described in detail in 4.1.4 Encryption.</p>
+message contents. This is described in detail in <a
+href="#414-message-encryption">Paragraph 4.1.4</a>.</p>
 <p>The encryption scheme allow for both Diffie-Hellman negotiated keys
 and pre-shared keys. The Whiteflag Protocol specifies the Diffie-Hellman
 key exchange, but does not specify how pre-shared encryption keys should
@@ -626,9 +636,9 @@ These messages are to send a sign or signal as defined in international
 standards, and to provide additional information.</p>
 <table>
 <colgroup>
-<col style="width: 5%" />
-<col style="width: 26%" />
-<col style="width: 68%" />
+<col style="width: 4%" />
+<col style="width: 16%" />
+<col style="width: 79%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -679,8 +689,9 @@ mission</td>
 </tr>
 <tr class="even">
 <td><code>R</code></td>
-<td><code>Resource</code></td>
-<td>Message to point to an internet resource</td>
+<td><code>Reference</code></td>
+<td>Message to provide a reference, e.g. to an information resource
+outside Whiteflag</td>
 </tr>
 <tr class="odd">
 <td><code>F</code></td>
@@ -698,8 +709,8 @@ Message by referencing it. In this way, sequences of message can be
 created, e.g. for moving objects (by updating the coordinates of a
 Protective Sign), or requesting assistance for an object under attack
 (by sending an Emergency Signal referring to a Status Signal referring
-to a Danger Sign). Message sequencing is described in detail in 5.4.2.
-Message Sequences.</p>
+to a Danger Sign). Message sequencing is described in detail in <a
+href="#542-message-sequences">Paragraph 5.4.2</a>.</p>
 <h4 id="management-messages">2.4.2.2 Management Messages</h4>
 <p>A number of management messages are defined to provide additional
 means to verify the validity of the blockchain address and related
@@ -707,9 +718,9 @@ account, to support cryptographic functions and to test connectivity and
 functionality.</p>
 <table>
 <colgroup>
-<col style="width: 5%" />
-<col style="width: 22%" />
-<col style="width: 71%" />
+<col style="width: 6%" />
+<col style="width: 18%" />
+<col style="width: 75%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -722,8 +733,7 @@ functionality.</p>
 <tr class="odd">
 <td><code>A</code></td>
 <td><code>Authentication</code></td>
-<td>Message introducing the sender on the network with the sender’s
-authentication data</td>
+<td>Message for authentication of the originator</td>
 </tr>
 <tr class="even">
 <td><code>K</code></td>
@@ -734,8 +744,8 @@ functions</td>
 <tr class="odd">
 <td><code>T</code></td>
 <td><code>Test</code></td>
-<td>Message that can be used for testing Whiteflag functionality by
-applications</td>
+<td>Message for testing Whiteflag protocol and application
+functionality</td>
 </tr>
 </tbody>
 </table>
@@ -909,77 +919,50 @@ of a moving object.</p></li>
 </ol>
 <h3 id="processing-and-storage-of-messages">2.6.4 Processing and Storage
 of Messages</h3>
-<p>On the Whiteflag Network, messages must be formatted and processed as
-indicated in this standard. Additionally, this standard defines how
-messages and message sequences should be semantically interpreted.</p>
-<p>To help implementing and validating Whiteflag Messages, Annex B
-provides a JSON schema that describes the messages, which might be of
-beneficial use for application developers.</p>
-<p>However, strictly speaking, this schema is outside the scope of this
-standard: firstly because the Whiteflag Messages sent on the network are
-not JSON-formatted, and secondly because this standard does deliberately
-not specify how messages are to be processed and stored by applications
-(an application might very well use XML instead of JSON). Nevertheless,
-it is recommended to use a JSON format compliant with this schema for
-open APIs.</p>
-<h2 id="note-on-the-notation-of-messages-and-message-sequences">2.7 Note
-on the notation of Messages and Message Sequences</h2>
-<p>For documentation and software development purposes, messages codes
-and message sequences might be written as follows:</p>
-<ul>
-<li>a message may be referred to by its message code,
-e.g. <code>T</code> for a test message;</li>
-<li>a specific sign or signal may be indicated by the combination of
-message and subject code, e.g. <code>E01</code> for a distress
-signal;</li>
-<li>a reference indicator may be written in between brackets after the
-message code, e.g. <code>A(2)</code> for an update to an earlier
-<code>A</code> message;</li>
-<li>an encrypted message is written between square brackets,
-e.g. <code>[Q(0)14]</code>;</li>
-<li>the originator may be indicated behind the message code and
-reference indicator, e.g. <code>A(0)X</code> is an original
-authentication message from X;</li>
-<li>the symbol <code>&lt;</code> is used as a pointer in the message
-sequence; the symbol is repeated to indicate to which message is
-referred, e.g. <code>&lt;&lt;</code> means two messages before.</li>
-</ul>
-<p>For example, a message from originator X for relating an area under
-attack to an existing protective sign from a hospital H may be written
-as <code>P31(0)H &lt; D10(5)X</code>. When the attack ends and the
-status of the hospital is provided, the full sequence will read:
-<code>P31(0)H &lt; D10(5)X &lt; D10(4)X &lt;&lt;&lt; S23(5)H</code>.</p>
+<p>On the Whiteflag Network, i.e. at the blockchain level, messages must
+be formatted and processed as indicated in this standard. Also, this
+standard defines how messages and message sequences should be
+semantically interpreted.</p>
+<p>To help implementing and validating Whiteflag Messages when processed
+and stored outside a blockchain, <a
+href="#annex-b-json-schema-of-whiteflag-messages">Annex B</a> provides a
+JSON schema for representing Whiteflag messages in JSON, which might
+useful for application developers.</p>
 <h1 id="use-case-examples">3 Use Case Examples</h1>
 <p>(<em>moved to Annex F</em>)</p>
 <h1 id="message-format">4 Message Format</h1>
 <h2 id="message-structure">4.1 Message Structure</h2>
-<h3 id="representations">4.1.1 Representations</h3>
-<p>A Whiteflag message can have different representations at different
-levels of the protocol stack:</p>
+<h3 id="message-representations">4.1.1 Message Representations</h3>
+<p>A Whiteflag message has a header and a body, each comprised of a
+number of fields containing the message data. The message has different
+representations at different levels of the protocol stack:</p>
 <ul>
 <li>at the Blockchain Overlay Network Layer (i.e. the level at which the
-Whiteflag Network is established) the message is represented as a
-compressed binary string, and optionally encrypted;</li>
+Whiteflag Network is established and messages are embedded in a
+blockchain treansaction), the message is represented as a compressed
+binary string, and optionally encrypted;</li>
 <li>at the Decentralised Protocol Layer, a message is represented as an
 uncompressed and unencrypted concatenated character string comprised of
-the message fields;</li>
+the message field values;</li>
 <li>at the API layer, a message and its message fields can have any
 appropriate representation using a structured language, such as JSON or
-XML;</li>
+XML.</li>
 </ul>
 <p>The standard describes the uncompressed and unencrypted concatenated
 character string at the Decentralised Protocol Layer, and how these
-messages are compressed into a binary string, and optionally
-encrypted.</p>
-<h3 id="encoding">4.1.2 Encoding</h3>
-<p>An uncompressed and unencrypted Whiteflag Message consists of:</p>
+messages are encoded into a binary string, and optionally encrypted to
+be embedded in a blockcahin transaction at the Blockchain Overlay
+Network Layer.</p>
+<h3 id="message-encoding">4.1.2 Message Encoding</h3>
+<p>An uncompressed and unencrypted Whiteflag Message at the
+Decentralised Protocol Layer consists of:</p>
 <ul>
-<li>the Message Header (described in 4.2 Message Header), which is the
-same for all messages and consists of 7 fields with a total length of 71
-bytes;</li>
-<li>the Message Body (described in 4.3 Message Body), of which the
-fields and number of bytes per field differ between message types, and
-is therefore variable in length.</li>
+<li>the Message Header (see <a href="#42-message-header">Paragraph
+4.2</a>), which is the same for all messages types and consists of 7
+fields with a total length of 71 bytes;</li>
+<li>the Message Body (see <a href="#43-message-body">Paragraph 4.3</a>),
+of which the fields, and therefore the total number of bytes, differ
+between message types, and is therefore variable in length.</li>
 </ul>
 <p>The individual bytes of an uncompressed and unencrypted messages are
 encoded using a single 7-bit/1-byte UTF-8 code unit, allowing the usage
@@ -988,27 +971,32 @@ of UTF-8/Unicode code points <code>U+0000</code> through
 the ASCII-set.</p>
 <p>Depending on the usage of the field, not all characters/code points
 are allowed for each field. The field descriptions of the message header
-and body in 4.2 Message Header and in 4.3. Message Body, use the
-following characters to indicate which subset of characters is
-valid:</p>
+and body in <a href="#42-message-header">Paragraph 4.2</a> and in <a
+href="#43-message-body">Paragraph 4.3</a>, use the following characters
+to indicate which subset of characters is valid:</p>
 <ul>
-<li><p><code>c</code> indicates any valid 1 byte UTF-8/Unicode
-character, i.e. UTF-8 code points <code>U+0000</code> through
-<code>U+007F</code>;</p></li>
-<li><p><code>a</code> indicates that any alpha-numeric character (0-9,
-A-Z, a-z), i.e. UTF-8 code points <code>U+0030</code> through
-<code>U+0039</code>, <code>U+0041</code> through <code>U+005A</code>,
-and <code>U+0061</code> through <code>U+007A</code>;</p></li>
-<li><p><code>b</code> indicates that only a binary character (0-1) is
-the be used, i.e. UTF-8 code points <code>U+0030</code> trough
-<code>U+0031</code>;</p></li>
-<li><p><code>d</code> indicates that only a decimal character (0-9) is
-to be used, i.e. UTF-8 code points <code>U+0030</code> trough
-<code>U+0039</code>;</p></li>
-<li><p><code>x</code> indicates that only a hexadecimal character (0-F)
-is to be used, i.e. UTF-8 code points <code>U+0030</code> trough
-<code>U+0039</code>, and <code>U+0041</code> trough
-<code>U+0046</code>.</p></li>
+<li><p><code>c</code> indicates that any valid 1 byte UTF-8/Unicode
+character may be used, i.e. UTF-8 code points <code>U+0000</code>
+through <code>U+007F</code>;</p></li>
+<li><p><code>a</code> indicates that any alpha-numeric character
+(<code>0</code>-<code>9</code>, <code>A</code>-<code>Z</code>,
+<code>a</code>-<code>z</code>) may be used, i.e. UTF-8 code points
+<code>U+0030</code> through <code>U+0039</code>, <code>U+0041</code>
+through <code>U+005A</code>, and <code>U+0061</code> through
+<code>U+007A</code>;</p></li>
+<li><p><code>b</code> indicates that a binary character (<code>0</code>
+or <code>1</code>) must be used, i.e. UTF-8 code point
+<code>U+0030</code> or <code>U+0031</code>;</p></li>
+<li><p><code>d</code> indicates that a decimal character
+(<code>0</code>-<code>9</code>) must be used, i.e. UTF-8 code points
+<code>U+0030</code> trough <code>U+0039</code>;</p></li>
+<li><p><code>x</code> indicates that a hexadecimal character
+(<code>0</code>-<code>F</code>) must to be used, i.e. UTF-8 code points
+<code>U+0030</code> trough <code>U+0039</code>, and <code>U+0041</code>
+trough <code>U+0046</code>;</p></li>
+<li><p><code>_</code> indicates the sign of a number, for which
+<code>+</code> or <code>-</code> must be used, i.e. UTF-8 code point
+<code>U+002B</code> or <code>U+002D</code>;</p></li>
 </ul>
 <p>Instead of <code>d</code>, the letters <code>y</code>,
 <code>m</code>, <code>d</code>, <code>h</code>, <code>m</code>, and
@@ -1018,28 +1006,32 @@ minutes and seconds respectively. Syntactically they are the same as a
 decimal character indicated with a <code>d</code>, and therefore encoded
 and compressed in the same way, but semantically they are different.</p>
 <p>Capitals used in the field format descriptions of the message header
-and body in 4.2 Message Header and in 4.3 Message Body, including
-capitals of the above, indicate that such a character is to be used
-literally.</p>
+and body in <a href="#42-message-header">Paragraph 4.2</a> and in <a
+href="#43-message-body">Paragraph 4.3</a>, including capitals of the
+above, indicate that such a character is to be used literally.</p>
 <p>Before the message is embedded in a blockchain transaction, the
 message is compressed and optionally encrypted as described below.</p>
-<h3 id="compression">4.1.3 Compression</h3>
+<h3 id="message-compression">4.1.3 Message Compression</h3>
 <p>Whiteflag messages must be compressed to allow usage on blockchains
 with limited space for custom information, and to improve optional
 encryption. Compression of the message is done as follows:</p>
 <ul>
 <li><p>all fixed characters are omitted, except for the Prefix
 field;</p></li>
-<li><p>binary characters (<code>b</code>), binary indicators and number
-signs are compressed to 1 bit;</p></li>
+<li><p>binary characters and indicators (<code>b</code>) are compressed
+to 1 bit;</p></li>
+<li><p>number signs (<code>_</code>) are compressed to 1 bit, with a
+<code>+</code> compressed to a <code>1</code> bit, and a <code>-</code>
+compressed to a <code>0</code> bit;</p></li>
 <li><p>decimal and hexadecimal characters (<code>d</code> and
-<code>h</code>) are compressed to a half-byte (4 bits) unsigned binary
+<code>h</code>) are compressed to a half-byte (4 bits) unsigned binary
 coded decimal/hexadecimal.</p></li>
 </ul>
-<p>The descriptions of the message header and body in 4.2 Message Header
-and in 4.3 Message Body, show how the compression must be applied to
-each field.</p>
-<h3 id="encryption">4.1.4 Encryption</h3>
+<p>The descriptions of the message header and body in <a
+href="#42-message-header">Paragraph 4.2</a> and in <a
+href="#43-message-body">Paragraph 4.3</a>, show how the compression must
+be applied to each field.</p>
+<h3 id="message-encryption">4.1.4 Message Encryption</h3>
 <p>The third field of the message is an indicator for which encryption
 is being used. This standard currently only provides limited support for
 encryption, but allows implementation specific encryption
@@ -1051,14 +1043,19 @@ for the <code>Prefix</code>, <code>Version</code> and
 length of the message may differ from the unencrypted message length,
 which may complicate the embedding of the message in a transaction on
 certain blockchains.</p>
-<h3 id="embedding">4.1.5 Embedding</h3>
+<p>Message encryption is further described in <a
+href="#524-message-encryption">Paragraph 5.2.4</a>.</p>
+<h3 id="embedding-and-sending-messages">4.1.5 Embedding and Sending
+Messages</h3>
 <p>To finally send the message, after compression and encryption, the
-message is embedded in a blockchain transaction. How the message is
-embedded in the transaction depends on the blockchain and is specified
-in Annex A.</p>
+message is embedded in a blockchain transaction. The way this is done is
+blockchain specific. <a
+href="#annex-a-blockchain-layer-specific-details">Annex A</a> contains
+information about message embedding for a limited number of
+blockchains.</p>
 <h2 id="message-header">4.2 Message Header</h2>
 <h3 id="generic-message-header">4.2.1 Generic Message Header</h3>
-<p>All messages use the same generic message header, specified
+<p>All messages use the same generic message header, as specified
 below.</p>
 <h4 id="generic-message-header-fields">4.2.1.1 Generic Message Header
 Fields</h4>
@@ -1066,10 +1063,10 @@ Fields</h4>
 <colgroup>
 <col style="width: 6%" />
 <col style="width: 6%" />
-<col style="width: 15%" />
-<col style="width: 35%" />
-<col style="width: 15%" />
-<col style="width: 21%" />
+<col style="width: 11%" />
+<col style="width: 37%" />
+<col style="width: 14%" />
+<col style="width: 23%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1158,9 +1155,9 @@ be a 1-byte UTF-8 encoded alpha-numeric character i.a.w. the following
 table.</p>
 <table>
 <colgroup>
-<col style="width: 6%" />
-<col style="width: 17%" />
-<col style="width: 75%" />
+<col style="width: 7%" />
+<col style="width: 16%" />
+<col style="width: 76%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1200,15 +1197,17 @@ application or originator</td>
 </tr>
 </tbody>
 </table>
+<p>Message encryption is further described in <a
+href="#524-message-encryption">Paragraph 5.2.4</a>.</p>
 <h4 id="duress-indicator-field">4.2.1.5 Duress Indicator Field</h4>
 <p>The <code>DuressIndicator</code> field value must be <code>0</code>,
 unless the sign or signal was sent under threat or force. In that case
 the DuressIndicator field must be <code>1</code>.</p>
-<p>See Duress Indicator for further considerations on the duress
-functionality.</p>
+<p>See <a href="#2423-duress-indicator">Paragraph 2.4.2.3</a> for
+further considerations on the duress functionality.</p>
 <h4 id="message-code-field">4.2.1.6 Message Code Field</h4>
 <p>The <code>MessageCode</code> field specifies the message type. The
-contents of the field must be a 1 byte UTF-8 encoded alpha-numeric
+contents of the field must be a 1 byte UTF-8 encoded alpha-numeric
 character value corresponding with a message type defined in this
 specification.</p>
 <p>A message with an invalid, i.e. undefined, message code, must be
@@ -1221,9 +1220,9 @@ relates to an earlier message. The contents of the field must be a
 <table>
 <colgroup>
 <col style="width: 2%" />
-<col style="width: 11%" />
-<col style="width: 38%" />
-<col style="width: 47%" />
+<col style="width: 5%" />
+<col style="width: 41%" />
+<col style="width: 50%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1326,17 +1325,18 @@ messages to evaluate the reliability of the originator.</p>
 <p>By referencing other messages, message sequences can be created.
 However, not every message type and reference type may reference every
 other message type and reference type. The rules for referencing and
-functionality of message sequences are specified in detail in 5.4
-Referencing.</p>
+functionality of message sequences are specified in detail in <a
+href="#54-referencing">Paragraph 5.4</a>.</p>
 <h4 id="referenced-message-field">4.2.1.8 Referenced Message Field</h4>
 <p>The <code>ReferencedMessage</code> field is a 64-byte UTF-8 encoded
 string containing a unique hexadecimal identifier of the referenced
 message. This allows for referencing a 256-bit hash. Since other
 messages can only be identified using the transaction identifier of the
 underlying blockchain, the identifier depends on the underlying
-blockchain. If the underlying blockchain uses a hash larger than 256
-bits, the first 256 bits of the hash should be used. The transaction
-identifiers of the most common blockchains are shown in Annex A.</p>
+blockchain. If the underlying blockchain uses a hash larger than
+256 bits, the first 256 bits of the hash should be used. The transaction
+identifiers of the most common blockchains are shown in <a
+href="#annex-a-blockchain-layer-specific-details">Annex A</a>.</p>
 <p>If the <code>ReferenceIndicator</code> field is <code>0</code>, the
 <code>ReferencedMessage</code> field must be ignored by the receiver.
 This allows the field to be filled with a random 64-byte UTF-8 encoded
@@ -1353,12 +1353,12 @@ types <code>P</code>, <code>D</code> and <code>I</code>) or a signal
 <code>Q</code>), must contain the following fields:</p>
 <table>
 <colgroup>
+<col style="width: 5%" />
 <col style="width: 6%" />
-<col style="width: 6%" />
-<col style="width: 14%" />
-<col style="width: 37%" />
-<col style="width: 15%" />
-<col style="width: 20%" />
+<col style="width: 10%" />
+<col style="width: 39%" />
+<col style="width: 11%" />
+<col style="width: 26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1420,8 +1420,8 @@ format</td>
 <td><code>ObjectLatitude</code></td>
 <td>Specifies the object location in decimal degrees latitude i.a.w. ISO
 6709</td>
-<td><code>\_dd.ddddd</code></td>
-<td>1x sign bit + 7x 4-bit unsigned binary coded decimal</td>
+<td><code>_dd.ddddd</code></td>
+<td>1x sign bit + 7x 4-bit unsigned binary coded decimal</td>
 </tr>
 <tr class="odd">
 <td>114-123</td>
@@ -1429,15 +1429,15 @@ format</td>
 <td><code>ObjectLongitude</code></td>
 <td>Specifies the object location in decimal degrees longitude i.a.w.
 ISO 6709</td>
-<td><code>\_ddd.ddddd</code></td>
-<td>1x sign bit + 8x 4-bit unsigned binary coded decimal</td>
+<td><code>_ddd.ddddd</code></td>
+<td>1x sign bit + 8x 4-bit unsigned binary coded decimal</td>
 </tr>
 <tr class="even">
 <td>124-127</td>
 <td>4</td>
 <td><code>ObjectSizeDim1</code></td>
 <td>Specifies the size of the object’s first dimension in meters</td>
-<td><code>nnnn</code></td>
+<td><code>dddd</code></td>
 <td>4x 4-bit unsigned binary coded decimal</td>
 </tr>
 <tr class="odd">
@@ -1445,7 +1445,7 @@ ISO 6709</td>
 <td>4</td>
 <td><code>ObjectSizeDim2</code></td>
 <td>Specifies the size of the object’s second dimension in meters</td>
-<td><code>nnnn</code></td>
+<td><code>dddd</code></td>
 <td>4x 4-bit unsigned binary coded decimal</td>
 </tr>
 <tr class="even">
@@ -1453,7 +1453,7 @@ ISO 6709</td>
 <td>3</td>
 <td><code>ObjectOrientation</code></td>
 <td>Specifies the object’s orientation in degrees</td>
-<td><code>nnn</code></td>
+<td><code>ddd</code></td>
 <td>3x 4-bit unsigned binary coded decimal</td>
 </tr>
 </tbody>
@@ -1463,11 +1463,11 @@ extended with the following fields:</p>
 <table>
 <colgroup>
 <col style="width: 6%" />
-<col style="width: 6%" />
-<col style="width: 14%" />
-<col style="width: 37%" />
-<col style="width: 15%" />
-<col style="width: 20%" />
+<col style="width: 7%" />
+<col style="width: 11%" />
+<col style="width: 36%" />
+<col style="width: 13%" />
+<col style="width: 25%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1507,14 +1507,14 @@ etc.</p>
 and must be 2-byte UTF-8 encoded value from the following tables with
 subject codes for each sign/signal message type below. Common official
 and/or visual equivalents for the defined signs and signals are shown in
-Annex E.</p>
+<a href="#annex-e-signs--signals-equivalents">Annex E</a>.</p>
 <h5 id="protective-signs">4.3.1.2.1 Protective Signs</h5>
 <table>
 <colgroup>
-<col style="width: 12%" />
+<col style="width: 14%" />
 <col style="width: 17%" />
-<col style="width: 12%" />
-<col style="width: 57%" />
+<col style="width: 14%" />
+<col style="width: 54%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1713,10 +1713,10 @@ the Protection of Victims of International Armed Conflicts (Protocol I),
 <h5 id="emergency-signals">4.3.1.2.2 Emergency Signals</h5>
 <table>
 <colgroup>
-<col style="width: 12%" />
-<col style="width: 17%" />
-<col style="width: 12%" />
-<col style="width: 57%" />
+<col style="width: 15%" />
+<col style="width: 20%" />
+<col style="width: 15%" />
+<col style="width: 48%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1800,9 +1800,9 @@ Signs</h5>
 <table>
 <colgroup>
 <col style="width: 12%" />
-<col style="width: 17%" />
+<col style="width: 11%" />
 <col style="width: 12%" />
-<col style="width: 57%" />
+<col style="width: 63%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -1882,457 +1882,475 @@ Signs</h5>
 <tr class="even">
 <td></td>
 <td></td>
-<td><code>1D</code>-<code>1F</code></td>
-<td>(reserved)</td>
+<td><code>1D</code></td>
+<td>War/Conflict/Terrorism - Electronic Attack / Jamming</td>
 </tr>
 <tr class="odd">
+<td></td>
+<td></td>
+<td><code>1E</code>-<code>1F</code></td>
+<td>(reserved)</td>
+</tr>
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>20</code></td>
 <td>Unspecified Hazardous Conflict Area</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>21</code></td>
 <td>Hazardous Conflict Area - Mine Field</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>22</code></td>
 <td>Hazardous Conflict Area - UXOs</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>23</code></td>
 <td>Hazardous Conflict Area - Chemical Contamination</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>24</code></td>
 <td>Hazardous Conflict Area - Biological Contamination</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>25</code></td>
 <td>Hazardous Conflict Area - Radiological Contamination</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>26</code></td>
 <td>Hazardous Conflict Area - Nuclear Contamination</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>27</code></td>
 <td>Hazardous Conflict Area - Surface-to-Air Threat</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>28</code>-<code>2F</code></td>
 <td>(reserved)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>30</code></td>
 <td>Unspecified Transport Accident</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>31</code></td>
 <td>Transport Accident - Air</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>32</code></td>
 <td>Transport Accident - Rail</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>33</code></td>
 <td>Transport Accident - Road</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>34</code></td>
 <td>Transport Accident - Boat</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>35</code>-<code>3F</code></td>
 <td>(reserved)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>40</code></td>
 <td>Unspecified Industrial Accident</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>41</code></td>
 <td>Industrial Accident - Accident release (other than attack)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>42</code></td>
 <td>Industrial Accident - Explosion (other than attack)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>43</code></td>
 <td>Industrial Accident - Chemical explosion (other than attack)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>44</code></td>
 <td>Industrial Accident - Nuclear explosion/Radiation (other than
 attack)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>45</code></td>
 <td>Industrial Accident - Mine explosion</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>46</code></td>
 <td>Industrial Accident - Pollution</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>47</code></td>
 <td>Industrial Accident - Acid rain</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>48</code></td>
 <td>Industrial Accident - Atmosphere pollution</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>49</code>-<code>4F</code></td>
 <td>(reserved)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>50</code></td>
 <td>Complex/Man-made Hazard - Complex Emergency</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>51</code></td>
 <td>Complex/Man-made Hazard - Uncontrolled Banditry</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>52</code></td>
 <td>Complex/Man-made Hazard - Uncontrolled Uprising</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>53</code></td>
 <td>Complex/Man-made Hazard - Displaced Population</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>54</code></td>
 <td>Complex/Man-made Hazard - Famine and Food Insecurity</td>
 </tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td><code>55</code></td>
+<td>Complex/Man-made Hazard - Looting / Plundering</td>
+</tr>
 <tr class="odd">
 <td></td>
 <td></td>
-<td><code>55</code>-<code>5F</code></td>
-<td>(reserved)</td>
+<td><code>56</code></td>
+<td>Complex/Man-made Hazard - Vandalism / Defacement</td>
 </tr>
 <tr class="even">
+<td></td>
+<td></td>
+<td><code>57</code>-<code>5F</code></td>
+<td>(reserved)</td>
+</tr>
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>60</code>-<code>9F</code></td>
 <td>(reserved)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>A0</code></td>
 <td>Unspecified Geophysical Disaster Area</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>A1</code></td>
 <td>Geophysical Disaster Area - Earthquake</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>A2</code></td>
 <td>Geophysical Disaster Area - Earthquake w/ Tsunami</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>A3</code></td>
 <td>Geophysical Disaster Area - Volcano</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>A4</code></td>
 <td>Geophysical Disaster Area - Dry Mass Movement - Rockfall</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>A5</code></td>
 <td>Geophysical Disaster Area - Dry Mass Movement - Landslide</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>A6</code></td>
 <td>Geophysical Disaster Area - Dry Mass Movement - Avalanche</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>A7</code></td>
 <td>Geophysical Disaster Area - Dry Mass Movement - Subsidence</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>A8</code>-<code>AF</code></td>
 <td>(reserved)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>B0</code></td>
 <td>Unspecified Meteorological Disaster Area</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>B1</code></td>
 <td>Meteorological Disaster Area - Unspecified Storm</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>B2</code></td>
 <td>Meteorological Disaster Area - Storm - Tropical Cyclone</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>B3</code></td>
 <td>Meteorological Disaster Area - Storm - Extra Tropical Cyclone</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>B4</code></td>
 <td>Meteorological Disaster Area - Local Storm</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>B5</code>-<code>BF</code></td>
 <td>(reserved)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>C0</code></td>
 <td>Unspecified Hydrological Disaster Area</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>C1</code></td>
 <td>Hydrological Disaster Area - General Flood</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>C2</code></td>
 <td>Hydrological Disaster Area - Flash Flood</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>C3</code></td>
 <td>Hydrological Disaster Area - Storm Surge</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>C4</code></td>
 <td>Hydrological Disaster Area - Wet Mass Movement - Rockfall</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>C5</code></td>
 <td>Hydrological Disaster Area - Wet Mass Movement - Landslide</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>C6</code></td>
 <td>Hydrological Disaster Area - Wet Mass Movement - Avalanche</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>C7</code></td>
 <td>Hydrological Disaster Area - Wet Mass Movement - Subsidence</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>C8</code>-<code>CF</code></td>
 <td>(reserved)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>D0</code></td>
 <td>Unspecified Climatological Disaster Area</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>D1</code></td>
 <td>Climatological Disaster Area - Extreme Temp - Heat Wave</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>D2</code></td>
 <td>Climatological Disaster Area - Extreme Temp - Cold Wave</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>D3</code></td>
 <td>Climatological Disaster Area - Extreme Winter Condition</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>D4</code></td>
 <td>Climatological Disaster Area - Drought</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>D5</code></td>
 <td>Climatological Disaster Area - Wildfire - Forest Fire</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>D6</code></td>
 <td>Climatological Disaster Area - Wildfire - Land Fire</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>D7</code>-<code>DF</code></td>
 <td>(reserved)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>E0</code></td>
 <td>Unspecified Biological Disaster Area</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>E1</code></td>
 <td>Biological Disaster Area - Unspecified Epidemic</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>E2</code></td>
 <td>Biological Disaster Area - Viral Infectious Disease Epidemic</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>E3</code></td>
 <td>Biological Disaster Area - Bacterial Infectious Disease
 Epidemic</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>E4</code></td>
 <td>Biological Disaster Area - Parasitic Infectious Disease
 Epidemic</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>E5</code></td>
 <td>Biological Disaster Area - Fungal Infectious Disease Epidemic</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>E6</code></td>
 <td>Biological Disaster Area - Prion Infectious Disease Epidemic</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>E7</code></td>
 <td>Biological Disaster Area - Insect Infestation</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>E8</code></td>
 <td>Biological Disaster Area - Animal Stampede</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>E9</code>-<code>EF</code></td>
 <td>(reserved)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>F0</code>-<code>FF</code></td>
@@ -2343,10 +2361,10 @@ Epidemic</td>
 <h5 id="status-signals">4.3.1.2.4 Status Signals</h5>
 <table>
 <colgroup>
-<col style="width: 12%" />
-<col style="width: 17%" />
-<col style="width: 12%" />
-<col style="width: 57%" />
+<col style="width: 15%" />
+<col style="width: 16%" />
+<col style="width: 15%" />
+<col style="width: 52%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2444,22 +2462,28 @@ Epidemic</td>
 <tr class="odd">
 <td></td>
 <td></td>
+<td><code>27</code></td>
+<td>Object deliberately misused</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
 <td><code>28</code></td>
 <td>Object destroyed</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>29</code>-<code>2F</code></td>
 <td>(reserved)</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td></td>
 <td></td>
 <td><code>30</code>-<code>EF</code></td>
 <td>(reserved)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td></td>
 <td></td>
 <td><code>F0</code>-<code>FF</code></td>
@@ -2471,9 +2495,9 @@ Epidemic</td>
 <table>
 <colgroup>
 <col style="width: 12%" />
-<col style="width: 17%" />
+<col style="width: 13%" />
 <col style="width: 12%" />
-<col style="width: 57%" />
+<col style="width: 61%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -2863,10 +2887,10 @@ collection</td>
 <h3 id="mission-signals">4.3.1.2.6 Mission Signals</h3>
 <table>
 <colgroup>
-<col style="width: 12%" />
-<col style="width: 17%" />
-<col style="width: 12%" />
-<col style="width: 57%" />
+<col style="width: 9%" />
+<col style="width: 6%" />
+<col style="width: 9%" />
+<col style="width: 73%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3133,10 +3157,10 @@ Restoration</td>
 <h3 id="request-signals">4.3.1.2.7 Request Signals</h3>
 <table>
 <colgroup>
-<col style="width: 12%" />
-<col style="width: 17%" />
-<col style="width: 12%" />
-<col style="width: 57%" />
+<col style="width: 18%" />
+<col style="width: 13%" />
+<col style="width: 18%" />
+<col style="width: 50%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3226,7 +3250,7 @@ definite period with a maximum of 99 days 23 hours and 59 minutes, or a
 minimum of 01 minute, or for an indefinite period.</p>
 <p>Based on ISO 8601, the Duration field must be formatted as follows:
 <code>PnnDnnHnnM</code> (i.e. regular expression
-<code>\^P\[0-9\]{2}D\[0-9\]{2}H\[0-9\]{2}M\$</code>), where:</p>
+<code>^P[0-9]{2}D[0-9]{2}H[0-9]{2}M$</code>), where:</p>
 <ul>
 <li><p><code>P</code> is literally the character “P”, indicating that
 the string represents a period</p></li>
@@ -3254,9 +3278,9 @@ is encouraged to use it, because it might be valuable for the
 receiver(s) of the message.</p>
 <table>
 <colgroup>
-<col style="width: 9%" />
-<col style="width: 28%" />
-<col style="width: 61%" />
+<col style="width: 6%" />
+<col style="width: 17%" />
+<col style="width: 76%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3313,24 +3337,23 @@ receiver(s) of the message.</p>
 </tr>
 <tr class="even">
 <td><code>20</code></td>
-<td>Unspecified Area</td>
-<td>An area is a part of the earths surface, either on land or at
-sea.</td>
+<td>Unspecified Area / Point</td>
+<td>A point on the earth’s surface, either on land or at sea.</td>
 </tr>
 <tr class="odd">
 <td><code>21</code></td>
 <td>Circular Area</td>
-<td></td>
+<td>A circle on the earth’s surface, either on land or at sea.</td>
 </tr>
 <tr class="even">
 <td><code>22</code></td>
 <td>Rectangle Area</td>
-<td></td>
+<td>A rectange on the earth’s surface, either on land or at sea.</td>
 </tr>
 <tr class="odd">
 <td><code>23</code></td>
 <td>Triangle Area</td>
-<td></td>
+<td>A triangle on the earth’s surface, either on land or at sea.</td>
 </tr>
 <tr class="even">
 <td><code>24</code>-<code>2F</code></td>
@@ -3341,9 +3364,7 @@ sea.</td>
 <td><code>30</code></td>
 <td>Unspecified Structure</td>
 <td>Immovable human made individual structures that are fixed to the
-ground, such as buildings, installations, historic ruins, etc. For
-non-fixed human made structures or a clustering of structures, such as
-camps, an area object must be used.</td>
+ground, such as buildings, installations, historic ruins, etc.</td>
 </tr>
 <tr class="even">
 <td><code>31</code></td>
@@ -3429,14 +3450,14 @@ camps, an area object must be used.</td>
 </table>
 <p>The table below shows which object types may be used for which
 message subjects, and which combinations types are not allowed.</p>
-<table style="width:100%;">
+<table>
 <colgroup>
-<col style="width: 31%" />
+<col style="width: 33%" />
 <col style="width: 13%" />
+<col style="width: 11%" />
+<col style="width: 15%" />
 <col style="width: 13%" />
-<col style="width: 13%" />
-<col style="width: 13%" />
-<col style="width: 14%" />
+<col style="width: 11%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3614,23 +3635,25 @@ decimal degrees longitude, using the WGS84 datum (i.e. EPSG:4326). The
 vertical location (height or depth) cannot be provided.</p>
 <p>Based on ISO 6709 - Standard representation of geographic point
 location by coordinates, the <code>ObjectLatitude</code> fields must be
-formatted as follows: <code>\_dd.ddddd</code> (i.e. regular expression
-<code>\^\[+-\]\[0-9\]{2}\\.\[0-9\]{5}\$</code>), where:</p>
+formatted as follows: <code>_dd.ddddd</code> (i.e. regular expression
+<code>^[+-][0-9]{2}\.[0-9]{5}$</code>), where:</p>
 <ul>
-<li><p>The digits represent the north-south longitude; valid values are:
-<code>-90.00000</code> to +<code>90.00000</code></p></li>
-<li><p><code>\_</code> is either <code>+</code> or <code>-</code> to
-denote north (+) or south (-).</p></li>
+<li><p>The digits represent the north-south longitude, with valid
+values: <code>-90.00000</code> to <code>+90.00000</code>;</p></li>
+<li><p><code>_</code> is the sign to indicate north (+) or south (-),
+with a <code>+</code> compressed to a <code>1</code> bit, and a
+<code>-</code> compressed to a <code>0</code> bit.</p></li>
 </ul>
 <p>Based on ISO 6709 - Standard representation of geographic point
 location by coordinates, the <code>ObjectLongitude</code> fields must be
-formatted as follows: <code>\_ddd.ddddd</code> (i.e. regular expression
-<code>\^\[+-\]\[0-9\]{3}\\.\[0-9\]{5}\$</code>), where:</p>
+formatted as follows: <code>_ddd.ddddd</code> (i.e. regular expression
+<code>^[+-][0-9]{3}\.[0-9]{5}$</code>), where:</p>
 <ul>
-<li><p>The digits represent the east-west latitude; valid values are:
-<code>-180.00000</code> to <code>+180.00000</code></p></li>
-<li><p><code>\_</code> is either <code>+</code> or <code>-</code> to
-denote east (+) or west (-).</p></li>
+<li><p>The digits represent the east-west latitude, with valid values:
+<code>-180.00000</code> to <code>+180.00000</code>;</p></li>
+<li><p><code>_</code> is the sign to indicate east (+) or west (-), with
+a <code>+</code> compressed to a <code>1</code> bit, and a
+<code>-</code> compressed to a <code>0</code> bit.</p></li>
 </ul>
 <p>The object location must be specified for Protective Signs and Danger
 Signs (Message Codes <code>P</code> and <code>D</code>).</p>
@@ -3656,11 +3679,12 @@ The area must be defined as small as possible.</p>
 <code>31-3F</code>), the Object Size must be provided. For unspecified
 areas and structures (Object Codes <code>20</code> and <code>30</code>)
 the dimensions are by definition unknown, and must be omitted. For all
-other objects, the Object Size must be omitted.</p>
+other objects, the Object Size must be omitted, i.e. set to 0.</p>
 <p>For circle shaped areas and structures (Object Codes <code>21</code>
 and <code>31</code>), the <code>ObjectSizeDim1</code> field represents
 the radius; the <code>ObjectSizeDim2</code> field has no meaning for
-circle shaped areas and structures and must be omitted.</p>
+circle shaped areas and structures and must be omitted, , i.e. set to
+0.</p>
 <p>For rectangle shaped areas and structures (Object Codes
 <code>22</code> and <code>32</code>), the <code>ObjectSizeDim1</code>
 field represents the length of the side for which the orientation is
@@ -3692,7 +3716,8 @@ of eight (8) objects with their respective quantity.</p>
 <p>The <code>ObjectType*</code> field contains a hexadecimal code to
 indicate what sort of object the request applies to. The values
 correspond with those of the <code>ObjectType</code> field as specified
-in 4.3.1.5, with the following restrictions:</p>
+in <a href="#4315-object-type-field">Paragraph 4.3.1.5</a>, with the
+following restrictions:</p>
 <ul>
 <li><p>when referring to persons, the exact number of person must be
 specified and therefore the <code>12</code>-<code>1F</code> may not be
@@ -3700,24 +3725,25 @@ used;</p></li>
 <li><p>unmovable objects, i.e. <code>20</code>-<code>2F</code> areas and
 <code>30</code>-<code>3F</code> structures,may not be used.</p></li>
 </ul>
-<p>Note that in accordance with 4.3.1.5, the object code of a
-<code>Q</code> message itself must represent an area, i.e. code
+<p>Note that in accordance with <a
+href="#4315-object-type-field">Paragraph 4.3.1.5</a>, the object code of
+a <code>Q</code> message itself must represent an area, i.e. code
 <code>20</code>-<code>2F</code>.</p>
 <p>Valid values for an <code>ObjectType*Quant</code> field are
 <code>00</code> to <code>99</code>. If the quantity of an object is
 unknown, then the respective <code>ObjectType*Quant</code> field must be
 <code>00</code>.</p>
-<h3 id="functional-messages-resource">4.3.2 Functional Messages:
-Resource</h3>
-<h4 id="resource-message-fields">4.3.2.1 Resource Message Fields</h4>
+<h3 id="functional-messages-reference">4.3.2 Functional Messages:
+Reference</h3>
+<h4 id="reference-message-fields">4.3.2.1 Reference Message Fields</h4>
 <table>
 <colgroup>
-<col style="width: 8%" />
-<col style="width: 8%" />
-<col style="width: 15%" />
-<col style="width: 26%" />
+<col style="width: 7%" />
+<col style="width: 7%" />
+<col style="width: 11%" />
+<col style="width: 30%" />
 <col style="width: 17%" />
-<col style="width: 23%" />
+<col style="width: 26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3741,7 +3767,7 @@ Resource</h3>
 <tr class="even">
 <td>71</td>
 <td>1</td>
-<td><code>ResourceMethod</code></td>
+<td><code>ReferenceMethod</code></td>
 <td>Indicates the mechanism for pointing to a resource</td>
 <td><code>x</code></td>
 <td>1x 4-bit unsigned binary coded hexadecimal</td>
@@ -3749,28 +3775,28 @@ Resource</h3>
 <tr class="odd">
 <td>72-111*</td>
 <td>40*</td>
-<td><code>ResourceData</code></td>
+<td><code>ReferenceData</code></td>
 <td>Provides the data required to find the resource</td>
 <td><code>cccccccccc ... cccccccccc</code></td>
 <td>40x 8-bit UTF-8</td>
 </tr>
 </tbody>
 </table>
-<h4 id="resource-method-field">4.3.2.2 Resource Method Field</h4>
-<p>The <code>ResourceMethod</code> field defines the mechanism for
+<h4 id="reference-method-field">4.3.2.2 Reference Method Field</h4>
+<p>The <code>ReferenceMethod</code> field defines the mechanism for
 pointing to a resource. The field must be 1-byte UTF-8 encoded
 hexadecimal character. Currently only one resource method has been
 defined:</p>
 <table>
 <colgroup>
-<col style="width: 15%" />
-<col style="width: 30%" />
-<col style="width: 54%" />
+<col style="width: 10%" />
+<col style="width: 24%" />
+<col style="width: 64%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th>Code</th>
-<th>Resource Method</th>
+<th>Reference Method</th>
 <th>Usage</th>
 </tr>
 </thead>
@@ -3786,41 +3812,50 @@ defined:</p>
 <td>Reference to an internet resource</td>
 </tr>
 <tr class="odd">
+<td><code>2</code></td>
+<td><code>CommonName</code></td>
+<td>Reference by common name</td>
+</tr>
+<tr class="even">
 <td><code>2</code>-<code>9</code></td>
 <td>(reserved)</td>
 <td>Reserved for future resource referencing mechanisms</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>A</code>-<code>F</code></td>
 <td>(private use)</td>
 <td>Private use, i.e. not standardized</td>
 </tr>
 </tbody>
 </table>
-<h4 id="resource-data-field">4.3.2.3 Resource Data Field</h4>
-<p>The content of the ResourceData field depends on the resource
+<h4 id="reference-data-field">4.3.2.3 Reference Data Field</h4>
+<p>The content of the ReferenceData field depends on the resource
 method:</p>
 <ul>
-<li>If the <code>ResourceMethod</code> method indicates a reference to
-an internet resource (resource method 1), then the
-<code>ResourceData</code> field must contain a valid URL.</li>
+<li><p>If the <code>ReferenceMethod</code> is <code>1</code>, then the
+<code>ReferenceData</code> field must contain a valid URL of the
+referenced internet resource;</p></li>
+<li><p>If the <code>ReferenceMethod</code> is <code>2</code>, then the
+<code>ReferenceData</code> field must contain a common name for the
+referenced object, i.e. the name that is commonly used by
+humans.</p></li>
 </ul>
-<p>The <code>ResourceData</code> field may be longer than 40 bytes, if
+<p>The <code>ReferenceData</code> field may be longer than 40 bytes, if
 allowed by underlying blockchain. If the length of the
-<code>ResourceData</code> field is insufficient to provide the complete
+<code>ReferenceData</code> field is insufficient to provide the complete
 URL, an additional Reference Message may be sent with the rest of the
 URL using reference code <code>3</code>.</p>
 <h3 id="functional-messages-free-text">4.3.3 Functional Messages: Free
 Text</h3>
 <h4 id="free-text-message-fields">4.3.3.1 Free Text Message Fields</h4>
-<table>
+<table style="width:100%;">
 <colgroup>
 <col style="width: 9%" />
-<col style="width: 9%" />
-<col style="width: 17%" />
-<col style="width: 20%" />
-<col style="width: 18%" />
-<col style="width: 25%" />
+<col style="width: 10%" />
+<col style="width: 12%" />
+<col style="width: 27%" />
+<col style="width: 23%" />
+<col style="width: 16%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3855,24 +3890,27 @@ Text</h3>
 <p>The <code>Text</code> field can be used to send 40x 1-byte UTF-8
 encoded text, typically to provide additional information about a sign
 or signal, using reference code <code>3</code> or <code>5</code>.</p>
-<p>The <code>Text</code> field may be longer than 40 bytes, if allowed
+<p>The <code>Text</code> field may be longer than 40 bytes, if allowed
 by underlying blockchain. If the length of the <code>Text</code> field
 is insufficient to provide all text, an additional text message may be
 sent using reference code <code>3</code>.</p>
 <h3 id="management-messages-authentication">4.3.4 Management Messages:
 Authentication</h3>
+<p>The usage of authentication messages is described in <a
+href="#51-joining-and-leaving-the-whiteflag-network">Paragraph
+5.1</a>.</p>
 <h4 id="authentication-message-fields">4.3.4.1 Authentication Message
 Fields</h4>
 <p>The message body of management messages for (initial) authentication
 (message type <code>A</code>), must contain the following fields:</p>
 <table>
 <colgroup>
-<col style="width: 8%" />
-<col style="width: 8%" />
-<col style="width: 15%" />
+<col style="width: 6%" />
+<col style="width: 7%" />
+<col style="width: 12%" />
+<col style="width: 31%" />
+<col style="width: 16%" />
 <col style="width: 25%" />
-<col style="width: 17%" />
-<col style="width: 23%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -3897,7 +3935,7 @@ Fields</h4>
 <td>71</td>
 <td>1</td>
 <td><code>VerificationMethod</code></td>
-<td>Indicates the authentication mechanism</td>
+<td>Indicates the authentication method</td>
 <td><code>x</code></td>
 <td>1x 4-bit unsigned binary coded hexadecimal</td>
 </tr>
@@ -3905,12 +3943,23 @@ Fields</h4>
 <td>72-111*</td>
 <td>40*</td>
 <td><code>VerificationData</code></td>
-<td>Provides the data required for authentication</td>
+<td>Contains UTF-8 text data required for authentication</td>
 <td><code>cccccccccc ... cccccccccc</code></td>
 <td>25x 8-bit UTF-8</td>
 </tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+<td>Contains hexadecimal data required for authentication</td>
+<td><code>xxxxxxxxxx ... xxxxxxxxxx</code></td>
+<td>128x 4-bit unsigned binary coded hexadecimal</td>
+</tr>
 </tbody>
 </table>
+<p>Depending on the verification method, the
+<code>VerificationData</code> field may contain either UTF-8 text data
+<code>c</code> or hexadecimal data <code>x</code>.</p>
 <h4 id="verification-method-field">4.3.4.2 Verification Method
 Field</h4>
 <p>The <code>VerificationMethod</code> field defines the mechanism for
@@ -3919,14 +3968,16 @@ be a 1-byte UTF-8 encoded hexadecimal character from the following table
 with codes for each verification method:</p>
 <table>
 <colgroup>
-<col style="width: 9%" />
-<col style="width: 26%" />
-<col style="width: 63%" />
+<col style="width: 11%" />
+<col style="width: 25%" />
+<col style="width: 7%" />
+<col style="width: 55%" />
 </colgroup>
 <thead>
 <tr class="header">
 <th>Code</th>
 <th>Verification Method</th>
+<th>Data</th>
 <th>Usage</th>
 </tr>
 </thead>
@@ -3934,26 +3985,31 @@ with codes for each verification method:</p>
 <tr class="odd">
 <td><code>0</code></td>
 <td>(reserved)</td>
+<td>-</td>
 <td>Must not be used</td>
 </tr>
 <tr class="even">
 <td><code>1</code></td>
 <td><code>InternetResource</code></td>
+<td><code>c</code></td>
 <td>Authentication through an internet resource</td>
 </tr>
 <tr class="odd">
 <td><code>2</code></td>
-<td><code>SharedToken</code></td>
-<td>Authentication by a secret pre-shared token</td>
+<td><code>SharedSecret</code></td>
+<td><code>x</code></td>
+<td>Authentication with a shared secret</td>
 </tr>
 <tr class="even">
 <td><code>3</code>-<code>9</code></td>
 <td>(reserved)</td>
-<td>Reserved for future authentication mechanisms</td>
+<td>-</td>
+<td>Reserved for future authentication methods</td>
 </tr>
 <tr class="odd">
 <td><code>A</code>-<code>F</code></td>
 <td>(private use)</td>
+<td>-</td>
 <td>Private use, i.e. not standardized</td>
 </tr>
 </tbody>
@@ -3965,30 +4021,32 @@ verification method:</p>
 <li><p>If the <code>InternetResource</code> method is specified
 (verification method 1), then the VerificationData field must contain a
 valid URL;</p></li>
-<li><p>If the <code>SharedToken</code> method is specified (verification
-method 2), then the VerificationData field must contain the verification
-token.</p></li>
+<li><p>If the <code>SharedSecret</code> method is specified
+(verification method 2), then the VerificationData field must contain a
+hexadecimal authentication token derived from a shared secret.</p></li>
 </ul>
-<p>The <code>VerificationData</code> field may be longer than 40 bytes,
+<p>The <code>VerificationData</code> field may be longer than 40 bytes,
 if allowed by underlying blockchain. If the length of the
 <code>VerificationData</code> field is insufficient to provide the
-complete URL or verification token, an additional Authentication Message
-may be sent with the rest of the URL or verification token using
-reference code <code>3</code>.</p>
+complete URL or authentication token, an additional Authentication
+Message may be sent with the rest of the URL or authentication token
+using reference code <code>3</code>.</p>
 <h3 id="management-messages-cryptographic-support">4.3.5 Management
 Messages: Cryptographic Support</h3>
+<p>The usage of cryptographic support messages is described in <a
+href="#52-cryptographic-support-functions">Paragraph 5.2</a>.</p>
 <h4 id="cryptographic-support-message-fields">4.3.5.1 Cryptographic
 Support Message Fields</h4>
 <p>The message body of management messages for cryptographic support
 (message type <code>K</code>), must contain the following fields:</p>
 <table>
 <colgroup>
+<col style="width: 7%" />
 <col style="width: 8%" />
-<col style="width: 8%" />
-<col style="width: 15%" />
-<col style="width: 25%" />
+<col style="width: 11%" />
+<col style="width: 27%" />
 <col style="width: 17%" />
-<col style="width: 23%" />
+<col style="width: 28%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -4021,7 +4079,7 @@ Support Message Fields</h4>
 <td>73-144*</td>
 <td>80*</td>
 <td><code>CryptoData</code></td>
-<td>Contains the cryptographic data</td>
+<td>Contains the binary cryptographic data</td>
 <td><code>xxxxxxxxxx ... xxxxxxxxxx</code></td>
 <td>128x 4-bit unsigned binary coded hexadecimal</td>
 </tr>
@@ -4035,9 +4093,9 @@ encoded hexadecimal character from the following table with codes for
 each key type:</p>
 <table>
 <colgroup>
-<col style="width: 12%" />
-<col style="width: 33%" />
-<col style="width: 54%" />
+<col style="width: 9%" />
+<col style="width: 15%" />
+<col style="width: 75%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -4065,49 +4123,56 @@ each key type:</p>
 <tr class="even">
 <td><code>0A</code></td>
 <td><code>ECDHPubKey</code></td>
-<td>Elliptic Curve Diffie–Hellman public key exchange</td>
+<td>Elliptic Curve Diffie–Hellman public key exchange for encryption key
+negotiation</td>
 </tr>
 <tr class="odd">
-<td><code>0B</code>-<code>0F</code></td>
+<td><code>0B</code></td>
+<td><code>ECDHPubKey</code></td>
+<td>Elliptic Curve Diffie–Hellman public key exchange for authentication
+token negotiation</td>
+</tr>
+<tr class="even">
+<td><code>0C</code>-<code>0F</code></td>
 <td>(reserved)</td>
 <td>Must not be used; reserved for future use</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>10</code></td>
 <td>(reserved)</td>
 <td>Must not be used; reserved for future use</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>11</code></td>
 <td><code>InitVector</code></td>
 <td>Initialisation Vector for encryption method <code>1</code></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>12</code>-<code>1F</code></td>
 <td>(reserved)</td>
 <td>Must not be used; reserved for future use</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>20</code></td>
 <td>(reserved)</td>
 <td>Must not be used; reserved for future use</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>21</code></td>
 <td><code>InitVector</code></td>
 <td>Initialisation Vector for encryption method <code>2</code></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>22</code>-<code>2F</code></td>
 <td>(reserved)</td>
 <td>Must not be used; reserved for future use</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><code>20</code>-<code>99</code></td>
 <td>(reserved)</td>
 <td>Must not be used; reserved for future encryption features</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><code>A0</code>-<code>FF</code></td>
 <td>(private use)</td>
 <td>Private use, i.e. not standardized</td>
@@ -4123,34 +4188,38 @@ each key type:</p>
 public key used to derive the deterministic public keys (and
 addresses).</p></li>
 <li><p>When the data type is <code>ECDHPubKey</code> (code
-<code>0A</code>), the data field must contain a compressed elliptic
-curve public key for a Diffie-Hellman key exchange.</p></li>
+<code>0A</code> or <code>0B</code>), the data field must contain a
+compressed elliptic curve public key for a Diffie-Hellman key
+exchange.</p></li>
 <li><p>When the data type is <code>InitVector</code> (code
 <code>11</code> or <code>21</code>), the data field must contain the
 128-bit initialisation vector required to decrypt a message encrypted
 with the algorithm indicated with encryption indicator code
 <code>1</code> and <code>2</code> respectively.</p></li>
 </ul>
-<p>The <code>CryptoData</code> field may be longer than 64 bytes if
+<p>The <code>CryptoData</code> field may be longer than 64 bytes if
 allowed by underlying blockchain. If the length of the
 <code>CryptoData</code> field is insufficient to provide the full data,
 an additional Cryptographic Support Messages may be sent with the rest
 of the key data using reference code <code>3</code>.</p>
 <p>Usage of the Cryptographic Support Message and the data types is
-detailed in 5.2 Cryptographic Support Functions.</p>
+detailed in <a href="#52-cryptographic-support-functions">Paragraph
+5.2</a>.</p>
 <h3 id="management-messages-test">4.3.6 Management Messages: Test</h3>
+<p>The usage of test messages is described in <a
+href="#55-testing">Paragraph 5.5</a>.</p>
 <h4 id="test-message-fields">4.3.6.1 Test Message Fields</h4>
 <p>The message body of test messages has an identical set of fields as
 signs &amp; signals messages have, which allows to test sign and
 signals. A test message must contain the following fields:</p>
 <table>
 <colgroup>
-<col style="width: 10%" />
-<col style="width: 10%" />
-<col style="width: 19%" />
-<col style="width: 28%" />
-<col style="width: 14%" />
-<col style="width: 16%" />
+<col style="width: 9%" />
+<col style="width: 9%" />
+<col style="width: 15%" />
+<col style="width: 32%" />
+<col style="width: 17%" />
+<col style="width: 15%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -4193,14 +4262,45 @@ signals. A test message must contain the following fields:</p>
 <p>The <code>PseudoMessageCode</code> field indicates which sign/signal
 message is tested. The contents of the field must be a 1-byte UTF-8
 encoded alpha-numeric character value corresponding with one of the
-message types defined in 2.4.2 Message Functionality.</p>
-<h4 id="other-test-message-fields">4.3.5.3 Other Test Message
-Fields</h4>
-<p>All other test message fields are identical in use as the equivalent
-fields sign/signal message, as described in 4.3 Message Body, with the
-difference that the fields are shifted 1 byte / 8 bits.</p>
+message types defined in <a href="#242-message-functionality">Paragraph
+2.4.2</a>.</p>
+<h4 id="test-message-body">4.3.5.3 Test Message Body</h4>
+<p>All other test message fields in the message body are identical in
+use as the equivalent fields sign/signal message, as described in <a
+href="#43-message-body">Paragraph 4.3</a>, with the difference that the
+fields are shifted 1 byte / 8 bits, because of the Pseudo Message Code
+field.</p>
 <p>The field names must be preceded by <code>Test</code> when used in a
 test message.</p>
+<h2 id="notation-of-messages-and-message-sequences">4.4 Notation of
+Messages and Message Sequences</h2>
+<p>For documentation purposes and use case descriptions, messages codes
+and message sequences might be written as follows:</p>
+<ul>
+<li>a message may be referred to by its message code,
+e.g. <code>T</code> for a test message;</li>
+<li>a specific sign or signal may be indicated by the combination of
+message and subject code, e.g. <code>E01</code> for a distress
+signal;</li>
+<li>a reference indicator may be written in between brackets after the
+message code, e.g. <code>A(2)</code> for an update to an earlier
+<code>A</code> message;</li>
+<li>an encrypted message is written between square brackets,
+e.g. <code>[Q(0)14]</code>;</li>
+<li>the originator may be indicated behind the message code and
+reference indicator, e.g. <code>A(0)X</code> is an original
+authentication message from X;</li>
+<li>the symbol <code>&lt;</code> is used as a pointer in the message
+sequence; the symbol is repeated to indicate to which message is
+referred, e.g. <code>&lt;&lt;</code> means two messages before.</li>
+</ul>
+<p>For example, a message from originator X for relating an area under
+attack <code>D10</code> to an existing protective sign <code>P31</code>
+of a hospital H in that area, may be written as:
+<code>P31(0)H &lt; D10(5)X</code>.</p>
+<p>When the attack ends and the status of the hospital is provided, the
+full sequence will read:
+<code>P31(0)H &lt; D10(5)X &lt; D10(4)X &lt;&lt;&lt; S23(5)H</code>.</p>
 <h1 id="protocol">5 Protocol</h1>
 <h2 id="joining-and-leaving-the-whiteflag-network">5.1 Joining and
 Leaving the Whiteflag Network</h2>
@@ -4214,13 +4314,17 @@ multiple accounts, and an account may use multiple addresses.</p>
 initial authentication message, before sending any other message. Any
 message sent by an account before that account has sent an
 <code>A(0)</code> messages, may be considered unauthenticated by
-recipients.</p>
-<p>If an account uses multiple addresses, the <code>A(0)</code> message
-must be sent using the address corresponding with public key from which
-all other addresses can be deterministically derived. For recipients to
-be able to derive those address, a <code>K(3)2</code> message
-referencing the <code>A(0)</code> message must be sent, containing the
-chain code for child key derivation.</p>
+recipients. The same is the case for any message sent after an A(0), but
+before an A(1) message: these messages may be consired
+unauthenticated.</p>
+<p>Although supported, deterministic keys and addresses should normally
+not be used for Whiteflag. If an account uses deterministic addresses,
+the <code>A(0)</code> message must be sent using the address
+corresponding with public key from which all other addresses can be
+deterministically derived. For recipients to be able to derive those
+address, a <code>K(3)01</code> message referencing the <code>A(0)</code>
+message must be sent, containing the chain code for child key
+derivation.</p>
 <h3 id="validating-authentication-information">5.1.2 Validating
 Authentication Information</h3>
 <h4 id="method-1-url-validation">5.1.2.1 Method 1: URL Validation</h4>
@@ -4273,25 +4377,33 @@ can be derived.</li>
 <p>The serialisation format of an extended public key is blockchain
 specific. Although supported, deterministic keys should normally not be
 used.</p>
-<p>An example for usage of JWS for authentication is included in Annex
-C.</p>
-<h4 id="method-2-shared-token-validation">5.1.2.2 Method 2: Shared Token
-Validation</h4>
-<p>The option to use a secret token for authentication allows the issuer
-of the token to authenticate the originator’s blockchain account when
-the token is revealed in an <code>A2</code> message. The secret token
-may be pre-shared or generated from a shared secret:</p>
+<p>An example for usage of JWS for authentication is included in <a
+href="#annex-c-example-json-authentication-objects">Annex C</a>.</p>
+<h4 id="method-2-shared-secret-validation">5.1.2.2 Method 2: Shared
+Secret Validation</h4>
+<p>The option to use a shared secret for authentication allows the
+issuer of the secret to authenticate the originator’s blockchain account
+when proof of possession of the secret is revealed in an <code>A2</code>
+message. The secret may be pre-shared or negotiated:</p>
 <ol type="1">
-<li><p>The token may be a secret piece of either arbitrary data or some
-(encrypted) meaningful data provided to the originator.</p></li>
-<li><p>The token may also be derived from an ECDH shared secret as
-described in 5.2.3 Key and Token Derivation.</p></li>
+<li><p>The pre-shared secret may be either arbitrary data or some
+(encrypted) meaningful data provided to the originator. The nature and
+distribution of such a secret is outside the scope of
+Whiteflag.</p></li>
+<li><p>The secret may also be negotiated by exchanging ECDH public keys
+using <code>K0B</code> messages, as described in <a
+href="#52-cryptographic-support-functions">Paragraph 5.2</a>. This
+allows a secret to be negotiated with one (already authenticated)
+account, and then to be used for authentication of another account of
+the same originator, e.g. to create an anonymous side channel.</p></li>
 </ol>
-<p>The secret token must not be used directly in a single
-<code>A2(0)</code> message. Instead, the authentication data sent in the
-<code>A2(0)</code> message must be derived from the secret token using
-the HKDF function defined in RFC 5869. The procedure is described in
-detail in the Key and Token Derivation paragraph.</p>
+<p>The shared secret must not be used directly in a single
+<code>A2(0)</code> message. Instead, the authentication token sent in
+the <code>A2(0)</code> message must be derived from the shared secret
+using the HKDF function defined in RFC 5869. The procedure is described
+in detail in <a
+href="#523-encryption-key-and-authentication-token-derivation">Paragraph
+5.2.3</a>.</p>
 <p>An originator may use multiple <code>A2(0)</code> messages with
 tokens from different issuers or ECDH counterparts.</p>
 <p>The issuer or ECDH counterparts may send <code>A2(6)</code> or
@@ -4322,14 +4434,18 @@ Hierarchical Deterministic Accounts and Addresses</h3>
 <p>It may not be assumed that every recipient is able to link
 deterministically derived addresses to the master public key of the
 account in order to authenticate the originator.</p>
-<h3 id="key-agreement">5.2.2 Key Agreement</h3>
+<h3 id="encryption-key-and-authentication-token-negotiation">5.2.2
+Encryption Key and Authentication Token Negotiation</h3>
 <p>The protocol supports cryptographic key exchange using Elliptic Curve
 Diffie-Hellman (ECDH), which is an Elliptic Curve variant of the
 standard Diffie-Hellman algorithm. This well known algorithm allows two
 parties, that do not have any prior knowledge of each other, to agree on
 a shared secret using an open communication channel. This shared secret
-may then be used, for example, to derive a secret key for the encryption
-of messages.</p>
+may then be used:</p>
+<ol type="1">
+<li>to derive an encryption key for encryption method 2</li>
+<li>to derive an authentication token for authentication method 2</li>
+</ol>
 <p>The OpenSSL implementation of ECDH is the reference implementation
 for for Elliptic Curve Diffie-Hellman key agreement with the Whiteflag
 Protocol. The elliptic curve parameters that must be used for Whiteflag
@@ -4337,29 +4453,31 @@ are defined by the <code>brainpoolP256r1</code> curve as specified in
 RFC 5639.</p>
 <p>Any participant may generate a 264-bit compressed public ECDH key and
 publish the key on the Whiteflag network using a <code>K(0)0A</code>
-message. This allows any two participants, who have both published their
-public key, to generate the shared secret using their own private key
-and the other’s public key.</p>
-<p>If one of the participants publishes an <code>K(2)0A</code> message
-with updated key, the existing shared secrets with other participants
+message (for encryption keys) or a <code>K(0)0B</code> message (for
+authentication token). This allows any two participants, who have both
+published their public key, to generate shared secrets using their own
+private key and the other’s public key.</p>
+<p>If one of the participants publishes an <code>K(2)</code> message
+with an updated key, the existing shared secrets with other participants
 expire and new shared secrets must be generated for and by each other
 participant.</p>
 <p>Only one single participant’s public ECDH key is considered valid at
-any point in time. Nevertheless, multiple <code>K(0)0A</code> messages
-may be sent to republish the public key. If a subsequent
-<code>K(0)0A</code> message contains a different public key, this must
-be interpreted as an <code>K(2)0A</code> message with an updated key
-(which should have been sent instead).</p>
+any point in time. Nevertheless, multiple <code>K(0)0A</code> or
+<code>K(0)0A</code> messages may be sent to republish the public key. If
+a subsequent <code>K(0)0A</code> message contains a different public
+key, this must be interpreted as an <code>K(2)0A</code> message with an
+updated key (which should have been sent instead).</p>
 <p>The shared secret may be used as a basis for encryption and
 authentication, whether for Whiteflag or not, but it should never be
-used directly as an encryption key.</p>
-<h3 id="key-and-token-derivation">5.2.3 Key and Token Derivation</h3>
+used directly as an encryption key or authentication token.</p>
+<h3 id="encryption-key-and-authentication-token-derivation">5.2.3
+Encryption Key and Authentication Token Derivation</h3>
 <p>Shared secrets (such as pre-shared, deterministically derived or ECDH
 generated secrets), must use the HKDF function defined in RFC 5869 to
 derive the actual tokens and encryption keys used for Whiteflag.</p>
 <p>Note that it is crucial for security that shared secrets used as the
 input keying material for HKDF, have enough entropy, i.e. are
-sufficiently long (at least 16 bytes) and are practically
+sufficiently long (at least 16 bytes) and are practically
 indistinguishable from random data.</p>
 <p>The HKDF function must use SHA-256 as the digest algorithm.
 Furthermore, the HKDF function takes three (3) parameters depending on
@@ -4368,26 +4486,26 @@ specific salt and the the blockchain address as the info value.</p>
 <ul>
 <li>for authentication method 2 (token-based):
 <ol type="1">
-<li>the key length (token length) must be 32 bytes (256 bits)</li>
+<li>the key length (token length) must be 32 bytes (256 bits)</li>
 <li>the salt value must be (hexadecimal):
 <code>420abc48f5d69328c457d61725d3fd7af2883cad8460976167e375b9f2c14081</code></li>
-<li>the info value must be the binary blockchain address</li>
+<li>the info value must be the (binary) blockchain address</li>
 </ol></li>
 <li>for encryption method 1 (<code>aes-256-ctr</code> with negotiated
 secret):
 <ol type="1">
-<li>the key length must be 32 bytes (256 bits)</li>
+<li>the key length must be 32 bytes (256 bits)</li>
 <li>the salt value must be (hexadecimal):
 <code>8ddb03085a2c15e69c35c224bce2952dca7878770724741cbce5a135328be0c0</code></li>
-<li>the info value must be the binary blockchain address</li>
+<li>the info value must be the (binary) blockchain address</li>
 </ol></li>
 <li>for encryption method 2 (<code>aes-256-ctr</code> with pre-shared
 secret):
 <ol type="1">
-<li>the key length must be 32 bytes (256 bits)</li>
+<li>the key length must be 32 bytes (256 bits)</li>
 <li>the salt value must be (hexadecimal):
 <code>c4d028bd45c876135e80ef7889835822a6f19a31835557d5854d1334e8497b56</code></li>
-<li>the info value must be the binary blockchain address</li>
+<li>the info value must be the (binary) blockchain address</li>
 </ol></li>
 </ul>
 <p>Note that the salts are shown above in hexadecimal representation.
@@ -4395,14 +4513,15 @@ Implementations must ensure that the data is correctly provided to the
 HKDF function, i.e. as binary information, not as a string. This is
 especially important for blockchains addresses, which appear in
 different encodings.</p>
-<p>Using the 2.4.2.2 blockchain address
-<code>1C8KSK68SJjfDSBx9BpSx3qB3bePf23r77</code> as an example, this
-results in the following pseudocode for deriving authentication
+<p>Using the blockchain address
+<code>1C8KSK68SJjfDSBx9BpSx3qB3bePf23r77</code> from <a
+href="#2422-management-messages">Paragraph 2.4.2.2</a> as an example,
+this results in the following pseudocode for deriving authentication
 tokens:</p>
 <pre class="pseudocode"><code>    tokenlength := 32
     salt := 0x420abc48f5d69328c457d61725d3fd7af2883cad8460976167e375b9f2c14081
     info := 0x007a0baf6f84f0fa7402ea972686e56d50b707c9b67b108866
-    secretToken := HKDF(sharedSecret, salt, info, tokenlength, digest=&quot;sha256&quot;)</code></pre>
+    authToken := HKDF(sharedSecret, salt, info, tokenlength, digest=&quot;sha256&quot;)</code></pre>
 <p>The pseudocode for deriving encryption/decryption keys for the same
 blockchain address is as follows:</p>
 <pre class="pseudocode"><code>    if (EncryptionIndicator == 1) then:
@@ -4414,23 +4533,26 @@ blockchain address is as follows:</p>
         salt := 0xc4d028bd45c876135e80ef7889835822a6f19a31835557d5854d1334e8497b56
         info := 0x007a0baf6f84f0fa7402ea972686e56d50b707c9b67b108866
     key := HKDF(sharedSecret, salt, info, keylength, digest=&quot;sha256&quot;)</code></pre>
-<h3 id="message-encryption">5.2.4 Message Encryption</h3>
+<h3 id="message-encryption-1">5.2.4 Message Encryption</h3>
 <p>Two encryption methods are currently defined by Whiteflag: the
 Advanced Encryption Standard (AES) using a 256-bit key in counter mode
 (CTR) with either an ECDH negotiated secret (method 1) or a pre-shared
 secret (method 2).</p>
 <p>AES is a symmetric cipher that requires the same key for encryption
-and decryption. This key must be derived as described in the Key and
-Token Derivation paragraph.</p>
+and decryption. This key must be derived as described in <a
+href="#523-encryption-key-and-authentication-token-derivation">Paragraph
+5.2.3</a>.</p>
 <h4 id="encryption-methods-1-and-2">5.2.4.1. Encryption Methods 1 and
 2</h4>
 <p>Encryption methods 1 and 2 only differ in the key used for the
 encryption:</p>
 <ul>
 <li><p>Encryption method 1 uses the ECDH negotiated secret as described
-in the Key Agreement paragraph to derive the encryption key. This method
-can therefore only been used to send encrypted messages between the two
-blockchain accounts that have negotiated the shared secret.</p></li>
+in <a
+href="#522-encryption-key-and-authentication-token-negotiation">Paragraph
+5.2.2</a> to derive the encryption key. Thus, this method can only been
+used to send encrypted messages between the two blockchain accounts that
+have negotiated the shared secret.</p></li>
 <li><p>Encryption method 2 uses a pre-shared secret to derive the
 encryption key. It is outside the scope of this standard to define the
 key management and distribution of pre-shared keys. However, it is
@@ -4439,19 +4561,22 @@ and random.</p></li>
 </ul>
 <p>Encryption of a Whiteflag message is performed with the following
 steps:</p>
-<ul>
+<ol type="1">
 <li><p>derive the encryption key respectively from an ECDH negotiated
-secret or a pre-shared secret using the HKDF function as described in
-the the Key and Token Derivation paragraph;</p></li>
+secret or a pre-shared secret using the HKDF function as described in <a
+href="#523-encryption-key-and-authentication-token-derivation">Paragraph
+5.2.3</a>;</p></li>
 <li><p>generate a unique 128-bit initialisation vector, e.g. with
 cryptographically secure random number generator;</p></li>
-<li><p>encrypt the compressed binary encoded message starting at bit 32
-(the 33th bit) up to and including the last bit, using
+<li><p>encrypt the compressed binary encoded message starting at bit 32
+(the 33th bit) up to and including the last bit, using
 <code>aes-256-ctr</code> with the appropriate key and the just generated
 initialisation vector.</p></li>
-</ul>
+</ol>
 <p>Below are the encryption steps in pseudocode, in which the key has
-already been derived as described in 5.2.3 Key and Token Derivation:</p>
+already been derived as described in <a
+href="#523-encryption-key-and-authentication-token-derivation">Paragraph
+5.2.3</a>:</p>
 <pre class="pseudocode"><code>    iv := generateRandomBits(128)
     encryptedMessagePart := aes(encodedMessage[32...n], key, iv, mode=&quot;ctr&quot;)
     encryptedMessage := encodedMessage[0...31] + encryptedMessagePart</code></pre>
@@ -4462,7 +4587,7 @@ each message encryption, especially when reusing the same key.
 Therefore, a new random initialisation vector must be created for each
 message to be encrypted.</p>
 <p>The encrypted message, with the correct encryption indicator set and
-the plaintext from the 5th byte onwards replaced with the ciphertext,
+the plaintext from the 5th byte onwards replaced with the ciphertext,
 must be sent as any other Whiteflag message.</p>
 <p>The encrypted message must immediately be followed and referenced by
 a <code>K(3)11</code> or a <code>K(3)21</code> message containing the
@@ -4473,15 +4598,16 @@ not be encrypted itself, and the duress indicator must be
 referenced encrypted message.</p>
 <h2 id="sending-stand-alone-signs-and-signals">5.3 Sending stand-alone
 Signs and Signals</h2>
-<p>To send a stand-alone message, Reference Code <code>0</code> must be
-used.</p>
-<p>However, nothing prevents other senders to reference the message at
-any later point in time, thus creating a message sequence from a
-previously stand-alone message.</p>
-<p>A message is sent by embedding it in a blockchain transaction. The
-way this is done is blockchain specific. Annex A contains some
-information about message embedding for a limited number of
-blockchains.</p>
+<p>To send an initial sign or signal, Reference Code <code>0</code> must
+be used. Any update of the sign or signal must be sent by sending a
+message referencing the initial message with the correct reference code,
+specified in <a href="#4217-reference-indicator-field">Paragraph
+4.2.1.7</a>.</p>
+<p>Also, nothing prevents other originators to reference the message at
+any later point in time, adding more information by creating a message
+sequence starting with the initial sign or signal.</p>
+<p>Message referencing is described in more detail in <a
+href="#54-referencing">Paragraph 5.4</a>.</p>
 <h2 id="referencing">5.4 Referencing</h2>
 <h3 id="reference-options">5.4.1 Reference Options</h3>
 <h4 id="allowed-referencing-between-message-types">5.4.1.1 Allowed
@@ -4489,21 +4615,21 @@ Referencing between Message Types</h4>
 <p>The table below shows which references types (as defined in Reference
 Indicator Field) may be used between the different message types, and
 which reference types are not allowed.</p>
-<table style="width:100%;">
+<table>
 <colgroup>
+<col style="width: 13%" />
+<col style="width: 10%" />
+<col style="width: 8%" />
 <col style="width: 9%" />
-<col style="width: 7%" />
-<col style="width: 7%" />
-<col style="width: 7%" />
-<col style="width: 7%" />
-<col style="width: 7%" />
-<col style="width: 7%" />
-<col style="width: 7%" />
-<col style="width: 7%" />
-<col style="width: 7%" />
-<col style="width: 7%" />
-<col style="width: 7%" />
-<col style="width: 7%" />
+<col style="width: 6%" />
+<col style="width: 8%" />
+<col style="width: 9%" />
+<col style="width: 6%" />
+<col style="width: 5%" />
+<col style="width: 5%" />
+<col style="width: 8%" />
+<col style="width: 5%" />
+<col style="width: 3%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -4712,17 +4838,17 @@ Referencing between Reference Types</h4>
 <p>The table below shows which reference types (as defined in Reference
 Indicator Field) may be used to refer to an earlier message with a
 certain reference code to create a meaningful message sequence.</p>
-<table style="width:100%;">
+<table>
 <colgroup>
-<col style="width: 29%" />
+<col style="width: 27%" />
+<col style="width: 7%" />
+<col style="width: 6%" />
 <col style="width: 7%" />
 <col style="width: 7%" />
 <col style="width: 7%" />
 <col style="width: 7%" />
-<col style="width: 7%" />
-<col style="width: 7%" />
-<col style="width: 7%" />
-<col style="width: 7%" />
+<col style="width: 6%" />
+<col style="width: 6%" />
 <col style="width: 7%" />
 <col style="width: 7%" />
 </colgroup>
@@ -4882,37 +5008,46 @@ originator than of the referenced message <em>X</em>: prohibited</p>
 <p>A message with Reference Code <code>0</code> (an original message)
 may not reference any message.</p>
 <p>A message with Reference Code <code>1</code> (a recall message) may
-reference a message with any reference code of the same originator,
-meaning that a message with any reference code can be recalled.</p>
+reference a message with any reference code of the <em>same
+originator</em>, meaning that a message with any reference code can be
+recalled.</p>
 <p>A message with Reference Code <code>2</code> (an update message) may
 only reference a message with reference code <code>0</code>,
 <code>3</code>, or <code>5</code> meaning that only original,
-additional, and referring messages may be updated and only by the same
-originator.</p>
+additional, and referring messages may be updated and only by the
+<em>same originator</em>.</p>
 <p>A message with Reference Code <code>3</code> (an additional
 information message) may only reference a message with reference code
-<code>0</code>, <code>2</code>, or <code>5</code>, for the same
-originator to provide additional information to original, updating and
-referring messages.</p>
-<p>Reference Code <code>3</code> may be only used once to refer to the
-original message of the same message type. For example:
-<code>S(0) &lt; R(3) &lt; R(3)</code> and
-<code>... &lt; [F(3)] &lt; K11(3) &lt;&lt; [F(3)] &lt; K11(3)</code> are
-allowed, but <code>... &lt; R(3) &lt; R(3) &lt;&lt; R(3)</code> is not.
-There is one exception: Reference Code <code>3</code> may be used to
-reference the same message type of types <code>P</code>, <code>D</code>,
-<code>Q</code>, and <code>M</code> more than once, when creating
-composite areas (see Composite Areas and Structures). In that case, the
-additional information must reference the initially referenced message
-and may not reference another message with additional information,
-e.g. <code>D(0) &lt; D(3) &lt;&lt; D(3) &lt;&lt;&lt; D(3)</code></p>
+<code>0</code>, <code>2</code>, or <code>5</code>, for the <em>same
+originator</em> to provide additional information to original, updating
+and referring messages. The use cases for Reference Code <code>3</code>
+are:</p>
+<ul>
+<li><p>extending the data field on blockchains that only allow messages
+of limited length, by referencing the previous segment of the same
+message type to ensure the correct order:
+e.g. <code>A1(0) &lt; A1(3) &lt; A1(3)</code> and
+<code>F(0) &lt; F(3) &lt; F(3)</code> should be considered to be one
+message;</p></li>
+<li><p>creating composite areas and polygons by an identical sign or
+signal referencing the initial one,
+e.g. <code>D(0) &lt; D(3) &lt;&lt; D(3) &lt;&lt;&lt; D(3)</code>, as
+further described in <a
+href="#5425-composite-areas-and-structures">Paragraph
+5.4.2.5</a>;</p></li>
+<li><p>provide additional data to a different message type,
+e.g. <code>I(0) &lt; S(3) &lt; R1(3)</code> where the reference message
+<code>R1(3)</code> provides an internet resource related to the
+<code>S(3)</code> message providing the status of infrastructure
+I.</p></li>
+</ul>
 <p>A message with Reference Code <code>4</code> (a discontinue message)
 may only reference a message with reference code <code>0</code>,
 <code>5</code>, <code>6</code>, <code>8</code>, or <code>9</code> of the
-same originator, because an only originator may only discontinue an
-original, related, confirmation, comply or reject message. Discontinuing
-a message also implies that any later updates to that message are
-discontinued.</p>
+<em>same originator</em>, because an only originator may only
+discontinue an original, related, confirmation, comply or reject
+message. Discontinuing a message also implies that any later updates to
+that message are discontinued.</p>
 <p>A message with Reference Code 5 (a referring message) may only
 reference a message with Reference Code <code>0</code> or
 <code>5</code>, i.e. to refer to an original or another referencing
@@ -4940,12 +5075,13 @@ or a related message from another originator.</p>
 <h3 id="message-sequences">5.4.2 Message Sequences</h3>
 <p>When referencing messages are referenced themselves, message
 sequences may be created. The paragraphs below describe which message
-sequences, as allowed by the reference options described in Reference
-Indicator Field, provide meaningful information.</p>
+sequences, as allowed by the reference options described in <a
+href="#4217-reference-indicator-field">Paragraph 4.2.1.7</a>, provide
+meaningful information.</p>
 <h4 id="authentication">5.4.2.1 Authentication</h4>
 <p>An <code>A</code> message may only reference another <code>A</code>
 message, in order to:</p>
-<ul>
+<ol type="1">
 <li><p>recall the <code>A(0)</code> message with Reference Code
 <code>1</code>;</p></li>
 <li><p>update the <code>A(0)</code> message with Reference Code
@@ -4960,12 +5096,12 @@ network;</p></li>
 <li><p>to confirm the claimed identity of another originator by
 referencing its <code>A(0)</code> message with an <code>A(6)</code>
 message.</p></li>
-</ul>
+</ol>
 <p>For example, an initial authentication of originator X using an URL
-of 30 bytes, which is confirmed by another party Y, later updated with
+of 30 bytes, which is confirmed by another party Y, later updated with
 an URL of the same length, and finally the account is closed, will
 result in the following message sequence:</p>
-<p><code>A01(0)X &lt; A01(3)X &lt;&lt; A01(6)Y &lt;&lt;&lt; A01(2)X &lt; A01(3)X &lt;&lt;&lt;&lt;&lt; A01(4)X</code></p>
+<p><code>A01(0)X &lt; A01(3)X &lt;&lt; A01(6)Y &lt;&lt;&lt; A01(2)X &lt; A01(3)X &lt;&lt;&lt;&lt;&lt; A01(4)X</code></p>
 <h4 id="updating-signs-and-signals">5.4.2.2 Updating Signs and
 Signals</h4>
 <p>Conflicts and disasters are dynamic and events end or change.
@@ -4977,8 +5113,8 @@ and should be interpreted similarly when updating other signs and
 signals:</p>
 <table>
 <colgroup>
-<col style="width: 40%" />
-<col style="width: 60%" />
+<col style="width: 9%" />
+<col style="width: 90%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -4988,7 +5124,7 @@ signals:</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>P10(0) &lt; P10(2) &lt;&lt; R01(3) &lt;&lt;&lt; P10(4)</code></td>
+<td><code>P10(0) &lt; P10(2) &lt;&lt; R01(3) &lt;&lt;&lt; P10(4)</code></td>
 <td>An original <code>P10(0)</code> message reports the presence of an
 ICRC-entity, which is subsequently updated with an <code>P10(2)</code>
 message, e.g. because the location changed. A reference is made to an
@@ -5015,8 +5151,8 @@ signals and should be interpreted similarly when relating other signs
 and signals:</p>
 <table>
 <colgroup>
-<col style="width: 48%" />
-<col style="width: 51%" />
+<col style="width: 11%" />
+<col style="width: 88%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -5026,7 +5162,7 @@ and signals:</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>D32(0)X &lt; D43(5)X &lt;&lt; E12(5)X &lt;&lt; S26(5)Y &lt;&lt;&lt; S25(5)Z</code></td>
+<td><code>D32(0)X &lt; D43(5)X &lt;&lt; E12(5)X &lt;&lt; S26(5)Y &lt;&lt;&lt; S25(5)Z</code></td>
 <td>An original <code>D32(0)</code> message reporting a rail accident is
 initially referenced two times: to indicate the accident coincides with
 a chemical explosion with a <code>D43(5)</code> message and to make an
@@ -5036,7 +5172,7 @@ accident or explosion may be sent, to report the status and locations of
 objects that are affected as a result of the accident or explosion.</td>
 </tr>
 <tr class="even">
-<td><code>D15(0)X &lt; E01(5)Y &lt; E01(4)Y &lt;&lt;&lt; S11(5)Y</code></td>
+<td><code>D15(0)X &lt; E01(5)Y &lt; E01(4)Y &lt;&lt;&lt; S11(5)Y</code></td>
 <td>An original message <code>D15(0)</code> reporting a complex attack
 is referenced by somebody sending an <code>E01(5)</code> distress signal
 as a result of the attack. Later, when the person is in safety, the
@@ -5044,7 +5180,7 @@ distress signal is discontinued with an <code>E01(4)</code> message and
 an <code>S11(5)</code> proof of life is sent.</td>
 </tr>
 <tr class="odd">
-<td><code>D52(0)X &lt; R01(5)A &lt;&lt; R01(5)B &lt;&lt;&lt; R01(5)C</code></td>
+<td><code>D52(0)X &lt; R01(5)A &lt;&lt; R01(5)B &lt;&lt;&lt; R01(5)C</code></td>
 <td>An uncontrolled uprising is reported with a <code>D52(0)</code>
 message, and then referenced by three <code>R01(5)</code> messages from
 Other Orig.nators A, B and C to point to relating internet resources
@@ -5064,8 +5200,8 @@ signals and should be interpreted similarly when confirming other signs
 and signals:</p>
 <table>
 <colgroup>
-<col style="width: 34%" />
-<col style="width: 65%" />
+<col style="width: 15%" />
+<col style="width: 84%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -5075,13 +5211,13 @@ and signals:</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>D21(0)X &lt; D21(6)Y &lt;&lt; D21(6)Z</code></td>
+<td><code>D21(0)X &lt; D21(6)Y &lt;&lt; D21(6)Z</code></td>
 <td>An original message reporting a minefield is confirmed two times by
 different originators with two <code>D21(6)</code> messages referring to
 the original <code>D21(0)</code>.</td>
 </tr>
 <tr class="even">
-<td><code>D21(0)X &lt; D21(6)Y &lt; D21(4)Y</code></td>
+<td><code>D21(0)X &lt; D21(6)Y &lt; D21(4)Y</code></td>
 <td>An expiration message <code>D21(4)</code> referring to a
 <code>D21(6)</code> confirmation message means that the original
 <code>D21(0)</code> message reporting a minefield cannot be confirmed
@@ -5091,24 +5227,25 @@ anymore.</td>
 </table>
 <h4 id="composite-areas-and-structures">5.4.2.5 Composite Areas and
 Structures</h4>
-<p>A composite area is a single area specified by multiple messages. A
-composite structure is a single structure specified by multiple
-messages. Composite areas and structures may be used, for example, when
-an area/structure is larger than the <code>ObjectSize</code> fields
-allows, or to create areas/structures with shapes other than the
-<code>ObjectType</code> field allows.</p>
-<p>To report a new composite area or structure, the first message must
-have its Reference Indicator set to <code>0</code> (original message),
-and any following message in the sequence must reference the original
-message using Reference Indicator <code>3</code>. The referencing
-messages must have the same Subject Code as the original message.</p>
+<p>A composite area is a single area specified by multiple messages
+using Object Code <code>20</code>-<code>29</code>. A composite structure
+is a single or group of related structures, specified by multiple
+messages using Object Code <code>30</code>-<code>39</code>.</p>
+<p>For multiple message to be related, the first message must have its
+Reference Indicator set to <code>0</code> (original message), and any
+following message in the sequence must reference the original message
+using Reference Indicator <code>3</code>. The referencing messages must
+have the same Subject Code as the original message.</p>
+<p>Composite areas and structures may be used, for example, when an
+area/structure is larger than the <code>ObjectSize</code> fields allows,
+or to create areas/structures with shapes other than the
+<code>ObjectType</code> field allows. Specifically, a polygon area or
+structure may be created by using multiple messages with the Object Code
+set to <code>20</code> and <code>30</code>, indicating a collection of
+points, instead of a shapes.</p>
 <p>For example, a single mine field comprised of three area parts is
 reported on the network with the following message sequence:</p>
-<p><code>D21(0) &lt; D21(3) &lt;&lt; D21(3)</code></p>
-<p>Composite areas may only be created using messages with Object Code
-<code>20</code>-<code>29</code>. Composite structures may only be
-created using messages with Object Code
-<code>30</code>-<code>39</code>.</p>
+<p><code>D21(0) &lt; D21(3) &lt;&lt; D21(3)</code></p>
 <p>To reference a composite area or structure as a whole (e.g. to
 discontinue it using Reference Code <code>4</code> or to confirm it
 using Reference Code <code>6</code>), the referencing message must
@@ -5126,8 +5263,8 @@ rejection. Acknowledgements may refer to an original, updated, related,
 comply or reject message and can be used in message sequences.</p>
 <table>
 <colgroup>
-<col style="width: 34%" />
-<col style="width: 65%" />
+<col style="width: 18%" />
+<col style="width: 81%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -5137,13 +5274,13 @@ comply or reject message and can be used in message sequences.</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>D21(0)X &lt; D21(2)X &lt; D21(7)Y</code></td>
+<td><code>D21(0)X &lt; D21(2)X &lt; D21(7)Y</code></td>
 <td>An acknowledging message <code>D21(7)</code> referring to a
 <code>D21(2)</code> update message, means that the update to
 <code>D21(0)</code> message has been acknowledged.</td>
 </tr>
 <tr class="even">
-<td><code>Q20(0)X &lt; Q20(9)Y &lt; Q20(7)X</code></td>
+<td><code>Q20(0)X &lt; Q20(9)Y &lt; Q20(7)X</code></td>
 <td>An Area Access request signal ‘Q20(0)’ is rejected by a Q20(9)
 message, which is then acknowledged by an Q20(7) message</td>
 </tr>
@@ -5157,8 +5294,8 @@ referencing option may be useful to respond to other originators’
 message to inform or notify them about an action to be undertaken.</p>
 <table>
 <colgroup>
-<col style="width: 34%" />
-<col style="width: 65%" />
+<col style="width: 17%" />
+<col style="width: 82%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -5168,13 +5305,13 @@ message to inform or notify them about an action to be undertaken.</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>E11(0)X &lt; E11(8)Y</code></td>
+<td><code>E11(0)X &lt; E11(8)Y</code></td>
 <td>An Emergency Signal <code>E11(0)</code> indicating that urgent
 medical assistance is required, is responded to by somebody complying
 with the ask for assistance.</td>
 </tr>
 <tr class="even">
-<td><code>P02(0)X &lt; P02(8)Y &lt;&lt; P02(8)Z</code></td>
+<td><code>P02(0)X &lt; P02(8)Y &lt;&lt; P02(8)Z</code></td>
 <td>A request for negotiation <code>P02(0)</code> will be complied to by
 two different originators respectively sending a <code>P02(8)</code>
 message.</td>
@@ -5187,8 +5324,8 @@ originator rejects, denies or does not agree with the referred original,
 updated, or a related message from another originator.</p>
 <table>
 <colgroup>
-<col style="width: 34%" />
-<col style="width: 65%" />
+<col style="width: 12%" />
+<col style="width: 87%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -5198,12 +5335,12 @@ updated, or a related message from another originator.</p>
 </thead>
 <tbody>
 <tr class="odd">
-<td><code>Q20(0)X &lt; Q20(9)Y</code></td>
+<td><code>Q20(0)X &lt; Q20(9)Y</code></td>
 <td>An Area Access request signal ‘Q20(0)’ is rejected by a Q20(9)
 message</td>
 </tr>
 <tr class="even">
-<td><code>D21(0)X &lt; D21(9)Y</code></td>
+<td><code>D21(0)X &lt; D21(9)Y</code></td>
 <td>An original message reporting a minefield is rejected by a different
 originators with a <code>D21(9)</code> messages referring to the
 original <code>D21(0)</code>.</td>
@@ -5211,11 +5348,25 @@ original <code>D21(0)</code>.</td>
 </tbody>
 </table>
 <h2 id="testing">5.5 Testing</h2>
-<p>Test messages must be disregarded for any other purposes than
-testing. Test messages should only be used on testing networks of
-blockchains.</p>
-<p>A test message may reference any other message for testing
-purposes.</p>
+<p>Test messages are used to simulate any other message types for
+testing purposes. They allow test data to be distinguished from real
+data, especially outside test networks.</p>
+<p>The message that is simulated is refered to as the pseudo message,
+and is identified by the Pseudo Message Code field, with its data
+contained in the Pseudo Message Body, as described in <a
+href="#4353-test-message-body">Paragraph 4.4.5.3</a>.</p>
+<p>Test messages may be used for both protocol tests and application
+tests. Examples of a protocol tests are encryption, authentication, and
+reference tests. An example of an application test is the evaluation of
+the correct display and updates of entities (e.g. danger,
+infrastructure) on a map.</p>
+<p>The way test messages are processed is not standardised and may be
+determined by the tester. For testing purposes, test messages do not
+need to comply with protocol rules. For example, test messages may be
+sent before an authentication message is sent, and test messages may
+reference any other message using any reference code.</p>
+<p>A test message must be disregarded for any other purpose than
+testing.</p>
 <h1 id="annex-a.-blockchain-layer-specific-details">Annex A. Blockchain
 layer specific details</h1>
 <p>This Annex is meant to provide additional information and
@@ -5245,10 +5396,10 @@ functionality. See the table below for several examples:</p>
 <table>
 <colgroup>
 <col style="width: 11%" />
-<col style="width: 17%" />
+<col style="width: 18%" />
 <col style="width: 23%" />
 <col style="width: 20%" />
-<col style="width: 27%" />
+<col style="width: 26%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -5263,28 +5414,28 @@ functionality. See the table below for several examples:</p>
 <tr class="odd">
 <td>Bitcoin</td>
 <td><code>OP_RETURN</code></td>
-<td>80 bytes</td>
+<td>80 bytes</td>
 <td>ECDSA secp256k1</td>
-<td>256 bits (64 hexadecimals)</td>
+<td>256 bits (64 hexadecimals)</td>
 </tr>
 <tr class="even">
 <td>Ethereum</td>
 <td><code>data</code> field</td>
 <td>(dynamic)</td>
 <td>ECDSA secp256k1</td>
-<td>256 bits (64 hexadecimals)</td>
+<td>256 bits (64 hexadecimals)</td>
 </tr>
 </tbody>
 </table>
 <p>In the case of Bitcoin, the <code>OP_RETURN</code> field of a raw
 transaction allows for the encapsulation of data constrained to a
-maximum 80 bytes.</p>
+maximum 80 bytes.</p>
 <p>In the case of Ethereum, the <code>data</code> field of a raw
 transaction allows for the encapsulation of a dynamic amount of data
 that is relative to the <code>gasLimit</code> of individual blocks. In
 practice, this field can generally store multiple kilobytes of data.</p>
 <p>Message formatting within the Whiteflag Protocol has been structured
-to not require more than 80 bytes for sending signs and signals.
+to not require more than 80 bytes for sending signs and signals.
 Reference messages and/or concatenation may be used in cases where
 providing additional data is required.</p>
 <p>Please note that the above parameters may change over time as the
@@ -5487,8 +5638,8 @@ protected header.</p>
 context of Whiteflag.</p>
 <table>
 <colgroup>
-<col style="width: 17%" />
-<col style="width: 82%" />
+<col style="width: 6%" />
+<col style="width: 93%" />
 </colgroup>
 <thead>
 <tr class="header">
@@ -5617,7 +5768,7 @@ using reference codes <code>7</code> and <code>8</code>. Last but not
 least, a party may withdraw its compliance with the request at any time
 by sending a Q(9) deny message. This would result in the following
 sequence:</p>
-<p><code>Q20(0)A &lt; Q20(3)A ... &lt;&lt; Q(7) &lt;&lt;&lt; Q(8) ... &lt;&lt;&lt;&lt; Q(9)</code></p>
+<p><code>Q20(0)A &lt; Q20(3)A ... &lt;&lt; Q(7) &lt;&lt;&lt; Q(8) ... &lt;&lt;&lt;&lt; Q(9)</code></p>
 <p>While on the road, the convoy is able to quickly inform other
 humanitarian actors of potential changes in the environment as well as
 receive as much as possible live information while driving, by using
@@ -5629,7 +5780,7 @@ etc.</p>
 meaningful humanitarian action, the NGO also communicates the type of
 assistance provided using <code>M</code> messages to avoid duplication
 and inefficiency of humanitarian aid:</p>
-<p><code>P11(5) &lt; M(5)</code></p>
+<p><code>P11(5) &lt; M(5)</code></p>
 <h2 id="use-case-2-protected-sites-and-critical-infrastructures">Use
 case 2: Protected Sites and Critical Infrastructures</h2>
 <p>Since messages are persistent on a blockchain, an organisation can
@@ -5650,11 +5801,11 @@ encrypt the information to prevent abuse.</p>
 <p>Currently, this type of information is not always confirmed or denied
 afterwards. Using Whiteflag, other parties can confirm the information
 by using reference code 6, e.g.:</p>
-<p><code>I(0) &lt; I(6) ... P31(0) &lt; P31(6)</code></p>
+<p><code>I(0) &lt; I(6) ... P31(0) &lt; P31(6)</code></p>
 <p>A message sequence where a hospital is identified, a party indicates
 it will comply with its protected status, and the status of the hospital
 is periodically updated, will look like:</p>
-<p><code>P31(0) &lt; P31(8) &lt;&lt; S(5) ... &lt; S(2)</code></p>
+<p><code>P31(0) &lt; P31(8) &lt;&lt; S(5) ... &lt; S(2)</code></p>
 <p>Another example is a local cultural institute C that can create a
 public digital register of monuments in its city or village by posting a
 protective sign at each monuments location, using <code>P52</code>
@@ -5664,7 +5815,7 @@ attack, this can be broadcasted immediately by anyone using the
 Whiteflag Protocol, sending for example a <code>D11</code> message
 (structure under ground attack), resulting in the following message
 sequence:</p>
-<p><code>P52(0)C &lt; D11(5)</code></p>
+<p><code>P52(0)C &lt; D11(5)</code></p>
 <p>Were the attack undertaken by a party that intends to comply with
 international law (for which reason such a party might very well
 actively use the Whiteflag Protocol), that party would be immediately
@@ -5695,7 +5846,7 @@ quantity, level of danger, stay clear area, current de-mining status) is
 provided using an <code>R</code> message, which can be resent when the
 web page is updated.</p>
 <p>This scenario resulted in the following message sequence:</p>
-<p><code>D21(0)A &lt; D21(6)U &lt; R(3)U ... &lt; R(2)U</code></p>
+<p><code>D21(0)A &lt; D21(6)U &lt; R(3)U ... &lt; R(2)U</code></p>
 <p>It would be very easy for anyone to develop a web application to
 actively monitor all these sorts of messages and project this
 information on a map, creating broad awareness of the danger among aid
@@ -5720,7 +5871,7 @@ of time. In the following example sequence, party A requests a cease
 fire using a <code>Q</code> message with additional information included
 in an <code>F</code> message; parties B and C agree with the request by
 responding with reference code <code>8</code>:</p>
-<p><code>Q(0)A &lt; F(3)A &lt;&lt; Q(8)B &lt;&lt;&lt; Q(8)C</code></p>
+<p><code>Q(0)A &lt; F(3)A &lt;&lt; Q(8)B &lt;&lt;&lt; Q(8)C</code></p>
 <p>Note that Whiteflag is limited to fixed messages and in itself not
 suitable to conduct detailed negotiations. However, even though other
 communication channels are used to come to a cease fire, Whiteflag
@@ -5749,6 +5900,6 @@ to the pilots in the aircraft, who might then be able to visually
 confirm a white flag. Once that is the case, the attacking party M can
 send both a confirmation and an acknowledgement. This scenario resulted
 in the following message sequence:</p>
-<p><code>A2(0)A &lt; P03(0)A &lt; P03(6)M &lt;&lt; P03(7)M</code></p>
+<p><code>A2(0)A &lt; P03(0)A &lt; P03(6)M &lt;&lt; P03(7)M</code></p>
 </body>
 </html>

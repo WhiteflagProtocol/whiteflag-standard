@@ -24,12 +24,8 @@ for more detailed information.
 ## Protocol Version and Publication
 
 The current baselined version of the protocol is:
-**Version 1 Draft 6** or in short: `v1-draft.6`, which can be found in
+**Version 1 Draft 7** or in short: `v1-draft.7`, which can be found in
 multiple formats at <https://standard.whiteflagprotocol.org/>.
-
-The current version in development is Version 1 Draft 7 (`v1-draft.7-dev`).
-This version is intended to make improvements based on ongoing testing and
-evaluation.
 
 ## Repository Structure
 

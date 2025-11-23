@@ -1,13 +1,15 @@
 ---
 title: Whiteflag Protocol Specification
-version: 1-draft.7-dev
-status: DRAFT (in development)
-date: 09 NOV 2025
+subtitle: Specification for a decentralised protocol to create a trusted messaging network for disaster & conflict zones
+version: v1-draft.7
+status: DRAFT
+date: 23 NOV 2025
+lang: en-GB
 ---
 
-## 1 Introduction
+# 1 Introduction
 
-### 1.1 Background
+## 1.1 Background
 
 Current armed conflicts are highly complex, because of the sheer number
 of parties involved: regular military forces, armed groups, peacekeeping
@@ -35,7 +37,7 @@ All in all, the protocol forms the basis for a neutral and open
 network, the Whiteflag Network, for trusted real-time
 messaging between parties in conflicts and disaster response.
 
-### 1.2 Purpose
+## 1.2 Purpose
 
 The purpose of the Whiteflag Protocol is to provide an open, real-time,
 trusted communication channel between any or all parties in conflict and
@@ -50,7 +52,7 @@ The purpose of this document is to describe and define the protocol and
 the message format of the communication channel for policy makers and
 specialists to be able to adopt and implement the Whiteflag Protocol.
 
-### 1.3 Document Structure
+## 1.3 Document Structure
 
 [Chapter 1](#1-introduction) is the introduction, describing the standard.
 [Chapter 2](#2-overview) defines the scope and gives an overview of the
@@ -59,7 +61,7 @@ moved to [Annex F](#annex-f-example-use-cases). [Chapter 4](#4-message-format)
 provides the detailed messages specifications, and [Chapter 5](#5-protocol)
 the detailed protocol description.
 
-### 1.4 Used Terminology
+## 1.4 Used Terminology
 
 The following phrases in this specification must be interpreted as
 follows:
@@ -85,7 +87,7 @@ follows:
 An overview of definitions of the most important terms used in this
 document can be found in Annex D.
 
-### 1.5 License and Usage
+## 1.5 License and Usage
 
 All persons and organisations that contributed to the initial development
 of the Whiteflag Protocol did so disinterestedly.
@@ -124,7 +126,7 @@ when implementing or using this standard:
     signals, including misuse of the duress functionality, may be a
     punishable violation under local and international laws.
 
-### 1.6 Configuration Management
+## 1.6 Configuration Management
 
 It is foreseen that this standard requires updates in the near future as
 a result of validation testing and to ensure compatibility with emerging
@@ -138,9 +140,9 @@ of the authors. Requests and comments may be e-mailed to the authors:
 In the meantime, a more sustainable process for configuration management
 of this standard in line with its open character is under consideration.
 
-## 2 Overview
+# 2 Overview
 
-### 2.1 Design Principles
+## 2.1 Design Principles
 
 The following principles are the basis for the Whiteflag Protocol:
 
@@ -152,8 +154,8 @@ The following principles are the basis for the Whiteflag Protocol:
 3. the working of the protocol does not rely on any third party, i.e.
     there is no ownership of the network that is created with the
     protocol and no dependency on specific software or a system;
-4. the protocol does not have access control, but does provide means of
-    authentication;
+4. the protocol does not have access control, but does provide means
+    of authentication;
 5. the protocol inherits the data integrity and non-repudiation
     properties of the underlying blockchain(s);
 6. the protocol allows to use encryption for message confidentiality;
@@ -167,7 +169,7 @@ The following principles are the basis for the Whiteflag Protocol:
     backwards compatibility;
 11. implementation only requires the use of open standards.
 
-### 2.2 Protocol Stack and Scope
+## 2.2 Protocol Stack and Scope
 
 The Whiteflag Protocol works on top of the internet and on one or more
 blockchains to create a network for trusted communications
@@ -203,11 +205,11 @@ The protocol stack comprises the following 6 layers, from bottom to top:
     organisations, or newly developed web applications or smartphone apps
     that can send, receive, filter, analyse messages.
 
-### 2.3 References
+## 2.3 References
 
-#### 2.3.1 International Rules & Regulations
+### 2.3.1 International Rules & Regulations
 
-##### 2.3.1.1 International Humanitarian Law
+#### 2.3.1.1 International Humanitarian Law
 
 A. Convention (IV) respecting the Laws and Customs of War on Land and
 its annex: Regulations concerning the Laws and Customs of War on Land.
@@ -241,7 +243,7 @@ the Event of Armed Conflict and its two (1954 and 1999) Protocols,
 United Nations Educational, Scientific and Cultural Organization
 (UNESCO).
 
-##### 2.3.1.2 International Standards
+#### 2.3.1.2 International Standards
 
 J. IMO IA994E International Code of Signals, 2005 Edition.
 
@@ -253,9 +255,9 @@ Disasters (CRED) and Munich Reinsurance Company (Munich RE), October
 L. Economic Infrastructure Common Reporting Standard Codes, Organisation
 for Economic Cooperation and Development (OECD).
 
-#### 2.3.2 Technical Standards
+### 2.3.2 Technical Standards
 
-##### 2.3.2.1 Communication and Data Format Standards
+#### 2.3.2.1 Communication and Data Format Standards
 
 M. RFC 3339, Date and Time on the Internet: Timestamps, July 2002, internet: <https://www.ietf.org/rfc/rfc3339.txt>
 
@@ -269,7 +271,7 @@ Q. ISO 8601, Date and Time Representation
 
 R. ISO 6709, Standard representation of geographic point location by coordinates
 
-##### 2.3.2.2 Cryptographic Standards
+#### 2.3.2.2 Cryptographic Standards
 
 S. OpenSSL Implementation of the Elliptic Curve Diffie-Hellman (ECDH) algorithm, internet: <https://wiki.openssl.org/index.php?title=Elliptic_Curve_Diffie_Hellman&oldid=1558>
 
@@ -279,11 +281,11 @@ U. RFC 5639, ECC Brainpool Standard Curves & Curve Generation, March 2010, inter
 
 V. RFC 5869, HMAC-based Extract-and-Expand Key Derivation Function (HKDF), internet: <https://www.rfc-editor.org/rfc/rfc5869.txt>
 
-### 2.4 High-level Functional Overview
+## 2.4 High-level Functional Overview
 
-#### 2.4.1 Blockchain and Communication Functionality
+### 2.4.1 Blockchain and Communication Functionality
 
-##### 2.4.1.1 General
+#### 2.4.1.1 General
 
 A blockchain is a shared database that maintains a continuously-growing list
 of ordered records called blocks, each containing a timestamp and a hash-based
@@ -310,7 +312,7 @@ network(s), establishes what in this specification is called the Whiteflag
 Messaging Network, or just "the network", and can be seen as what is sometimes
 called a *Blockchain Overlay Network*.
 
-##### 2.4.1.2 Originator and Account
+#### 2.4.1.2 Originator and Account
 
 The originator is a specific organisation or person that sends Whiteflag
 Messages on the Whiteflag Network. The originator's identity
@@ -325,7 +327,7 @@ before sending messages; it is not required to provide identity
 information to receive messages, as anyone can observe what is happening
 on the blockchain.
 
-##### 2.4.1.3 Authentication mechanisms
+#### 2.4.1.3 Authentication methods
 
 An originator must introduce itself on the Whiteflag Network
 and provide identity information with one or more initial authentication
@@ -357,15 +359,17 @@ protocol.
     authentication data on the internet resource, this will never result in
     a valid digital signature as long as the private key remains secret.
 
-2. The second method uses a pre-shared token. The originator and a
-    receiver exchange a token, which is not known to anybody. The
-    the originator identifies himself by putting a combined hash of the token
-    and the blockchain account in the initial authentication message. The
-    receiver can verify now that the claimed blockchain address actually
-    belongs to the originator who was in prior possession of the token. Note
-    that the secret token itself is not revealed. The originator may do this
-    multiple times with different tokens, different accounts and/or different
-    receivers, and any combination of those.
+2. The second method uses a pre-shared secret. The originator and a
+    receiver exchange a seceret, not known to anybody else. The originator
+    identifies himself by putting an authentication token derived from the
+    shared secret in the initial authentication message, as proof of
+    possession of the shared seceret. The authentication token is created
+    by hashing the shared secret and blockchain address. The receiver can
+    verify that the claimed blockchain address belongs to the originator,
+    because he was in prior possession of the secret. Note that the secre
+    itself is not revealed. The originator may do this multiple times with
+    different tokens, different accounts and/or different receivers, and any
+    combination of those.
 
 The initial authentication can be enhanced by using multiple initial
 authentication messages, i.e. by combining both verification methods,
@@ -381,7 +385,7 @@ messages sent by the same originator but with different addresses. However,
 although supported, deterministic keys and addresses should normally not
 be used for Whiteflag.
 
-The authentication mechanism is described in detail in [Paragraph 2.4.2.2](#2422-management-messages)
+The authentication method is described in detail in [Paragraph 2.4.2.2](#2422-management-messages)
 for initial authentication messages, and in [Paragraph 5.1](#51-joining-and-leaving-the-whiteflag-network)
 for the protocol for initial authentication. After initial
 authentication, the Whiteflag Protocol utilizes the authentication
@@ -391,7 +395,7 @@ As means for digital identification on the internet are still evolving,
 it is anticipated that additional methods will be added in future
 versions.
 
-##### 2.4.1.4 Communications Security
+#### 2.4.1.4 Communications Security
 
 The Whiteflag Protocol leverages blockchain technology to ensure
 data integrity, non-repudiation and historical continuity. The underlying
@@ -416,7 +420,7 @@ while they were gone. Upon rejoining, missing blocks are downloaded, verified
 and added to the nodes' local copy of the database until it has caught up
 with the network and is in sync (again).
 
-##### 2.4.1.5 Data Security
+#### 2.4.1.5 Data Security
 
 The Whiteflag Protocol the protocol provides optional message confidentiality
 using an AES based encryption scheme to encrypt the message contents. This is
@@ -428,9 +432,9 @@ exchange, but does not specify how pre-shared encryption keys should be
 managed or distributed. It is between the originator and recipient to agree
 on a secure key exchange procedure.
 
-#### 2.4.2 Message Functionality
+### 2.4.2 Message Functionality
 
-##### 2.4.2.1 Functional Messages
+#### 2.4.2.1 Functional Messages
 
 The following Functional Messages are specified in this standard. These
 messages are to send a sign or signal as defined in international
@@ -445,7 +449,7 @@ standards, and to provide additional information.
 | `I`  | `InfrastructureSign` | Sign to mark critical infrastructure, e.g. roads, utilities, water treatment, hospitals, power plants etc. |
 | `M`  | `MissionSignal`      | Signal to provide information on activities undertaken during a mission                                    |
 | `Q`  | `RequestSignal`      | Signal to perform requests to other parties                                                                |
-| `R`  | `Resource`           | Message to point to an internet resource                                                                   |
+| `R`  | `Reference`          | Message to provide a reference, e.g. to an information resource outside Whiteflag                          |
 | `F`  | `FreeText`           | Message to send a free text string                                                                         |
 
 A specific Functional Message has a single meaning. For example, a
@@ -461,20 +465,20 @@ Protective Sign), or requesting assistance for an object under attack
 to a Danger Sign). Message sequencing is described in detail
 in [Paragraph 5.4.2](#542-message-sequences).
 
-##### 2.4.2.2 Management Messages
+#### 2.4.2.2 Management Messages
 
 A number of management messages are defined to provide additional means to
 verify the validity of the blockchain address and related account, to
 support cryptographic functions and to test connectivity and
 functionality.
 
-| Code | Name             | Description                                                                         |
-|------|------------------|-------------------------------------------------------------------------------------|
-| `A`  | `Authentication` | Message introducing the sender on the network with the sender's authentication data |
-| `K`  | `Crypto`         | Message for management of keys and parameters of cryptographic functions            |
-| `T`  | `Test`           | Message for testing Whiteflag protocol and application functionality                |
+| Code | Name             | Description                                                              |
+|------|------------------|--------------------------------------------------------------------------|
+| `A`  | `Authentication` | Message for authentication of the originator                             |
+| `K`  | `Crypto`         | Message for management of keys and parameters of cryptographic functions |
+| `T`  | `Test`           | Message for testing Whiteflag protocol and application functionality     |
 
-##### 2.4.2.3 Duress Indicator
+#### 2.4.2.3 Duress Indicator
 
 The Whiteflag Protocol provides duress functionality, i.e. an indicator
 that a message has been sent under (threat of) violence, or other
@@ -492,7 +496,7 @@ application or device, is outside the scope of this standard, because
 this can be implemented in many different ways to suit different
 scenarios and requirements.
 
-#### 2.4.3 Spatial information
+### 2.4.3 Spatial information
 
 Signs and signals about structures and areas may contain spatial
 information. The Whiteflag protocol uses the EPSG:4326/WGS84 geodetic
@@ -512,7 +516,7 @@ vector, and the first specified dimension of the shape: this is one of
 the sides for a rectangle, and the height for an isosceles triangle; a
 circle does not have an orientation.
 
-### 2.5 Minimum Implementation
+## 2.5 Minimum Implementation
 
 When implementing this standard, it is not required to implement it in
 its entirety. However, any implementation of the Whiteflag Protocol that
@@ -527,14 +531,14 @@ following functionality:
 Also, for both senders and receivers, it is required that any part of
 this standard that is implemented complies with this standard.
 
-### 2.6 Implementation Considerations
+## 2.6 Implementation Considerations
 
 This paragraph addresses a number of aspects that are technically not
 part of the standard, but require consideration or are good practices
 for an interoperable and secure implementation of the Whiteflag
 protocol.
 
-#### 2.6.1 Trustworthiness of information
+### 2.6.1 Trustworthiness of information
 
 The Whiteflag Protocol provides a trusted communication channel in the
 sense that the originator is authenticated, that messages cannot not be
@@ -582,7 +586,7 @@ accounts, to blacklist unreliable addresses and accounts, to filter messages
 about an object outside a certain area of interest, create custom perspectives,
 merge information with other sources, etc. etc.
 
-#### 2.6.2 Account and Private Key Protection
+### 2.6.2 Account and Private Key Protection
 
 The protocol does not define any specific setup of the blockchain account
 and private key protection. There are however several important guidelines to
@@ -609,7 +613,7 @@ consider.
     de-activated, simply delete the private key(s), and, if possible,
     send an `A(4)` message for every `A(0)` sent before.
 
-#### 2.6.3 Encryption and Key Exchange
+### 2.6.3 Encryption and Key Exchange
 
 The protocol provides the option to encrypt a message for
 confidentiality. When using encryption, a number of considerations should
@@ -627,7 +631,7 @@ be taken into account:
     i.e. information that will not be valid or relevant anymore over time,
     such as the status or the location of a moving object.
 
-#### 2.6.4 Processing and Storage of Messages
+### 2.6.4 Processing and Storage of Messages
 
 On the Whiteflag Network, i.e. at the blockchain level, messages must be
 formatted and processed as indicated in this standard. Also, this standard
@@ -638,15 +642,15 @@ stored outside a blockchain, [Annex B](#annex-b-json-schema-of-whiteflag-message
 provides a JSON schema for representing Whiteflag messages in JSON, which
 might useful for application developers.
 
-## 3 Use Case Examples
+# 3 Use Case Examples
 
 (*moved to Annex F*)
 
-## 4 Message Format
+# 4 Message Format
 
-### 4.1 Message Structure
+## 4.1 Message Structure
 
-#### 4.1.1 Message Representations
+### 4.1.1 Message Representations
 
 A Whiteflag message has a header and a body, each comprised of a number
 of fields containing the message data. The message has different
@@ -669,14 +673,14 @@ messages are encoded into a binary string, and optionally encrypted
 to be embedded in a blockcahin transaction at the Blockchain Overlay
 Network Layer.
 
-#### 4.1.2 Message Encoding
+### 4.1.2 Message Encoding
 
 An uncompressed and unencrypted Whiteflag Message at the Decentralised
 Protocol Layer consists of:
 
 - the Message Header (see [Paragraph 4.2](#42-message-header)), which is
     the same for all messages types and consists of 7 fields with a total
-    length of 71 bytes;
+    length of 71 bytes;
 - the Message Body (see [Paragraph 4.3](#43-message-body)), of which the
     fields, and therefore the total number of bytes, differ between message
     types, and is therefore variable in length.
@@ -691,7 +695,7 @@ allowed for each field. The field descriptions of the message header and
 body in [Paragraph 4.2](#42-message-header) and in [Paragraph 4.3](#43-message-body),
 use the following characters to indicate which subset of characters is valid:
 
-- `c` indicates that any valid 1 byte UTF-8/Unicode character may be used,
+- `c` indicates that any valid 1 byte UTF-8/Unicode character may be used,
     i.e. UTF-8 code points `U+0000` through `U+007F`;
 
 - `a` indicates that any alpha-numeric character (`0`-`9`, `A`-`Z`, `a`-`z`) may be used,
@@ -726,7 +730,7 @@ be used literally.
 Before the message is embedded in a blockchain transaction, the message
 is compressed and optionally encrypted as described below.
 
-#### 4.1.3 Message Compression
+### 4.1.3 Message Compression
 
 Whiteflag messages must be compressed to allow usage on blockchains with
 limited space for custom information, and to improve optional
@@ -734,19 +738,19 @@ encryption. Compression of the message is done as follows:
 
 - all fixed characters are omitted, except for the Prefix field;
 
-- binary characters and indicators (`b`) are compressed to 1 bit;
+- binary characters and indicators (`b`) are compressed to 1 bit;
 
-- number signs (`_`) are compressed to 1 bit,
-    with a `+` compressed to a `1` bit, and a `-` compressed to a `0` bit;
+- number signs (`_`) are compressed to 1 bit,
+    with a `+` compressed to a `1` bit, and a `-` compressed to a `0` bit;
 
 - decimal and hexadecimal characters (`d` and `h`) are compressed
-    to a half-byte (4 bits) unsigned binary coded decimal/hexadecimal.
+    to a half-byte (4 bits) unsigned binary coded decimal/hexadecimal.
 
 The descriptions of the message header and body in [Paragraph 4.2](#42-message-header)
 and in [Paragraph 4.3](#43-message-body), show how the compression must
 be applied to each field.
 
-#### 4.1.4 Message Encryption
+### 4.1.4 Message Encryption
 
 The third field of the message is an indicator for which encryption is
 being used. This standard currently only provides limited support for
@@ -763,20 +767,20 @@ certain blockchains.
 
 Message encryption is further described in [Paragraph 5.2.4](#524-message-encryption).
 
-#### 4.1.5 Embedding and Sending Messages
+### 4.1.5 Embedding and Sending Messages
 
 To finally send the message, after compression and encryption, the message
 is embedded in a blockchain transaction. The way this is done is blockchain
 specific. [Annex A](#annex-a-blockchain-layer-specific-details) contains
 information about message embedding for a limited number of blockchains.
 
-### 4.2 Message Header
+## 4.2 Message Header
 
-#### 4.2.1 Generic Message Header
+### 4.2.1 Generic Message Header
 
 All messages use the same generic message header, as specified below.
 
-##### 4.2.1.1 Generic Message Header Fields
+#### 4.2.1.1 Generic Message Header Fields
 
 | Byte Index | Byte Length | Field                 | Usage                                                                   | Uncompressed Encoding       | Compressed Encoding                         |
 |------------|-------------|-----------------------|-------------------------------------------------------------------------|-----------------------------|---------------------------------------------|
@@ -788,20 +792,20 @@ All messages use the same generic message header, as specified below.
 | 6          | 1           | `ReferenceIndicator`  | Indicates how this message relates to an earlier message                | `x`                         | 1x 4-bit unsigned binary coded hexadecimal  |
 | 7-70       | 64          | `ReferencedMessage`   | Blockchain dependent reference to a related earlier message             | `xxxxxxxxxx ... xxxxxxxxxx` | 64x 4-bit unsigned binary coded hexadecimal |
 
-##### 4.2.1.2 Prefix Field
+#### 4.2.1.2 Prefix Field
 
 The `Prefix` field is a fixed value field to easily identify Whiteflag
 Messages on the blockchain. The filed must contain two 1-byte UTF-8
 encoded characters `WF`.
 
-##### 4.2.1.3 Version Field
+#### 4.2.1.3 Version Field
 
 The `Version` field indicates which version of the standard is used as
 the specification for the message. For implementations based on this
 version of the specification, the field must be a 1-byte UTF-8 encoded
 character `1`.
 
-##### 4.2.1.4 Encryption Indicator Field
+#### 4.2.1.4 Encryption Indicator Field
 
 The `EncryptionIndicator` field specifies how if and how a message is
 encrypted for confidentiality. The contents of the field must be a
@@ -817,7 +821,7 @@ encrypted for confidentiality. The contents of the field must be a
 
 Message encryption is further described in [Paragraph 5.2.4](#524-message-encryption).
 
-##### 4.2.1.5 Duress Indicator Field
+#### 4.2.1.5 Duress Indicator Field
 
 The `DuressIndicator` field value must be `0`, unless the sign or
 signal was sent under threat or force. In that case the DuressIndicator
@@ -826,15 +830,15 @@ field must be `1`.
 See [Paragraph 2.4.2.3](#2423-duress-indicator) for further considerations
 on the duress functionality.
 
-##### 4.2.1.6 Message Code Field
+#### 4.2.1.6 Message Code Field
 
 The `MessageCode` field specifies the message type. The contents of
-the field must be a 1 byte UTF-8 encoded alpha-numeric character value
+the field must be a 1 byte UTF-8 encoded alpha-numeric character value
 corresponding with a message type defined in this specification.
 
 A message with an invalid, i.e. undefined, message code, must be ignored.
 
-##### 4.2.1.7 Reference Indicator Field
+#### 4.2.1.7 Reference Indicator Field
 
 The `ReferenceIndicator` field specifies how a message relates to an
 earlier message. The contents of the field must be a 1-byte UTF-8
@@ -863,15 +867,15 @@ other message type and reference type. The rules for referencing and
 functionality of message sequences are specified in detail in
 [Paragraph 5.4](#54-referencing).
 
-##### 4.2.1.8 Referenced Message Field
+#### 4.2.1.8 Referenced Message Field
 
 The `ReferencedMessage` field is a 64-byte UTF-8 encoded string
 containing a unique hexadecimal identifier of the referenced message.
 This allows for referencing a 256-bit hash. Since other messages can
 only be identified using the transaction identifier of the underlying
 blockchain, the identifier depends on the underlying blockchain. If the
-underlying blockchain uses a hash larger than 256 bits, the first 256
-bits of the hash should be used. The transaction identifiers of the most
+underlying blockchain uses a hash larger than 256 bits, the first 256 bits
+of the hash should be used. The transaction identifiers of the most
 common blockchains are shown in [Annex A](#annex-a-blockchain-layer-specific-details).
 
 If the `ReferenceIndicator` field is `0`, the `ReferencedMessage` field
@@ -879,11 +883,11 @@ must be ignored by the receiver. This allows the field to be filled with
 a random 64-byte UTF-8 encoded hexadecimal string, e.g. to prevent a
 large part of the message to be all zeros when encrypting it.
 
-### 4.3 Message Body
+## 4.3 Message Body
 
-#### 4.3.1 Functional Messages: Signs & Signals
+### 4.3.1 Functional Messages: Signs & Signals
 
-##### 4.3.1.1 Signs & Signals Message Fields
+#### 4.3.1.1 Signs & Signals Message Fields
 
 The message body of functional messages representing a sign (message
 types `P`, `D` and `I`) or a signal (message types `E`, `S`, `M` and `Q`),
@@ -896,8 +900,8 @@ must contain the following fields:
 | 73- 92     | 15          | `DateTime`          | Indicates when the sign/signal is valid, using an ISO 8601/ RFC 3339 timestamp | `YYYY-MM-DDThh:mm:ssZ` | 14x 4-bit unsigned binary coded decimal              |
 | 93-102     | 10          | `Duration`          | Indicates how long the sign/signal will be valid, using the ISO 8601 format    | `PddDhhHmmM`           | 6x 4-bit unsigned binary coded decimal               |
 | 103-104    | 2           | `ObjectType`        | Specifies the type of object the sign/signal refers to                         | `xx`                   | 2x 4-bit unsigned binary coded hexadecimal           |
-| 105-113    | 9           | `ObjectLatitude`    | Specifies the object location in decimal degrees latitude i.a.w. ISO 6709      | `\_dd.ddddd`           | 1x sign bit + 7x 4-bit unsigned binary coded decimal |
-| 114-123    | 10          | `ObjectLongitude`   | Specifies the object location in decimal degrees longitude i.a.w. ISO 6709     | `\_ddd.ddddd`          | 1x sign bit + 8x 4-bit unsigned binary coded decimal |
+| 105-113    | 9           | `ObjectLatitude`    | Specifies the object location in decimal degrees latitude i.a.w. ISO 6709      | `_dd.ddddd`            | 1x sign bit + 7x 4-bit unsigned binary coded decimal |
+| 114-123    | 10          | `ObjectLongitude`   | Specifies the object location in decimal degrees longitude i.a.w. ISO 6709     | `_ddd.ddddd`           | 1x sign bit + 8x 4-bit unsigned binary coded decimal |
 | 124-127    | 4           | `ObjectSizeDim1`    | Specifies the size of the object's first dimension in meters                   | `dddd`                 | 4x 4-bit unsigned binary coded decimal               |
 | 128-131    | 4           | `ObjectSizeDim2`    | Specifies the size of the object's second dimension in meters                  | `dddd`                 | 4x 4-bit unsigned binary coded decimal               |
 | 132-134    | 3           | `ObjectOrientation` | Specifies the object's orientation in degrees                                  | `ddd`                  | 3x 4-bit unsigned binary coded decimal               |
@@ -914,14 +918,14 @@ These fields may be repeated for additional objects for which the request
 is made, e.g. bytes 139-142 may contain additional `ObjectType2` and
 `ObjectType2Quant` fields, etc.
 
-##### 4.3.1.2 Subject Code Field
+#### 4.3.1.2 Subject Code Field
 
 The `SubjectCode` field defines the actual sign or signal, and must be
 2-byte UTF-8 encoded value from the following tables with subject codes
 for each sign/signal message type below. Common official and/or visual
 equivalents for the defined signs and signals are shown in [Annex E](#annex-e-signs--signals-equivalents).
 
-###### 4.3.1.2.1 Protective Signs
+##### 4.3.1.2.1 Protective Signs
 
 | Message Code | Usage           | Subject Code | Usage / Meaning                                     |
 |--------------|-----------------|--------------|-----------------------------------------------------|
@@ -964,7 +968,7 @@ References:
  *P52-53*: The 1954 Hague Convention for the Protection of Cultural Property in the Event of Armed Conflict and its two (1954 and 1999) Protocols, United Nations Educational, Scientific and Cultural Organization (UNESCO)
  *P60*: Protocol Additional to the Geneva Conventions of 12 August 1949, and relating to the Protection of Victims of International Armed Conflicts (Protocol I), 8 June 1977.
 
-###### 4.3.1.2.2 Emergency Signals
+##### 4.3.1.2.2 Emergency Signals
 
 | Message Code | Usage            | Subject Code | Usage / Meaning                            |
 |--------------|------------------|--------------|--------------------------------------------|
@@ -980,7 +984,7 @@ References:
 |              |                  | `15`-`1F`    | (reserved)                                 |
 |              |                  | `20`-`FF`    | (reserved)                                 |
 
-###### 4.3.1.2.3 Danger & Disaster Signs
+##### 4.3.1.2.3 Danger & Disaster Signs
 
 | Message Code | Usage       | Subject Code | Usage / Meaning                                                       |
 |--------------|-------------|--------------|-----------------------------------------------------------------------|
@@ -995,7 +999,8 @@ References:
 |              |             | `1A`         | War/Conflict/Terrorism - Chemical Attack                              |
 |              |             | `1B`         | War/Conflict/Terrorism - Biological Attack                            |
 |              |             | `1C`         | War/Conflict/Terrorism - Nuclear Attack                               |
-|              |             | `1D`-`1F`    | (reserved)                                                            |
+|              |             | `1D`         | War/Conflict/Terrorism - Electronic Attack / Jamming                  |
+|              |             | `1E`-`1F`    | (reserved)                                                            |
 |              |             | `20`         | Unspecified Hazardous Conflict Area                                   |
 |              |             | `21`         | Hazardous Conflict Area - Mine Field                                  |
 |              |             | `22`         | Hazardous Conflict Area - UXOs                                        |
@@ -1026,7 +1031,9 @@ References:
 |              |             | `52`         | Complex/Man-made Hazard - Uncontrolled Uprising                       |
 |              |             | `53`         | Complex/Man-made Hazard - Displaced Population                        |
 |              |             | `54`         | Complex/Man-made Hazard - Famine and Food Insecurity                  |
-|              |             | `55`-`5F`    | (reserved)                                                            |
+|              |             | `55`         | Complex/Man-made Hazard - Looting / Plundering                        |
+|              |             | `56`         | Complex/Man-made Hazard - Vandalism / Defacement                      |
+|              |             | `57`-`5F`    | (reserved)                                                            |
 |              |             | `60`-`9F`    | (reserved)                                                            |
 |              |             | `A0`         | Unspecified Geophysical Disaster Area                                 |
 |              |             | `A1`         | Geophysical Disaster Area - Earthquake                                |
@@ -1072,7 +1079,7 @@ References:
 |              |             | `E9`-`EF`    | (reserved)                                                            |
 |              |             | `F0`-`FF`    | (private use, i.e. not standardized)                                  |
 
-###### 4.3.1.2.4 Status Signals
+##### 4.3.1.2.4 Status Signals
 
 | Message Code | Usage         | Subject Code | Usage / Meaning                               |
 |--------------|---------------|--------------|-----------------------------------------------|
@@ -1090,12 +1097,13 @@ References:
 |              |               | `24`         | Object not functional without further details |
 |              |               | `25`         | Object not functional and damaged             |
 |              |               | `26`         | Object damaged without further details        |
+|              |               | `27`         | Object deliberately misused                   |
 |              |               | `28`         | Object destroyed                              |
 |              |               | `29`-`2F`    | (reserved)                                    |
 |              |               | `30`-`EF`    | (reserved)                                    |
 |              |               | `F0`-`FF`    | (private use, i.e. not standardized)          |
 
-#### 4.3.1.2.5 Infrastructure Signs
+### 4.3.1.2.5 Infrastructure Signs
 
 | Message Code | Usage          | Subject Code | Usage / Meaning                                                       |
 |--------------|----------------|--------------|-----------------------------------------------------------------------|
@@ -1162,7 +1170,7 @@ References:
 |              |                | `70`-`EF`    | (reserved)                                                            |
 |              |                | `F0`-`FF`    | (private use, i.e. not standardized)                                  |
 
-#### 4.3.1.2.6 Mission Signals
+### 4.3.1.2.6 Mission Signals
 
 | Message Code | Usage   | Subject Code | Usage / Meaning                                                                                        |
 |--------------|---------|--------------|--------------------------------------------------------------------------------------------------------|
@@ -1208,7 +1216,7 @@ References:
 |              |         | `90`-`EF`    | (reserved)                                                                                             |
 |              |         | `F0`-`FF`    | (private use, i.e. not standardized)                                                                   |
 
-#### 4.3.1.2.7 Request Signals
+### 4.3.1.2.7 Request Signals
 
 | Message Code | Usage    | Subject Code | Usage / Meaning                      |
 |--------------|----------|--------------|--------------------------------------|
@@ -1220,7 +1228,7 @@ References:
 |              |          | `30`-`EF`    | (reserved)                           |
 |              |          | `F0`-`FF`    | (private use, i.e. not standardized) |
 
-##### 4.3.1.3 DateTime Field
+#### 4.3.1.3 DateTime Field
 
 The `DateTime` field must contain the moment in time using from when
 the sign or signal is valid, using Coordinated Universal Time (UTC).
@@ -1250,7 +1258,7 @@ follows: `YYYY-MM-DDThh:mm:ssZ`, where:
 
 A message with an invalid DateTime field must be ignored.
 
-##### 4.3.1.4 Duration Field
+#### 4.3.1.4 Duration Field
 
 The `Duration` field may contain the time-period for how long the sign
 or signal is valid counted from the date and time in the `DateTime`
@@ -1260,7 +1268,7 @@ or for an indefinite period.
 
 Based on ISO 8601, the Duration field must be formatted as follows:
 `PnnDnnHnnM` (i.e. regular expression
-`\^P\[0-9\]{2}D\[0-9\]{2}H\[0-9\]{2}M\$`), where:
+`^P[0-9]{2}D[0-9]{2}H[0-9]{2}M$`), where:
 
 - `P` is literally the character "P", indicating that the string
     represents a period
@@ -1285,7 +1293,7 @@ must be set to 0 as follows: `P00D00H00M`.
 
 A message with an invalid Duration field must be ignored.
 
-##### 4.3.1.5 Object Type Field
+#### 4.3.1.5 Object Type Field
 
 The `ObjectType` field contains a hexadecimal code to indicate to what
 sort of object the sign or signal applies to. This information is
@@ -1293,39 +1301,39 @@ optional and must be set to 00 if not used. However, it is encouraged
 to use it, because it might be valuable for the receiver(s) of the
 message.
 
-| Code      | Object Type                 | Usage                                                                                                                                                                                                                                          |
-|-----------|-----------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `00`      | Not provided                | Object type is unknown                                                                                                                                                                                                                         |
-| `01`-`0F` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `10`      | Unspecified group of people | Unspecified number of humans together                                                                                                                                                                                                          |
-| `11`      | Person                      | An individual human                                                                                                                                                                                                                            |
-| `12`      | Small group of people       | 2-   10 humans together                                                                                                                                                                                                                        |
-| `13`      | Medium group of people      | 10-  100 humans together                                                                                                                                                                                                                       |
-| `14`      | Large group of people       | 100- 1000 humans together                                                                                                                                                                                                                      |
-| `15`      | Enormous group of people    | 1000-10000 humans together                                                                                                                                                                                                                     |
-| `12`-`1F` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `20`      | Unspecified Area            | An area is a part of the earths surface, either on land or at sea.                                                                                                                                                                             |
-| `21`      | Circular Area               |                                                                                                                                                                                                                                                |
-| `22`      | Rectangle Area              |                                                                                                                                                                                                                                                |
-| `23`      | Triangle Area               |                                                                                                                                                                                                                                                |
-| `24`-`2F` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `30`      | Unspecified Structure       | Immovable human made individual structures that are fixed to the ground, such as buildings, installations, historic ruins, etc. For non-fixed human made structures or a clustering of structures, such as camps, an area object must be used. |
-| `31`      | Circular Structure          |                                                                                                                                                                                                                                                |
-| `32`      | Rectangle Structure         |                                                                                                                                                                                                                                                |
-| `33`      | Triangle Structure          |                                                                                                                                                                                                                                                |
-| `34`-`3F` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `40`      | Unspecified Land Vehicle    | An object used for transport over land                                                                                                                                                                                                         |
-| `41`-`4F` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `50`      | Unspecified Water Vehicle   | An object used for transport on water                                                                                                                                                                                                          |
-| `51`-`5F` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `60`      | Unspecified Air Vehicle     | An object for transport in the air                                                                                                                                                                                                             |
-| `61`-`6F` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `70`      | Unspecified Space Vehicle   | An object for transport in space                                                                                                                                                                                                               |
-| `71`-`7F` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `80`      | Unspecified goods           | Movable materiel, goods, cargo, supplies, etc.                                                                                                                                                                                                 |
-| `80`-`8F` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `90`-`EF` | (reserved)                  |                                                                                                                                                                                                                                                |
-| `F0`-`FF` | (private use)               | Private use, i.e. not standardized                                                                                                                                                                                                             |
+| Code      | Object Type                 | Usage                                                                                                                           |
+|-----------|-----------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| `00`      | Not provided                | Object type is unknown                                                                                                          |
+| `01`-`0F` | (reserved)                  |                                                                                                                                 |
+| `10`      | Unspecified group of people | Unspecified number of humans together                                                                                           |
+| `11`      | Person                      | An individual human                                                                                                             |
+| `12`      | Small group of people       | 2-   10 humans together                                                                                                         |
+| `13`      | Medium group of people      | 10-  100 humans together                                                                                                        |
+| `14`      | Large group of people       | 100- 1000 humans together                                                                                                       |
+| `15`      | Enormous group of people    | 1000-10000 humans together                                                                                                      |
+| `12`-`1F` | (reserved)                  |                                                                                                                                 |
+| `20`      | Unspecified Area / Point    | A point on the earth's surface, either on land or at sea.                                                                       |
+| `21`      | Circular Area               | A circle on the earth's surface, either on land or at sea.                                                                      |
+| `22`      | Rectangle Area              | A rectange on the earth's surface, either on land or at sea.                                                                    |
+| `23`      | Triangle Area               | A triangle on the earth's surface, either on land or at sea.                                                                    |
+| `24`-`2F` | (reserved)                  |                                                                                                                                 |
+| `30`      | Unspecified Structure       | Immovable human made individual structures that are fixed to the ground, such as buildings, installations, historic ruins, etc. |
+| `31`      | Circular Structure          |                                                                                                                                 |
+| `32`      | Rectangle Structure         |                                                                                                                                 |
+| `33`      | Triangle Structure          |                                                                                                                                 |
+| `34`-`3F` | (reserved)                  |                                                                                                                                 |
+| `40`      | Unspecified Land Vehicle    | An object used for transport over land                                                                                          |
+| `41`-`4F` | (reserved)                  |                                                                                                                                 |
+| `50`      | Unspecified Water Vehicle   | An object used for transport on water                                                                                           |
+| `51`-`5F` | (reserved)                  |                                                                                                                                 |
+| `60`      | Unspecified Air Vehicle     | An object for transport in the air                                                                                              |
+| `61`-`6F` | (reserved)                  |                                                                                                                                 |
+| `70`      | Unspecified Space Vehicle   | An object for transport in space                                                                                                |
+| `71`-`7F` | (reserved)                  |                                                                                                                                 |
+| `80`      | Unspecified goods           | Movable materiel, goods, cargo, supplies, etc.                                                                                  |
+| `80`-`8F` | (reserved)                  |                                                                                                                                 |
+| `90`-`EF` | (reserved)                  |                                                                                                                                 |
+| `F0`-`FF` | (private use)               | Private use, i.e. not standardized                                                                                              |
 
 The table below shows which object types may be used for which message
 subjects, and which combinations types are not allowed.
@@ -1352,7 +1360,7 @@ subjects, and which combinations types are not allowed.
 | `M00`-`MEF` Missions                           | allowed           | allowed         | allowed              | allowed            | allowed         |
 | `Q10`-`Q2F` Requests                           | X                 | allowed         | X                    | X                  | X               |
 
-##### 4.3.1.6 Object Location Fields
+#### 4.3.1.6 Object Location Fields
 
 The `ObjectLatitude` and `ObjectLongitude` fields specify the
 location of *the centre of the object on, or projected on, the earth's
@@ -1362,25 +1370,25 @@ depth) cannot be provided.
 
 Based on ISO 6709 - Standard representation of geographic point location
 by coordinates, the `ObjectLatitude` fields must be formatted as
-follows: `\_dd.ddddd` (i.e. regular expression
-`\^\[+-\]\[0-9\]{2}\\.\[0-9\]{5}\$`), where:
+follows: `_dd.ddddd` (i.e. regular expression
+`^[+-][0-9]{2}\.[0-9]{5}$`), where:
 
 - The digits represent the north-south longitude, with valid values:
     `-90.00000` to `+90.00000`;
 
-- `\_` is the sign to indicate north (+) or south (-),
-    with a `+` compressed to a `1` bit, and a `-` compressed to a `0` bit.
+- `_` is the sign to indicate north (+) or south (-),
+    with a `+` compressed to a `1` bit, and a `-` compressed to a `0` bit.
 
 Based on ISO 6709 - Standard representation of geographic point location
 by coordinates, the `ObjectLongitude` fields must be formatted as
-follows: `\_ddd.ddddd` (i.e. regular expression
-`\^\[+-\]\[0-9\]{3}\\.\[0-9\]{5}\$`), where:
+follows: `_ddd.ddddd` (i.e. regular expression
+`^[+-][0-9]{3}\.[0-9]{5}$`), where:
 
 - The digits represent the east-west latitude, with valid values:
     `-180.00000` to `+180.00000`;
 
-- `\_` is the sign to indicate east (+) or west (-),
-    with a `+` compressed to a `1` bit, and a `-` compressed to a `0` bit.
+- `_` is the sign to indicate east (+) or west (-),
+    with a `+` compressed to a `1` bit, and a `-` compressed to a `0` bit.
 
 The object location must be specified for Protective Signs and Danger
 Signs (Message Codes `P` and `D`).
@@ -1394,7 +1402,7 @@ The object location may not be omitted in a Status Signal (Message Code
 `S`) referencing a Protective Sign or a Danger Sign (Message Code
 `P` or `D`).
 
-##### 4.3.1.7 Object Size Fields
+#### 4.3.1.7 Object Size Fields
 
 The `ObjectSizeDim1` and `ObjectSizeDim2` fields may be used to
 specify the horizontal surface dimensions of areas and structures in
@@ -1409,12 +1417,12 @@ For shaped areas and structures (Object Codes `21-2F` and `31-3F`),
 the Object Size must be provided. For unspecified areas and structures
 (Object Codes `20` and `30`) the dimensions are by definition
 unknown, and must be omitted. For all other objects, the Object Size
-must be omitted.
+must be omitted, i.e. set to 0.
 
 For circle shaped areas and structures (Object Codes `21` and `31`),
 the `ObjectSizeDim1` field represents the radius; the
 `ObjectSizeDim2` field has no meaning for circle shaped areas and
-structures and must be omitted.
+structures and must be omitted, , i.e. set to 0.
 
 For rectangle shaped areas and structures (Object Codes `22` and
 `32`), the `ObjectSizeDim1` field represents the length of the side
@@ -1425,7 +1433,7 @@ Triangle shaped areas and structures (Object Codes `23` and `33`)
 are isosceles triangles, with the `ObjectSizeDim1` field representing
 the triangle height and the ObjectSizeDim2 represents the base.
 
-##### 4.3.1.8 Object Orientation Field
+#### 4.3.1.8 Object Orientation Field
 
 The `ObjectOrientation` field may be used to specify the orientation
 of the object in decimal degrees, where `000` means North.
@@ -1438,7 +1446,7 @@ If an Object Size is specified using the `ObjectSizeDim1` and
 specified as well. If the Object Size is not specified, then the Object
 Orientation must be omitted.
 
-##### 4.3.1.9 Object Request Fields
+#### 4.3.1.9 Object Request Fields
 
 The object request fields `ObjectType*` and `ObjectType*Quant` may only
 be used in `Q` messages and must be used together, with the object type
@@ -1466,92 +1474,100 @@ Valid values for an `ObjectType*Quant` field are `00` to `99`. If the
 quantity of an object is unknown, then the respective `ObjectType*Quant`
 field must be `00`.
 
-#### 4.3.2 Functional Messages: Resource
+### 4.3.2 Functional Messages: Reference
 
-##### 4.3.2.1 Resource Message Fields
+#### 4.3.2.1 Reference Message Fields
 
-| Byte Index | Byte Length | Field            | Usage                                              | Uncompressed Encoding       | Compressed Encoding                        |
-|------------|-------------|------------------|----------------------------------------------------|-----------------------------|--------------------------------------------|
-| 0-70       | 71          | Message Header   | See Generic Message Header Fields                  |                             |                                            |
-| 71         | 1           | `ResourceMethod` | Indicates the mechanism for pointing to a resource | `x`                         | 1x 4-bit unsigned binary coded hexadecimal |
-| 72-111*    | 40*         | `ResourceData`   | Provides the data required to find the resource    | `cccccccccc ... cccccccccc` | 40x 8-bit UTF-8                            |
+| Byte Index | Byte Length | Field             | Usage                                              | Uncompressed Encoding       | Compressed Encoding                        |
+|------------|-------------|-------------------|----------------------------------------------------|-----------------------------|--------------------------------------------|
+| 0-70       | 71          | Message Header    | See Generic Message Header Fields                  |                             |                                            |
+| 71         | 1           | `ReferenceMethod` | Indicates the mechanism for pointing to a resource | `x`                         | 1x 4-bit unsigned binary coded hexadecimal |
+| 72-111*    | 40*         | `ReferenceData`   | Provides the data required to find the resource    | `cccccccccc ... cccccccccc` | 40x 8-bit UTF-8                            |
 
-##### 4.3.2.2 Resource Method Field
+#### 4.3.2.2 Reference Method Field
 
-The `ResourceMethod` field defines the mechanism for pointing to a resource. The
+The `ReferenceMethod` field defines the mechanism for pointing to a resource. The
 field must be 1-byte UTF-8 encoded hexadecimal character. Currently only
 one resource method has been defined:
 
-| Code    | Resource Method    | Usage                                               |
+| Code    | Reference Method   | Usage                                               |
 |---------|--------------------|-----------------------------------------------------|
 | `0`     | (reserved)         | Must not be used                                    |
 | `1`     | `InternetResource` | Reference to an internet resource                   |
+| `2`     | `CommonName`       | Reference by common name                            |
 | `2`-`9` | (reserved)         | Reserved for future resource referencing mechanisms |
 | `A`-`F` | (private use)      | Private use, i.e. not standardized                  |
 
-##### 4.3.2.3 Resource Data Field
+#### 4.3.2.3 Reference Data Field
 
-The content of the ResourceData field depends on the resource method:
+The content of the ReferenceData field depends on the resource method:
 
-- If the `ResourceMethod` method indicates a reference to an
-    internet resource (resource method 1), then the `ResourceData`
-    field must contain a valid URL.
+- If the `ReferenceMethod` is `1`, then the `ReferenceData` field
+    must contain a valid URL of the referenced internet resource;
 
-The `ResourceData` field may be longer than 40 bytes, if allowed by
-underlying blockchain. If the length of the `ResourceData` field is
+- If the `ReferenceMethod` is `2`, then the `ReferenceData` field
+    must contain a common name for the referenced object, i.e. the
+    name that is commonly used by humans.
+
+The `ReferenceData` field may be longer than 40 bytes, if allowed by
+underlying blockchain. If the length of the `ReferenceData` field is
 insufficient to provide the complete URL, an additional Reference
 Message may be sent with the rest of the URL using reference code `3`.
 
-#### 4.3.3 Functional Messages: Free Text
+### 4.3.3 Functional Messages: Free Text
 
-##### 4.3.3.1 Free Text Message Fields
+#### 4.3.3.1 Free Text Message Fields
 
 | Byte Index | Byte Length | Field          | Usage                             | Uncompressed Encoding       | Compressed Encoding |
 |------------|-------------|----------------|-----------------------------------|-----------------------------|---------------------|
 | 0-70       | 71          | Message Header | See Generic Message Header Fields |                             |                     |
 | 72-111*    | 40*         | `Text`         | Free text                         | `cccccccccc ... cccccccccc` | 40x 8-bit UTF-8     |
 
-##### 4.3.3.2 Text Field
+#### 4.3.3.2 Text Field
 
 The `Text` field can be used to send 40x 1-byte UTF-8 encoded text,
 typically to provide additional information about a sign or signal,
 using reference code `3` or `5`.
 
-The `Text` field may be longer than 40 bytes, if allowed by underlying
+The `Text` field may be longer than 40 bytes, if allowed by underlying
 blockchain. If the length of the `Text` field is insufficient to provide
 all text, an additional text message may be sent using reference code `3`.
 
-#### 4.3.4 Management Messages: Authentication
+### 4.3.4 Management Messages: Authentication
 
 The usage of authentication messages is described in [Paragraph 5.1](#51-joining-and-leaving-the-whiteflag-network).
 
-##### 4.3.4.1 Authentication Message Fields
+#### 4.3.4.1 Authentication Message Fields
 
 The message body of management messages for (initial) authentication
 (message type `A`), must contain the following fields:
 
-| Byte Index | Byte Length | Field                | Usage                                         | Uncompressed Encoding       | Compressed Encoding                        |
-|------------|-------------|----------------------|-----------------------------------------------|-----------------------------|--------------------------------------------|
-| 0-70       | 71          | Message Header       | See Generic Message Header Fields             |                             |                                            |
-| 71         | 1           | `VerificationMethod` | Indicates the authentication mechanism        | `x`                         | 1x 4-bit unsigned binary coded hexadecimal |
-| 72-111*    | 40*         | `VerificationData`   | Provides the data required for authentication | `cccccccccc ... cccccccccc` | 25x 8-bit UTF-8                            |
+| Byte Index | Byte Length | Field                | Usage                                                 | Uncompressed Encoding       | Compressed Encoding                          |
+|------------|-------------|----------------------|-------------------------------------------------------|-----------------------------|----------------------------------------------|
+| 0-70       | 71          | Message Header       | See Generic Message Header Fields                     |                             |                                              |
+| 71         | 1           | `VerificationMethod` | Indicates the authentication method                   | `x`                         | 1x 4-bit unsigned binary coded hexadecimal   |
+| 72-111*    | 40*         | `VerificationData`   | Contains UTF-8 text data required for authentication  | `cccccccccc ... cccccccccc` | 25x 8-bit UTF-8                              |
+|            |             |                      | Contains hexadecimal data required for authentication | `xxxxxxxxxx ... xxxxxxxxxx` | 128x 4-bit unsigned binary coded hexadecimal |
 
-##### 4.3.4.2 Verification Method Field
+Depending on the verification method, the `VerificationData` field may
+contain either UTF-8 text data `c` or hexadecimal data `x`.
+
+#### 4.3.4.2 Verification Method Field
 
 The `VerificationMethod` field defines the mechanism for authentication
 of the blockchain address and related account, and must be a 1-byte
 UTF-8 encoded hexadecimal character from the following table with codes
 for each verification method:
 
-| Code    | Verification Method | Usage                                         |
-|---------|---------------------|-----------------------------------------------|
-| `0`     | (reserved)          | Must not be used                              |
-| `1`     | `InternetResource`  | Authentication through an internet resource   |
-| `2`     | `SharedToken`       | Authentication by a secret pre-shared token   |
-| `3`-`9` | (reserved)          | Reserved for future authentication mechanisms |
-| `A`-`F` | (private use)       | Private use, i.e. not standardized            |
+| Code    | Verification Method | Data | Usage                                       |
+|---------|---------------------|------|---------------------------------------------|
+| `0`     | (reserved)          | -    | Must not be used                            |
+| `1`     | `InternetResource`  | `c`  | Authentication through an internet resource |
+| `2`     | `SharedSecret`      | `x`  | Authentication with a shared secret         |
+| `3`-`9` | (reserved)          | -    | Reserved for future authentication methods  |
+| `A`-`F` | (private use)       | -    | Private use, i.e. not standardized          |
 
-##### 4.3.4.3 Verification Data Field
+#### 4.3.4.3 Verification Data Field
 
 The content of the `VerificationData` field depends on the verification
 method:
@@ -1559,20 +1575,21 @@ method:
 - If the `InternetResource` method is specified (verification method 1),
     then the VerificationData field must contain a valid URL;
 
-- If the `SharedToken` method is specified (verification method 2),
-    then the VerificationData field must contain the verification token.
+- If the `SharedSecret` method is specified (verification method 2),
+    then the VerificationData field must contain a hexadecimal authentication
+    token derived from a shared secret.
 
-The `VerificationData` field may be longer than 40 bytes, if allowed
+The `VerificationData` field may be longer than 40 bytes, if allowed
 by underlying blockchain. If the length of the `VerificationData` field
-is insufficient to provide the complete URL or verification token, an
+is insufficient to provide the complete URL or authentication token, an
 additional Authentication Message may be sent with the rest of the URL
-or verification token using reference code `3`.
+or authentication token using reference code `3`.
 
-#### 4.3.5 Management Messages: Cryptographic Support
+### 4.3.5 Management Messages: Cryptographic Support
 
 The usage of cryptographic support messages is described in [Paragraph 5.2](#52-cryptographic-support-functions).
 
-##### 4.3.5.1 Cryptographic Support Message Fields
+#### 4.3.5.1 Cryptographic Support Message Fields
 
 The message body of management messages for cryptographic support
 (message type `K`), must contain the following fields:
@@ -1581,9 +1598,9 @@ The message body of management messages for cryptographic support
 |------------|-------------|------------------|--------------------------------------------|-----------------------------|----------------------------------------------|
 | 0-70       | 71          | Message Header   | See Generic Message Header Fields          |                             |                                              |
 | 71-72      | 2           | `CryptoDataType` | Indicates the type of data in this message | `xx`                        | 2x 4-bit unsigned binary coded hexadecimal   |
-| 73-144*    | 80*         | `CryptoData`     | Contains the cryptographic data            | `xxxxxxxxxx ... xxxxxxxxxx` | 128x 4-bit unsigned binary coded hexadecimal |
+| 73-144*    | 80*         | `CryptoData`     | Contains the binary cryptographic data     | `xxxxxxxxxx ... xxxxxxxxxx` | 128x 4-bit unsigned binary coded hexadecimal |
 
-##### 4.3.5.2 Cryptographic Data Type Field
+#### 4.3.5.2 Cryptographic Data Type Field
 
 The `CryptoDataType` field defines the type of cryptographic key data to be
 exchanged, and must be a 2-byte UTF-8 encoded hexadecimal character from
@@ -1606,7 +1623,7 @@ the following table with codes for each key type:
 | `20`-`99` | (reserved)       | Must not be used; reserved for future encryption features                              |
 | `A0`-`FF` | (private use)    | Private use, i.e. not standardized                                                     |
 
-##### 4.3.5.3 Cryptographic Data Field
+#### 4.3.5.3 Cryptographic Data Field
 
 The content of the `CryptoData` field is determined by the
 `CryptoDataType` field value as follows.
@@ -1624,7 +1641,7 @@ The content of the `CryptoData` field is determined by the
     a message encrypted with the algorithm indicated with encryption
     indicator code `1` and `2` respectively.
 
-The `CryptoData` field may be longer than 64 bytes if allowed by
+The `CryptoData` field may be longer than 64 bytes if allowed by
 underlying blockchain. If the length of the `CryptoData` field is
 insufficient to provide the full data, an additional Cryptographic
 Support Messages may be sent with the rest of the key data using
@@ -1633,11 +1650,11 @@ reference code `3`.
 Usage of the Cryptographic Support Message and the data types
 is detailed in [Paragraph 5.2](#52-cryptographic-support-functions).
 
-#### 4.3.6 Management Messages: Test
+### 4.3.6 Management Messages: Test
 
 The usage of test messages is described in [Paragraph 5.5](#55-testing).
 
-##### 4.3.6.1 Test Message Fields
+#### 4.3.6.1 Test Message Fields
 
 The message body of test messages has an identical set of fields as signs
 & signals messages have, which allows to test sign and signals. A test
@@ -1649,23 +1666,23 @@ message must contain the following fields:
 | 71         | 1           | `PseudoMessageCode` | Indicates the message type that is tested | `a`                   | 1x 8-bit UTF-8      |
 | 72         |             | Test Message Body   | See Message Body                          |                       |                     |
 
-##### 4.3.5.2 Pseudo Message Code
+#### 4.3.5.2 Pseudo Message Code
 
 The `PseudoMessageCode` field indicates which sign/signal message is
 tested. The contents of the field must be a 1-byte UTF-8 encoded
 alpha-numeric character value corresponding with one of the message
 types defined in [Paragraph 2.4.2](#242-message-functionality).
 
-##### 4.3.5.3 Test Message Body
+#### 4.3.5.3 Test Message Body
 
 All other test message fields in the message body are identical in use as the
 equivalent fields sign/signal message, as described in [Paragraph 4.3](#43-message-body),
-with the difference that the fields are shifted 1 byte / 8 bits, because of
+with the difference that the fields are shifted 1 byte / 8 bits, because of
 the Pseudo Message Code field.
 
 The field names must be preceded by `Test` when used in a test message.
 
-### 4.4 Notation of Messages and Message Sequences
+## 4.4 Notation of Messages and Message Sequences
 
 For documentation purposes and use case descriptions, messages codes and
 message sequences might be written as follows:
@@ -1686,16 +1703,16 @@ message sequences might be written as follows:
 
 For example, a message from originator X for relating an area under
 attack `D10` to an existing protective sign `P31` of a hospital H in that
-area, may be written as: `P31(0)H < D10(5)X`.
+area, may be written as: `P31(0)H < D10(5)X`.
 
 When the attack ends and the status of the hospital is provided,
-the full sequence will read: `P31(0)H < D10(5)X < D10(4)X <<< S23(5)H`.
+the full sequence will read: `P31(0)H < D10(5)X < D10(4)X <<< S23(5)H`.
 
-## 5 Protocol
+# 5 Protocol
 
-### 5.1 Joining and Leaving the Whiteflag Network
+## 5.1 Joining and Leaving the Whiteflag Network
 
-#### 5.1.1 Initial Authentication
+### 5.1.1 Initial Authentication
 
 It is not required to perform initial authentication and provide identity
 information to receive messages.
@@ -1719,9 +1736,9 @@ recipients to be able to derive those address, a `K(3)01` message
 referencing the `A(0)` message must be sent, containing the chain code
 for child key derivation.
 
-#### 5.1.2 Validating Authentication Information
+### 5.1.2 Validating Authentication Information
 
-##### 5.1.2.1 Method 1: URL Validation
+#### 5.1.2.1 Method 1: URL Validation
 
 The URL contained in the VerificationData field an `A1` message must
 point to web resource. This allows the blockchain account to be linked
@@ -1782,27 +1799,27 @@ used.
 
 An example for usage of JWS for authentication is included in [Annex C](#annex-c-example-json-authentication-objects).
 
-##### 5.1.2.2 Method 2: Shared Token Validation
+#### 5.1.2.2 Method 2: Shared Secret Validation
 
-The option to use a secret token for authentication allows the issuer
-of the token to authenticate the originator's blockchain account when
-the token is revealed in an `A2` message. The secret token may be
-pre-shared or generated from a shared secret:
+The option to use a shared secret for authentication allows the issuer
+of the secret to authenticate the originator's blockchain account when
+proof of possession of the secret is revealed in an `A2` message. The
+secret may be pre-shared or negotiated:
 
-1. The token may be a secret piece of either arbitrary data or some
-    (encrypted) meaningful data provided by the originator. The nature
-    and distribution of such a secret is outside the scope of Whiteflag.
+1. The pre-shared secret may be either arbitrary data or some (encrypted)
+    meaningful data provided to the originator. The nature and distribution
+    of such a secret is outside the scope of Whiteflag.
 
-2. The token may also be derived from an ECDH negotiated shared secret
-    using `K0B` messages, as described in [5.2](#52-cryptographic-support-functions).
-    This allows a secret negotatiated with one (already authenticated)
-    account for the authentication of antother account of the same
-    originator, e.g. to create an anonymous side channel.
+2. The secret may also be negotiated by exchanging ECDH public keys
+    using `K0B` messages, as described in [Paragraph 5.2](#52-cryptographic-support-functions).
+    This allows a secret to be negotiated with one (already authenticated)
+    account, and then to be used for authentication of another account of
+    the same originator, e.g. to create an anonymous side channel.
 
-The secret token must not be used directly in a single `A2(0)` message.
-Instead, the authentication data sent in the `A2(0)` message must be derived
-from the secret token using the HKDF function defined in RFC 5869. The
-procedure is described in detail in [5.2.3](#523-encrytpion-key-and-authentication-token-derivation).
+The shared secret must not be used directly in a single `A2(0)` message.
+Instead, the authentication token sent in the `A2(0)` message must be derived
+from the shared secret using the HKDF function defined in RFC 5869. The
+procedure is described in detail in [Paragraph 5.2.3](#523-encryption-key-and-authentication-token-derivation).
 
 An originator may use multiple `A2(0)` messages with tokens
 from different issuers or ECDH counterparts.
@@ -1811,7 +1828,7 @@ The issuer or ECDH counterparts may send `A2(6)` or `A2(7)` messages to
 confirm or acknowledge the claim, but also may choose not to do so to
 prevent others to record metadata on communications between parties.
 
-#### 5.1.3 Additional Authentication Information
+### 5.1.3 Additional Authentication Information
 
 Multiple tokens, URL verifications, or combinations thereof, may be sent
 for stronger authentication by sending multiple `A(0)` messages.
@@ -1823,22 +1840,22 @@ An `A(3)` message must be used when providing longer URLs or tokens
 than a single message `A(0)` or `A(2)` message can contain in its
 `VerificationData` field.
 
-#### 5.1.4 Leaving the Network
+### 5.1.4 Leaving the Network
 
 An account may leave the network with an `A(4)` message referencing, and
 thus discontinuing, each `A(0)` message that has been sent earlier. Any
 message sent by an account after that account has discontinued all its `A(0)`
 messages, should be considered unauthenticated.
 
-### 5.2 Cryptographic Support Functions
+## 5.2 Cryptographic Support Functions
 
-#### 5.2.1 Hierarchical Deterministic Accounts and Addresses
+### 5.2.1 Hierarchical Deterministic Accounts and Addresses
 
 It may not be assumed that every recipient is able to link
 deterministically derived addresses to the master public key of the
 account in order to authenticate the originator.
 
-#### 5.2.2 Encrytpion Key and Authentication Token Negotiation
+### 5.2.2 Encryption Key and Authentication Token Negotiation
 
 The protocol supports cryptographic key exchange using Elliptic Curve
 Diffie-Hellman (ECDH), which is an Elliptic Curve variant of the standard
@@ -1858,7 +1875,7 @@ in RFC 5639.
 
 Any participant may generate a 264-bit compressed public ECDH key and
 publish the key on the Whiteflag network using a `K(0)0A` message (for
-encryption keys) or a T`K(0)0B` message (for authentication token). This
+encryption keys) or a `K(0)0B` message (for authentication token). This
 allows any two participants, who have both published their public key,
 to generate shared secrets using their own private key and the other's
 public key.
@@ -1875,9 +1892,9 @@ an updated key (which should have been sent instead).
 
 The shared secret may be used as a basis for encryption and authentication,
 whether for Whiteflag or not, but it should never be used directly as an
-encryption key or autyhentication token.
+encryption key or authentication token.
 
-#### 5.2.3 Encrytpion Key and Authentication Token Derivation
+### 5.2.3 Encryption Key and Authentication Token Derivation
 
 Shared secrets (such as pre-shared, deterministically derived or
 ECDH generated secrets), must use the HKDF function defined in RFC 5869 to
@@ -1885,7 +1902,7 @@ derive the actual tokens and encryption keys used for Whiteflag.
 
 Note that it is crucial for security that shared secrets used as the input
 keying material for HKDF, have enough entropy, i.e. are sufficiently long
-(at least 16 bytes) and are practically indistinguishable from random data.
+(at least 16 bytes) and are practically indistinguishable from random data.
 
 The HKDF function must use SHA-256 as the digest algorithm. Furthermore, the
 HKDF function takes three (3) parameters depending on the encryption
@@ -1893,19 +1910,19 @@ method or token type: the key/token length, a usage specific salt and the
 the blockchain address as the info value.
 
 - for authentication method 2 (token-based):
-    1. the key length (token length) must be 32 bytes (256 bits)
+    1. the key length (token length) must be 32 bytes (256 bits)
     2. the salt value must be (hexadecimal): `420abc48f5d69328c457d61725d3fd7af2883cad8460976167e375b9f2c14081`
-    3. the info value must be the binary blockchain address
+    3. the info value must be the (binary) blockchain address
 
 - for encryption method 1 (`aes-256-ctr` with negotiated secret):
-    1. the key length must be 32 bytes (256 bits)
+    1. the key length must be 32 bytes (256 bits)
     2. the salt value must be (hexadecimal): `8ddb03085a2c15e69c35c224bce2952dca7878770724741cbce5a135328be0c0`
-    3. the info value must be the binary blockchain address
+    3. the info value must be the (binary) blockchain address
 
 - for encryption method 2 (`aes-256-ctr` with pre-shared secret):
-    1. the key length must be 32 bytes (256 bits)
+    1. the key length must be 32 bytes (256 bits)
     2. the salt value must be (hexadecimal): `c4d028bd45c876135e80ef7889835822a6f19a31835557d5854d1334e8497b56`
-    3. the info value must be the binary blockchain address
+    3. the info value must be the (binary) blockchain address
 
 Note that the salts are shown above in hexadecimal representation.
 Implementations must ensure that the data is correctly provided to the HKDF
@@ -1920,7 +1937,7 @@ the following pseudocode for deriving authentication tokens:
     tokenlength := 32
     salt := 0x420abc48f5d69328c457d61725d3fd7af2883cad8460976167e375b9f2c14081
     info := 0x007a0baf6f84f0fa7402ea972686e56d50b707c9b67b108866
-    secretToken := HKDF(sharedSecret, salt, info, tokenlength, digest="sha256")
+    authToken := HKDF(sharedSecret, salt, info, tokenlength, digest="sha256")
 ```
 
 The pseudocode for deriving encryption/decryption keys for the same blockchain
@@ -1938,7 +1955,7 @@ address is as follows:
     key := HKDF(sharedSecret, salt, info, keylength, digest="sha256")
 ```
 
-#### 5.2.4 Message Encryption
+### 5.2.4 Message Encryption
 
 Two encryption methods are currently defined by Whiteflag: the Advanced
 Encryption Standard (AES) using a 256-bit key in counter mode (CTR) with
@@ -1946,14 +1963,14 @@ either an ECDH negotiated secret (method 1) or a pre-shared secret (method 2).
 
 AES is a symmetric cipher that requires the same key for encryption and
 decryption. This key must be derived as described in
-[Paragraph 5.2.3](#523-encrytpion-key-and-authentication-token-derivation).
+[Paragraph 5.2.3](#523-encryption-key-and-authentication-token-derivation).
 
-##### 5.2.4.1. Encryption Methods 1 and 2
+#### 5.2.4.1. Encryption Methods 1 and 2
 
 Encryption methods 1 and 2 only differ in the key used for the encryption:
 
 - Encryption method 1 uses the ECDH negotiated secret as described in
-    [Paragraph 5.2.2](#522-encrytpion-key-and-authentication-token-negotiation)
+    [Paragraph 5.2.2](#522-encryption-key-and-authentication-token-negotiation)
     to derive the encryption key. Thus, this method can only been used to send
     encrypted messages between the two blockchain accounts that have
     negotiated the shared secret.
@@ -1967,17 +1984,17 @@ Encryption of a Whiteflag message is performed with the following steps:
 
 1. derive the encryption key respectively from an ECDH negotiated secret
     or a pre-shared secret using the HKDF function as described in
-    [Paragraph 5.2.3](#523-encrytpion-key-and-authentication-token-derivation);
+    [Paragraph 5.2.3](#523-encryption-key-and-authentication-token-derivation);
 
 2. generate a unique 128-bit initialisation vector, e.g. with
     cryptographically secure random number generator;
 
-3. encrypt the compressed binary encoded message starting at bit 32
-    (the 33th bit) up to and including the last bit, using `aes-256-ctr`
+3. encrypt the compressed binary encoded message starting at bit 32
+    (the 33th bit) up to and including the last bit, using `aes-256-ctr`
     with the appropriate key and the just generated initialisation vector.
 
 Below are the encryption steps in pseudocode, in which the key has already
-been derived as described in [Paragraph 5.2.3](#523-encrytpion-key-and-authentication-token-derivation):
+been derived as described in [Paragraph 5.2.3](#523-encryption-key-and-authentication-token-derivation):
 
 ```pseudocode
     iv := generateRandomBits(128)
@@ -1994,7 +2011,7 @@ new random initialisation vector must be created for each message to be
 encrypted.
 
 The encrypted message, with the correct encryption indicator set and the
-plaintext from the 5th byte onwards replaced with the ciphertext, must be
+plaintext from the 5th byte onwards replaced with the ciphertext, must be
 sent as any other Whiteflag message.
 
 The encrypted message must immediately be followed and referenced by a
@@ -2004,12 +2021,12 @@ recipient. The `K` message must not be encrypted itself, and the duress
 indicator must be `0`, regardless of the duress indicator value of the
 referenced encrypted message.
 
-### 5.3 Sending stand-alone Signs and Signals
+## 5.3 Sending stand-alone Signs and Signals
 
 To send an initial sign or signal, Reference Code `0` must be used. Any
-update of teh sign or signal must be sent by sending a message referencing
+update of the sign or signal must be sent by sending a message referencing
 the initial message with the correct reference code, specified in
-[Paragrpah 4.2.1.7](#4217-reference-indicator-field).
+[Paragraph 4.2.1.7](#4217-reference-indicator-field).
 
 Also, nothing prevents other originators to reference the message at
 any later point in time, adding more information by creating a message
@@ -2017,11 +2034,11 @@ sequence starting with the initial sign or signal.
 
 Message referencing is described in more detail in [Paragraph 5.4](#54-referencing).
 
-### 5.4 Referencing
+## 5.4 Referencing
 
-#### 5.4.1 Reference Options
+### 5.4.1 Reference Options
 
-##### 5.4.1.1 Allowed Referencing between Message Types
+#### 5.4.1.1 Allowed Referencing between Message Types
 
 The table below shows which references types (as defined in Reference
 Indicator Field) may be used between the different message types, and
@@ -2045,7 +2062,7 @@ which reference types are not allowed.
  *X*: prohibited
  *T*: a test message may make any reference for testing purposes
 
-##### 5.4.1.2 Allowed Referencing between Reference Types
+#### 5.4.1.2 Allowed Referencing between Reference Types
 
 The table below shows which reference types (as defined in Reference
 Indicator Field) may be used to refer to an earlier message with a
@@ -2073,34 +2090,39 @@ A message with Reference Code `0` (an original message) may not
 reference any message.
 
 A message with Reference Code `1` (a recall message) may reference a
-message with any reference code of the same originator, meaning that
+message with any reference code of the *same originator*, meaning that
 a message with any reference code can be recalled.
 
 A message with Reference Code `2` (an update message) may only reference
 a message with reference code `0`, `3`, or `5` meaning that only original,
-additional, and referring messages may be updated and only by the same
-originator.
+additional, and referring messages may be updated and only by the *same
+originator*.
 
 A message with Reference Code `3` (an additional information message)
 may only reference a message with reference code `0`, `2`, or `5`,
-for the same originator to provide additional information to original,
-updating and referring messages.
+for the *same originator* to provide additional information to original,
+updating and referring messages. The use cases for Reference Code `3` are:
 
-Reference Code `3` may be only used once to refer to the original message
-of the same message type. For example: `S(0) < R(3) < R(3)` and
-`... < [F(3)] < K11(3) << [F(3)] < K11(3)` are allowed, but
-`... < R(3) < R(3) << R(3)` is not. There is one exception: Reference
-Code `3` may be used to reference the same message type of types `P`, `D`,
-`Q`, and `M` more than once, when creating composite areas (see Composite
-Areas and Structures). In that case, the additional information must reference
-the initially referenced message and may not reference another message with
-additional information, e.g. `D(0) < D(3) << D(3) <<< D(3)`
+- extending the data field on blockchains that only allow messages of
+    limited length, by referencing the previous segment of the same message
+    type to ensure the correct order: e.g. `A1(0) < A1(3) < A1(3)` and
+    `F(0) < F(3) < F(3)` should be considered to be one message;
+
+- creating composite areas and polygons by an identical sign or signal
+    referencing the initial one, e.g. `D(0) < D(3) << D(3) <<< D(3)`,
+    as further described in [Paragraph 5.4.2.5](#5425-composite-areas-and-structures);
+
+- provide additional data to a different message type,
+    e.g. `I(0) < S(3) < R1(3)` where the reference message `R1(3)`
+    provides an internet resource related to the `S(3)` message providing
+    the status of infrastructure I.
 
 A message with Reference Code `4` (a discontinue message) may only
 reference a message with reference code `0`, `5`, `6`, `8`, or `9` of the
-same originator, because an only originator may only discontinue an original,
-related, confirmation, comply or reject message. Discontinuing a message
-also implies that any later updates to that message are discontinued.
+*same originator*, because an only originator may only discontinue an
+original, related, confirmation, comply or reject message. Discontinuing
+a message also implies that any later updates to that message are
+discontinued.
 
 A message with Reference Code 5 (a referring message) may only reference
 a message with Reference Code `0` or `5`, i.e. to refer to an
@@ -2126,14 +2148,14 @@ message with Reference Code `0`, `2`, or `5`, i.e. to indicate that the
 originator rejects, denies or does not agree with the referred original,
 updated, or a related message from another originator.
 
-#### 5.4.2 Message Sequences
+### 5.4.2 Message Sequences
 
 When referencing messages are referenced themselves, message sequences
 may be created. The paragraphs below describe which message sequences,
 as allowed by the reference options described in [Paragraph 4.2.1.7](#4217-reference-indicator-field),
 provide meaningful information.
 
-##### 5.4.2.1 Authentication
+#### 5.4.2.1 Authentication
 
 An `A` message may only reference another `A` message, in order to:
 
@@ -2153,13 +2175,13 @@ An `A` message may only reference another `A` message, in order to:
     its `A(0)` message with an `A(6)` message.
 
 For example, an initial authentication of originator X using an URL of
-30 bytes, which is confirmed by another party Y, later updated with an
+30 bytes, which is confirmed by another party Y, later updated with an
 URL of the same length, and finally the account is closed, will result
 in the following message sequence:
 
-`A01(0)X < A01(3)X << A01(6)Y <<< A01(2)X < A01(3)X <<<<< A01(4)X`
+`A01(0)X < A01(3)X << A01(6)Y <<< A01(2)X < A01(3)X <<<<< A01(4)X`
 
-##### 5.4.2.2 Updating Signs and Signals
+#### 5.4.2.2 Updating Signs and Signals
 
 Conflicts and disasters are dynamic and events end or change. Therefore,
 the protocol allows to update signs and signals using message sequences
@@ -2171,9 +2193,9 @@ signals:
 
 | Message Sequence                       | Explanation                                                                                                                                                                                                                                                                                                                                                                                                  |
 |----------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `P10(0) < P10(2) << R01(3) <<< P10(4)` | An original `P10(0)` message reports the presence of an ICRC-entity, which is subsequently updated with an `P10(2)` message, e.g. because the location changed. A reference is made to an ICRC-website about the entity to provide additional information using a `R01(3)` message. At a later point in time, the protective sign is withdrawn by using a `P10(4)` message to discontinue the original sign. |
+| `P10(0) < P10(2) << R01(3) <<< P10(4)` | An original `P10(0)` message reports the presence of an ICRC-entity, which is subsequently updated with an `P10(2)` message, e.g. because the location changed. A reference is made to an ICRC-website about the entity to provide additional information using a `R01(3)` message. At a later point in time, the protective sign is withdrawn by using a `P10(4)` message to discontinue the original sign. |
 
-##### 5.4.2.3 Relating Signs and Signals
+#### 5.4.2.3 Relating Signs and Signals
 
 Events are often related. For example, a dangerous situation such as a
 wildfire may cause multiple buildings to be destroyed and multiple
@@ -2191,11 +2213,11 @@ signals:
 
 | Message Sequence                                      | Explanation                                                                                                                                                                                                                                                                                                                                                                                                                                                |
 |-------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `D32(0)X < D43(5)X << E12(5)X << S26(5)Y <<< S25(5)Z` | An original `D32(0)` message reporting a rail accident is initially referenced two times: to indicate the accident coincides with a chemical explosion with a `D43(5)` message and to make an emergency call for fire & rescue assistance with a `E12(5)` message. Additional status messages relating to the accident or explosion may be sent, to report the status and locations of objects that are affected as a result of the accident or explosion. |
-| `D15(0)X < E01(5)Y < E01(4)Y <<< S11(5)Y`             | An original message `D15(0)` reporting a complex attack is referenced by somebody sending an `E01(5)` distress signal as a result of the attack. Later, when the person is in safety, the distress signal is discontinued with an `E01(4)` message and an `S11(5)` proof of life is sent.                                                                                                                                                                  |
-| `D52(0)X < R01(5)A << R01(5)B <<< R01(5)C`            | An uncontrolled uprising is reported with a `D52(0)` message, and then referenced by three `R01(5)` messages from Other Orig.nators A, B and C to point to relating internet resources such as pictures of the uprising on social media.                                                                                                                                                                                                                   |
+| `D32(0)X < D43(5)X << E12(5)X << S26(5)Y <<< S25(5)Z` | An original `D32(0)` message reporting a rail accident is initially referenced two times: to indicate the accident coincides with a chemical explosion with a `D43(5)` message and to make an emergency call for fire & rescue assistance with a `E12(5)` message. Additional status messages relating to the accident or explosion may be sent, to report the status and locations of objects that are affected as a result of the accident or explosion. |
+| `D15(0)X < E01(5)Y < E01(4)Y <<< S11(5)Y`             | An original message `D15(0)` reporting a complex attack is referenced by somebody sending an `E01(5)` distress signal as a result of the attack. Later, when the person is in safety, the distress signal is discontinued with an `E01(4)` message and an `S11(5)` proof of life is sent.                                                                                                                                                                  |
+| `D52(0)X < R01(5)A << R01(5)B <<< R01(5)C`            | An uncontrolled uprising is reported with a `D52(0)` message, and then referenced by three `R01(5)` messages from Other Orig.nators A, B and C to point to relating internet resources such as pictures of the uprising on social media.                                                                                                                                                                                                                   |
 
-##### 5.4.2.4 Confirming Signs and Signals
+#### 5.4.2.4 Confirming Signs and Signals
 
 Conflict and disaster zones are chaotic and it is often difficult to
 assess a situation based on a single source of information. To improve
@@ -2209,32 +2231,33 @@ signals:
 
 | Message Sequence               | Explanation                                                                                                                                                             |
 |--------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `D21(0)X < D21(6)Y << D21(6)Z` | An original message reporting a minefield is confirmed two times by different originators with two `D21(6)` messages referring to the original `D21(0)`.                |
-| `D21(0)X < D21(6)Y < D21(4)Y`  | An expiration message `D21(4)` referring to a `D21(6)` confirmation message means that the original `D21(0)` message reporting a minefield cannot be confirmed anymore. |
+| `D21(0)X < D21(6)Y << D21(6)Z` | An original message reporting a minefield is confirmed two times by different originators with two `D21(6)` messages referring to the original `D21(0)`.                |
+| `D21(0)X < D21(6)Y < D21(4)Y`  | An expiration message `D21(4)` referring to a `D21(6)` confirmation message means that the original `D21(0)` message reporting a minefield cannot be confirmed anymore. |
 
-##### 5.4.2.5 Composite Areas and Structures
+#### 5.4.2.5 Composite Areas and Structures
 
-A composite area is a single area specified by multiple messages. A
-composite structure is a single structure specified by multiple
-messages. Composite areas and structures may be used, for example, when
-an area/structure is larger than the `ObjectSize` fields allows, or to
-create areas/structures with shapes other than the `ObjectType` field
-allows.
+A composite area is a single area specified by multiple messages using
+Object Code `20`-`29`. A composite structure is a single or group of
+related structures, specified by multiple messages using Object
+Code `30`-`39`.
 
-To report a new composite area or structure, the first message must have
-its Reference Indicator set to `0` (original message), and any following
+For multiple message to be related, the first message must have its
+Reference Indicator set to `0` (original message), and any following
 message in the sequence must reference the original message using
 Reference Indicator `3`. The referencing messages must have the same
 Subject Code as the original message.
 
+Composite areas and structures may be used, for example, when an
+area/structure is larger than the `ObjectSize` fields allows, or to create
+areas/structures with shapes other than the `ObjectType` field allows.
+Specifically, a polygon area or structure may be created by using multiple
+messages with the Object Code set to `20` and `30`, indicating a collection
+of points, instead of a shapes.
+
 For example, a single mine field comprised of three area parts is
 reported on the network with the following message sequence:
 
-`D21(0) < D21(3) << D21(3)`
-
-Composite areas may only be created using messages with Object Code
-`20`-`29`. Composite structures may only be created using messages
-with Object Code `30`-`39`.
+`D21(0) < D21(3) << D21(3)`
 
 To reference a composite area or structure as a whole (e.g. to discontinue
 it using Reference Code `4` or to confirm it using Reference Code `6`),
@@ -2246,7 +2269,7 @@ area/structure separately. A recall message (Reference Code `1`) may
 either reference the original message, or individual messages of the
 sequence.
 
-##### 5.4.2.6 Acknowledging messages
+#### 5.4.2.6 Acknowledging messages
 
 Acknowledgements may be sent to inform others of having 'received' a certain
 message, i.e. to acknowledge that a certain message has been witnessed, e.g.
@@ -2256,10 +2279,10 @@ be used in message sequences.
 
 | Message Sequence              | Explanation                                                                                                                                |
 |-------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| `D21(0)X < D21(2)X < D21(7)Y` | An acknowledging message `D21(7)` referring to a `D21(2)` update message, means that the update to `D21(0)` message has been acknowledged. |
-| `Q20(0)X < Q20(9)Y < Q20(7)X` | An Area Access request signal 'Q20(0)' is rejected by a Q20(9) message, which is then acknowledged by an Q20(7) message                    |
+| `D21(0)X < D21(2)X < D21(7)Y` | An acknowledging message `D21(7)` referring to a `D21(2)` update message, means that the update to `D21(0)` message has been acknowledged. |
+| `Q20(0)X < Q20(9)Y < Q20(7)X` | An Area Access request signal 'Q20(0)' is rejected by a Q20(9) message, which is then acknowledged by an Q20(7) message                    |
 
-##### 5.4.2.7 Complying to messages
+#### 5.4.2.7 Complying to messages
 
 The 'comply' message reference code provides the option to an originator to
 indicate they will act upon or in accordance with an original, updated, or a
@@ -2269,10 +2292,10 @@ action to be undertaken.
 
 | Message Sequence               | Explanation                                                                                                                                            |
 |--------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `E11(0)X < E11(8)Y`            | An Emergency Signal `E11(0)` indicating that urgent medical assistance is required, is responded to by somebody complying with the ask for assistance. |
-| `P02(0)X < P02(8)Y << P02(8)Z` | A request for negotiation `P02(0)` will be complied to by two different originators respectively sending a `P02(8)` message.                           |
+| `E11(0)X < E11(8)Y`            | An Emergency Signal `E11(0)` indicating that urgent medical assistance is required, is responded to by somebody complying with the ask for assistance. |
+| `P02(0)X < P02(8)Y << P02(8)Z` | A request for negotiation `P02(0)` will be complied to by two different originators respectively sending a `P02(8)` message.                           |
 
-##### 5.4.2.8 Rejecting messages
+#### 5.4.2.8 Rejecting messages
 
 The 'reject' message reference code may be used to indicate that the
 originator rejects, denies or does not agree with the referred original,
@@ -2280,10 +2303,10 @@ updated, or a related message from another originator.
 
 | Message Sequence    | Explanation                                                                                                                                   |
 |---------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|
-| `Q20(0)X < Q20(9)Y` | An Area Access request signal 'Q20(0)' is rejected by a Q20(9) message                                                                        |
-| `D21(0)X < D21(9)Y` | An original message reporting a minefield is rejected by a different originators with a `D21(9)` messages referring to the original `D21(0)`. |
+| `Q20(0)X < Q20(9)Y` | An Area Access request signal 'Q20(0)' is rejected by a Q20(9) message                                                                        |
+| `D21(0)X < D21(9)Y` | An original message reporting a minefield is rejected by a different originators with a `D21(9)` messages referring to the original `D21(0)`. |
 
-### 5.5 Testing
+## 5.5 Testing
 
 Test messages are used to simulate any other message types for testing
 purposes. They allow test data to be distinguished from real data,
@@ -2306,15 +2329,15 @@ message using any reference code.
 
 A test message must be disregarded for any other purpose than testing.
 
-## Annex A. Blockchain layer specific details
+# Annex A. Blockchain layer specific details
 
 This Annex is meant to provide additional information and considerations about
 the use of blockchain networks for Whiteflag Protocol end-users and for
 creating implementations.
 
-### A.1 Implementation Guidelines
+## A.1 Implementation Guidelines
 
-#### A.1.1 Completeness of the blockchain database
+### A.1.1 Completeness of the blockchain database
 
 When using the Whiteflag Network as a source for improving situational
 awareness, it is important for end-users to have a complete view on all
@@ -2323,7 +2346,7 @@ to assess if all (relevant) blocks have been processed and no message has been
 omitted or skipped, as this might result in inaccurate interpretation of
 information.
 
-#### A.1.2 Data encapsulation in transactions
+### A.1.2 Data encapsulation in transactions
 
 The Whiteflag Network is created as a blockchain overlay network
 by Whiteflag applications embedding Whiteflag messages in blockchain
@@ -2338,11 +2361,11 @@ See the table below for several examples:
 
 | Blockchain | Message embedding | Maximum message length | Signature algorithm | Transaction hash           |
 |------------|-------------------|------------------------|---------------------|----------------------------|
-| Bitcoin    | `OP_RETURN`       | 80 bytes               | ECDSA secp256k1     | 256 bits (64 hexadecimals) |
-| Ethereum   | `data` field      | (dynamic)              | ECDSA secp256k1     | 256 bits (64 hexadecimals) |
+| Bitcoin    | `OP_RETURN`       | 80 bytes               | ECDSA secp256k1     | 256 bits (64 hexadecimals) |
+| Ethereum   | `data` field      | (dynamic)              | ECDSA secp256k1     | 256 bits (64 hexadecimals) |
 
 In the case of Bitcoin, the `OP_RETURN` field of a raw transaction allows
-for the encapsulation of data constrained to a maximum 80 bytes.
+for the encapsulation of data constrained to a maximum 80 bytes.
 
 In the case of Ethereum, the `data` field of a raw transaction allows for
 the encapsulation of a dynamic amount of data that is relative to the
@@ -2350,7 +2373,7 @@ the encapsulation of a dynamic amount of data that is relative to the
 store multiple kilobytes of data.
 
 Message formatting within the Whiteflag Protocol has been structured
-to not require more than 80 bytes for sending signs and signals.
+to not require more than 80 bytes for sending signs and signals.
 Reference messages and/or concatenation may be used in cases where providing
 additional data is required.
 
@@ -2358,7 +2381,7 @@ Please note that the above parameters may change over time as the codebases of
 blockchain networks evolve, in which case implementations of the Whiteflag
 Protocol may need to be updated accordingly.
 
-#### A.1.3. Monitoring of Dynamic Blockchain Parameters
+### A.1.3. Monitoring of Dynamic Blockchain Parameters
 
 Blockchain networks are highly dynamic distributed computing networks that,
 because of their decentralized architecture, rely both on actively
@@ -2370,78 +2393,78 @@ It is advisable to monitor several parameters when implementing the Whiteflag
 Protocol to ensure the underlying blockchain network(s) is/are operating
 correctly.
 
-##### A.1.3.1 Relaying and Processing of Messages
+#### A.1.3.1 Relaying and Processing of Messages
 
 The following parameters concern the relaying and processing of Whiteflag
 messages by the underlying blockchain network(s).
 
-###### Peer-to-Peer Connectivity
+##### Peer-to-Peer Connectivity
 
 Monitoring of the amount of peers a message sending Whiteflag account connects
 to, to ensure messages are relayed correctly. Many blockchain networks provide
 a list of nodes that have proven long-term reliability. It is up to the
 Whiteflag participant to decide how many and which peers to connect to.
 
-###### Transaction Costs
+##### Transaction Costs
 
 Each message will inflict a minimal Transaction Cost to be paid for the
 network to process the transaction. These costs usually consist of a minimum
 transaction amount and a transaction fee. End-users need to ensure the proper
 amount of funds are included for each message that is sent.
 
-###### Block Time
+##### Block Time
 
 Each blockchain networks' consensus protocol defines an average Block Time
 the network targets for creating new blocks. Monitoring of block creation
 time can assist in determining the expected validation time of a message.
 
-###### Transaction Relay Time
+##### Transaction Relay Time
 
 Monitoring of the number of transactions on the blockchain network pending
 verification. In cases of very high transactional load, transactions may
 require longer processing times or increased fees.
 
-###### Number of Block Confirmations
+##### Number of Block Confirmations
 
 Monitoring the number of blocks that have been added to the shared database
 *after* the block containing a Whiteflag message. It is up to the Whiteflag
 participant to determine how many blocks *deep* a message needs to be for it
 to be considered secured in the blockchain.
 
-###### Blockchain Protocol Changes
+##### Blockchain Protocol Changes
 
 Blockchain networks rely on their respective protocols for verifying
 transactions on the network. In case of a change in protocol, features may
 change causing Whiteflag Protocol implementations to require updating.
 
-##### A.1.3.2 Blockchain Security
+#### A.1.3.2 Blockchain Security
 
 The following parameters concern the security of the underlying
 blockchain network(s):
 
-###### Network hash-rate
+##### Network hash-rate
 
 Monitoring of the aggregated computational power of the number of transaction
 validating nodes.
 
-###### Changes in Network Hash-Rate
+##### Changes in Network Hash-Rate
 
 Monitoring whether there are significant changes in the network's hash-rate
 and if so, take appropriate measures.
 
-###### Hash-Rate Distribution
+##### Hash-Rate Distribution
 
 Monitoring the distribution of the total hash-rate amongst the participating
 validating nodes. In case of a validating node (or a collection of nodes)
 representing 51% of the total network hash-rate, take appropriate measures.
 
-###### Consensus Protocol Changes
+##### Consensus Protocol Changes
 
 Blockchain networks rely on their respective consensus protocols for the proper
 validation of transactions. Major changes to a consensus protocol may have
 significant impact to a blockchain network as a whole.
 
-###### Chain Reorganisation Dynamics
+##### Chain Reorganisation Dynamics
 
 Malicious actors may perform attacks on a blockchain network by causing rapid
 and/or large-scale chain reorganisations. Many blockchain network prescribe a
@@ -2449,9 +2472,9 @@ chain "re-org limit" and have implemented other measures to mitigate such
 events. It is advised to assess resiliency to such attacks per individual
 blockchain network.
 
-### A.2. General considerations related to blockchain network functionality
+## A.2. General considerations related to blockchain network functionality
 
-#### A.2.1 Consensus protocols
+### A.2.1 Consensus protocols
 
 Blockchain networks using the proof-of-work consensus model (Nakamoto
 consensus) timestamp transactions by hashing them into an ongoing chain
@@ -2467,7 +2490,7 @@ an experimental phase and have not yet been proven to work securely
 at large scale. At this point, it is therefore not advised to use an other
 type of blockchain network than those using a proof-of-work consensus protocol.
 
-#### A.2.2 Market dynamics
+### A.2.2 Market dynamics
 
 Blockchain networks require a native currency (often called crypto-currency)
 to incentivize validating nodes to expend resources on doing the proof-of-work.
@@ -2479,7 +2502,7 @@ While these amounts may be relatively small, the market dynamics related to
 these native currencies can cause price volatility, bear/bull dynamics or even
 trade-halts, which may cause effect usability.
 
-#### A.2.3 Private Blockchain Networks and Permissioned Distributed Ledgers
+### A.2.3 Private Blockchain Networks and Permissioned Distributed Ledgers
 
 Please note that the Whiteflag Protocol is specifically designed to be
 implemented on open blockchain networks. Private blockchain networks, or
@@ -2488,7 +2511,7 @@ the Whiteflag Network, as these systems require a trusted party
 (i.e. trusted nodes) to establish consensus within the network and do not
 provide open access, and should therefore not be used.
 
-#### A.2.4 Anonymous Transactions
+### A.2.4 Anonymous Transactions
 
 Blockchain networks using digital signature schemes that enable fully anonymous
 transactions could theoretically be used to anonymously send messages on the
@@ -2498,11 +2521,11 @@ untraceability and unlinkability. These type of transactions do not adhere to
 the principles of this standard, as they limit message authentication, and
 should therefore not be used.
 
-## Annex B. JSON Schema of Whiteflag Messages
+# Annex B. JSON Schema of Whiteflag Messages
 
 (*contained in separate file*)
 
-## Annex C. Example JSON Authentication Objects
+# Annex C. Example JSON Authentication Objects
 
 The JSON representation of an `A1` message sent using an example static
 Base58 blockchain address `1C8KSK68SJjfDSBx9BpSx3qB3bePf23r77` may be as
@@ -2588,7 +2611,7 @@ provided here as human readable example:
 Note that the used algorithm (ES256, i.e. ECDSA using P-256 and SHA-256,
 in line with the underlying blockchain) is included in the protected header.
 
-## Annex D. Definitions
+# Annex D. Definitions
 
 Below is an overview of terms as used in this standard within the context of Whiteflag.
 
@@ -2612,13 +2635,13 @@ Below is an overview of terms as used in this standard within the context of Whi
 | Security        | The measures to protect and preserve the *integrity* and *availability* of the messages, and, if required by the *originator*, the *confidentiality*.                                                                                           |
 | Transaction     | A record on a *blockchain* (containing a single Whiteflag *message*).                                                                                                                                                                           |
 
-## Annex E. Signs & Signals Equivalents
+# Annex E. Signs & Signals Equivalents
 
 (*contained in separate repository*)
 
-## Annex F. Example Use Cases
+# Annex F. Example Use Cases
 
-### Use case 1: NGO Area Access to Provide Aid
+## Use case 1: NGO Area Access to Provide Aid
 
 A humanitarian convoy is carrying emergency assistance for affected
 populations in a conflict zone. First of all, the authenticity of the
@@ -2638,7 +2661,7 @@ reference codes `7` and `8`. Last but not least, a party may withdraw its
 compliance with the request at any time by sending a Q(9) deny message.
 This would result in the following sequence:
 
-`Q20(0)A < Q20(3)A ... << Q(7) <<< Q(8) ... <<<< Q(9)`
+`Q20(0)A < Q20(3)A ... << Q(7) <<< Q(8) ... <<<< Q(9)`
 
 While on the road, the convoy is able to quickly inform other humanitarian
 actors of potential changes in the environment as well as receive as much
@@ -2651,9 +2674,9 @@ humanitarian action, the NGO also communicates the type of assistance
 provided using `M` messages to avoid duplication and inefficiency
 of humanitarian aid:
 
-`P11(5) < M(5)`
+`P11(5) < M(5)`
 
-### Use case 2: Protected Sites and Critical Infrastructures
+## Use case 2: Protected Sites and Critical Infrastructures
 
 Since messages are persistent on a blockchain, an organisation can
 utilize the Whiteflag Protocol to create a public digital register of
@@ -2675,13 +2698,13 @@ Currently, this type of information is not always confirmed or denied
 afterwards. Using Whiteflag, other parties can confirm the information
 by using reference code 6, e.g.:
 
-`I(0) < I(6) ... P31(0) < P31(6)`
+`I(0) < I(6) ... P31(0) < P31(6)`
 
 A message sequence where a hospital is identified, a party indicates
 it will comply with its protected status, and the status of the hospital
 is periodically updated, will look like:
 
-`P31(0) < P31(8) << S(5) ... < S(2)`
+`P31(0) < P31(8) << S(5) ... < S(2)`
 
 Another example is a local cultural institute C that can create a public
 digital register of monuments in its city or village by posting a
@@ -2693,7 +2716,7 @@ this can be broadcasted immediately by anyone using the Whiteflag Protocol,
 sending for example a `D11` message (structure under ground attack),
 resulting in the following message sequence:
 
-`P52(0)C < D11(5)`
+`P52(0)C < D11(5)`
 
 Were the attack undertaken by a party that intends to comply with
 international law (for which reason such a party might very well
@@ -2706,7 +2729,7 @@ Protocol ensures that the attack is recorded and known to the
 international community, allowing for example peacekeeping forces to
 react and/or providing evidence for the war crime.
 
-### Use case 3: Peacekeeping Forces Confirm a Mine Field Reported by Locals
+## Use case 3: Peacekeeping Forces Confirm a Mine Field Reported by Locals
 
 The Whiteflag Protocol allows to digitally mark dangerous zones, such as
 minefields or areas where unexploded ammunition is present. Suppose
@@ -2730,14 +2753,14 @@ page is updated.
 
 This scenario resulted in the following message sequence:
 
-`D21(0)A < D21(6)U < R(3)U ... < R(2)U`
+`D21(0)A < D21(6)U < R(3)U ... < R(2)U`
 
 It would be very easy for anyone to develop a web application to
 actively monitor all these sorts of messages and project this
 information on a map, creating broad awareness of the danger among aid
 workers and local populations.
 
-### Use case 4: Proof of Life by a Journalist
+## Use case 4: Proof of Life by a Journalist
 
 A journalist working in a combat zone wants to let his news agency know
 where he is on a regular basis. To do this, the journalist makes his
@@ -2751,7 +2774,7 @@ message) on a regular basis, either with or without his location. For
 extra security, it is possible to encrypt the message to ensure only
 recipients know where he is.
 
-### Use case 5: Negotiate a Cease Fire between Fighting Parties
+## Use case 5: Negotiate a Cease Fire between Fighting Parties
 
 Warring parties can use Whiteflag to negotiate a cease fire, e.g. to be
 able to provide medical care in a specific area for a certain amount
@@ -2760,14 +2783,14 @@ fire using a `Q` message with additional information included in an
 `F` message; parties B and C agree with the request by responding
 with reference code `8`:
 
-`Q(0)A < F(3)A << Q(8)B <<< Q(8)C`
+`Q(0)A < F(3)A << Q(8)B <<< Q(8)C`
 
 Note that Whiteflag is limited to fixed messages and in itself not
 suitable to conduct detailed negotiations. However, even though other
 communication channels are used to come to a cease fire, Whiteflag allows
 to undeniably record the request and any outcomes.
 
-### Use case 6: Armed Group under Air Attack wants to Surrender
+## Use case 6: Armed Group under Air Attack wants to Surrender
 
 Imagine an armed group A is under a heavy air attack, and the remaining
 combatants want to surrender. However, it is very unlikely that they are
@@ -2794,4 +2817,4 @@ white flag. Once that is the case, the attacking party M can send both a
 confirmation and an acknowledgement. This scenario resulted in the
 following message sequence:
 
-`A2(0)A < P03(0)A < P03(6)M << P03(7)M`
+`A2(0)A < P03(0)A < P03(6)M << P03(7)M`
