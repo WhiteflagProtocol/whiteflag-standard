@@ -1,12 +1,11 @@
 ---
-title: Whiteflag Protocol Specification
-subtitle: Specification for a decentralised protocol to create a trusted messaging network for disaster & conflict zones
-lang: en-GB
-author:
-  - M. Kolenbrander
-  - T. Schless
 papersize: a4
-fontsize: 8pt
-mainfont: Computer Modern Sans Serif with Sansmathfonts
 geometry: margin=2cm
+mainfont: NewCMSans08-Regular
+sansfont: NewCMSans08-Regular
+monofont: NewCMMono10-Regular
+monofontoptions: Scale=0.85
+fontsize: 8pt
+toc: true
+tocdepth: 2
 ---

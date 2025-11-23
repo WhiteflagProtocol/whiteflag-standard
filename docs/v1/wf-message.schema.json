@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://standard.whiteflagprotocol.org/v1/wf-message.schema.json",
-    "$comment": "Schema corresponding with Version 1 of the Whiteflag Protocol Specification DRAFT 6 as updated on 28 FEB 2019",
+    "$comment": "Schema corresponding with Version 1 of the Whiteflag Protocol Specification DRAFT 7 as updated on 23 NOV 2025",
     "title": "Whiteflag Message",
     "description": "Whiteflag message to communicate pre-defined signs and signals in conflicts and disasters using blockchain technology.",
     "type": "object",
@@ -77,7 +77,7 @@
                 { "$ref": "#/definitions/cryptoMessageBody" },
                 { "$ref": "#/definitions/testMessageBody" },
                 { "$ref": "#/definitions/genericSignSignalMessageBody" },
-                { "$ref": "#/definitions/resourceMessageBody" },
+                { "$ref": "#/definitions/referenceMessageBody" },
                 { "$ref": "#/definitions/freeTextMessageBody" }
             ]
         }
@@ -91,8 +91,8 @@
                      { "properties": { "MessageBody": { "$ref": "#/definitions/testMessageBody" } } } ] },
         { "allOf": [ { "$ref": "#/definitions/allSignSignalMessageTypes" },
                      { "properties": { "MessageBody": { "$ref": "#/definitions/genericSignSignalMessageBody" } } } ] },
-        { "allOf": [ { "$ref": "#/definitions/resourceMessageType" },
-                     { "properties": { "MessageBody": { "$ref": "#/definitions/resourceMessageBody" } } } ] },
+        { "allOf": [ { "$ref": "#/definitions/referenceMessageType" },
+                     { "properties": { "MessageBody": { "$ref": "#/definitions/referenceMessageBody" } } } ] },
         { "allOf": [ { "$ref": "#/definitions/freeTextMessageType" },
                      { "properties": { "MessageBody": { "$ref": "#/definitions/freeTextMessageBody" } } } ] }
     ],
@@ -190,7 +190,7 @@
                 { "allOf": [ { "properties": { "PseudoMessageCode": { "enum": [ "P", "E", "D", "S", "I", "Q", "M" ] } } },
                              { "properties": { "PseudoMessageBody": { "$ref": "#/definitions/genericSignSignalMessageBody" } } } ] },
                 { "allOf": [ { "properties": { "PseudoMessageCode": { "enum": [ "R" ] } } },
-                             { "properties": { "PseudoMessageBody": { "$ref": "#/definitions/resourceMessageBody" } } } ] },
+                             { "properties": { "PseudoMessageBody": { "$ref": "#/definitions/referenceMessageBody" } } } ] },
                 { "allOf": [ { "properties": { "PseudoMessageCode": { "enum": [ "F" ] } } },
                              { "properties": { "PseudoMessageBody": { "$ref": "#/definitions/freeTextMessageBody" } } } ] }
             ]
@@ -303,8 +303,8 @@
                 }
             }
         },
-        "resourceMessageType": {
-            "title": "Resource Message",
+        "referenceMessageType": {
+            "title": "Reference Message",
             "required": [ "MessageHeader" ],
             "properties": {
                 "MessageHeader": {
@@ -315,19 +315,19 @@
                 }
             }
         },
-        "resourceMessageBody": {
-            "title": "Resource Body",
-            "required": [ "ResourceMethod", "ResourceData" ],
+        "referenceMessageBody": {
+            "title": "Reference Body",
+            "required": [ "ReferenceMethod", "ReferenceData" ],
             "additionalProperties": false,
             "properties": {
-                "ResourceMethod": {
+                "ReferenceMethod": {
                     "description": "Indicates the mechanism for reference",
                     "type": "string",
                     "pattern": "^[a-fA-F0-9]{1}$",
                     "enum": [ "1" ]
                 },
-                "ResourceData": {
-                    "description": "Provides the data required to find the reference",
+                "ReferenceData": {
+                    "description": "Provides the reference data",
                     "type": "string"
                 }
             }
@@ -395,7 +395,12 @@
                     {
                         "const": "0A",
                         "title": "ECDHPubKey",
-                        "description": "Elliptic Curve Diffie–Hellman public key exchange"
+                        "description": "Elliptic Curve Diffie-Hellman public key exchange for encryption key negotiation"
+                    },
+                    {
+                        "const": "0B",
+                        "title": "ECDHPubKey",
+                        "description": "Elliptic Curve Diffie-Hellman public key exchange for authentication token negotiation"
                     },
                     {
                         "const": "11",
@@ -697,6 +702,11 @@
                         "allowedObjectTypes": [ "0*", "2*", "3*", "4*", "5*", "6*", "7*", "8*" ]
                     },
                     {
+                        "const": "1D",
+                        "description": "War/Conflict/Terrorism - Electronic Attack / Jamming",
+                        "allowedObjectTypes": [ "0*", "2*", "4*", "5*", "6*", "7*" ]
+                    },
+                    {
                         "const": "20",
                         "description": "Unspecified Hazardous Conflict Area",
                         "allowedObjectTypes": [ "0*", "2*" ]
@@ -829,6 +839,16 @@
                     {
                         "const": "54",
                         "description": "Complex/Manmade Hazard - Famine and Food Insecurity",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                    {
+                        "const": "55",
+                        "description": "Complex/Manmade Hazard - Looting / Plundering",
+                        "allowedObjectTypes": [ "0*", "2*" ]
+                    },
+                                        {
+                        "const": "56",
+                        "description": "Complex/Manmade Hazard - Vandalism / Defacementy",
                         "allowedObjectTypes": [ "0*", "2*" ]
                     },
                     {
@@ -1099,6 +1119,11 @@
                     {
                         "const": "26",
                         "description": "Object damaged without further details",
+                        "allowedObjectTypes": [ "0*", "3*", "4*", "5*", "6*", "7*", "8*" ]
+                    },
+                                        {
+                        "const": "27",
+                        "description": "Object deliberately misused",
                         "allowedObjectTypes": [ "0*", "3*", "4*", "5*", "6*", "7*", "8*" ]
                     },
                     {
@@ -1609,7 +1634,7 @@
             {
                 "const": "R",
                 "title": "Reference",
-                "description": "Message to point to an internet resource.",
+                "description": "Message to provide a reference.",
                 "allowedToReference": [
                     {
                         "referencedMessageCode": "P",
