@@ -1881,12 +1881,14 @@ account in order to authenticate the originator.
 
 ### 5.2.2 Encryption Key and Authentication Token Negotiation
 
+#### 5.2.2.1 Elliptic Curve Diffie-Hellman (ECDH)
+
 The protocol supports cryptographic key exchange using Elliptic Curve
 Diffie-Hellman (ECDH), which is an Elliptic Curve variant of the standard
 Diffie-Hellman algorithm. This well known algorithm allows two parties,
 that do not have any prior knowledge of each other, to agree on a shared
-secret using an open communication channel. This shared secret may then
-be used:
+secret using an open communication channel. A shared secret may be used
+for one of the following purposes:
 
 1. to derive an encryption key for encryption method 2
 2. to derive an authentication token for authentication method 2
@@ -1896,26 +1898,47 @@ Elliptic Curve Diffie-Hellman key agreement with the Whiteflag Protocol.
 The elliptic curve parameters that must be used for Whiteflag are defined
 by the `brainpoolP256r1` curve as specified in RFC 5639.
 
-Any participant may generate a 264-bit compressed public ECDH key and
-publish the key on the Whiteflag network using a `K(0)0A` message (for
-encryption keys) or a `K(0)0B` message (for authentication token). This
-allows any two participants, who have both published their public key,
-to generate shared secrets using their own private key and the other's
-public key.
+#### 5.2.2.2 Encryption Key Negotiation
+
+One ECDH key pair may be (re)generated for each account for the purpose of
+encryption key negotiation and publish the 264-bit compressed public key
+on the Whiteflag network using a `K(0)0A` message.
+
+Any two participants, who both have published their public keys with a
+`K(0)0A` message, can now use their own private key and the other's public
+key to generate a shared secret to derive an encryption key as descibed in
+[Paragraph 5.2.3](#523-encryption-key-and-authentication-token-derivation).
+
+#### 5.2.2.3 Authentication Token Negotiation
+
+A *different* ECDH key pair may be (re)generated for each account for the
+purpose of authentication token negotiation by publishing the corresponding
+264-bit compressed public key with a `K(0)0B` message.
+
+Any two participants, who both have published their public keys with a
+`K(0)0B` message, can now use their own private key and the other's public key
+to generate a shared secret to derive an authentication token as descibed in
+[Paragraph 5.2.3](#523-encryption-key-and-authentication-token-derivation).
+
+#### 5.2.2.4 Pubishing, updating and revoking ECDH public keys
+
+Multiple `K(0)0A` and/or `K(0)0B` messages may be sent to publish ECDH public
+keys. If a subsequent `K(0)` message contains a different public key,
+this must be interpreted as an `K(2)` message with an updated key (which should
+have been sent instead).
 
 If one of the participants publishes an `K(2)` message with an updated key,
 the existing shared secrets with other participants expire and new shared
-secrets must be generated for and by each other participant.
+secrets must be generated for and by each other participant. A `K(4)` message
+revokes an ECDH public key, which means that the shared secret and any derived
+key or token are not considered valid anymore.
 
-Only one single participant's public ECDH key is considered valid at any
-point in time. Nevertheless, multiple `K(0)0A` or `K(0)0A` messages may be
-sent to republish the public key. If a subsequent `K(0)0A` message contains
-a different public key, this must be interpreted as an `K(2)0A` message with
-an updated key (which should have been sent instead).
-
-The shared secret may be used as a basis for encryption and authentication,
-whether for Whiteflag or not, but it should never be used directly as an
-encryption key or authentication token.
+Therefore, only one published ECDH public key may be valid for an account at
+any point in time for each of the two defined purposes. In other words,
+a single account may have either: 1. no valid ECDH public keys, 2. one valid
+ECDH public key for encryption key negotiation, 3. one valid ECDH public
+key for authentication token negotiation, or 4. two valid ECDH public keys,
+respectively for encryption key and for authentication token negotiation.
 
 ### 5.2.3 Encryption Key and Authentication Token Derivation
 
